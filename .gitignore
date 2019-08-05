@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+
+Usiminas.PluginExcel/publish/
+Usiminas.PluginExcel/bin/Release/
+Usiminas.PluginExcel/bin/Debug/
+Usiminas.PluginExcel/obj/
+Usiminas.PluginExcel/publish/
+packages/
