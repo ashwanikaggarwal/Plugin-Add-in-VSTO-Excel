@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="Version" value="1.0"/>
+    <add key="OAuthServerUrl" value="https://cvsa-dev.usiminas.com"/>
+    <add key="OAuthServerUrlDev" value="http://localhost:9001"/>
+    <add key="ComplementUrlLogin" value="/Home/ActionLogin"/>
+    
+    <add key="AuthEnable" value="true"/>
+    <add key="AuthClientId" value="ExtranetV2"/>
+    <add key="AuthClientSecret" value="LA|?i:IZPJ}{s)k+J&lt;yL8i1-|)Zwm4#y5@oF9xe{7Y*RHREQO2c;C^9B%|xR4a*aCWg#-!3s|k!H3%Y)h18jxilciAtEbcfdy@H"/>
+    
+    <add key="ClientSettingsProvider.ServiceUri" value=""/>
+  </appSettings>
+ 
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri=""/>
+      </providers>
+    </membership>
+    <roleManager defaultProvider="ClientRoleProvider" enabled="true">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400"/>
+      </providers>
+    </roleManager>
+  </system.web>
+<startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5"/></startup></configuration>

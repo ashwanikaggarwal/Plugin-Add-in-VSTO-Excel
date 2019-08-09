@@ -17,15 +17,28 @@ namespace Usiminas.PluginExcel.Ux
         Excel.Worksheet worksheet = Globals.ThisAddIn.GetActiveWorkSheet();
         Excel.Range Target = Globals.ThisAddIn.Worksheet_SelectionChange();
         Authentication auth = new Authentication();
-        List<DeParaBeneficiadorDto> deParaBeneficiadorDto;
-        List<DeParaRecebedorDto> deParaRecebedorDto;
+        List<DeParaBeneficiadorDto> deParaBeneficiadorDto = new List<DeParaBeneficiadorDto>();
+        List<DeParaRecebedorDto> deParaRecebedorDto = new List<DeParaRecebedorDto>();
         SalesDto salesdto = new SalesDto();
         List<ClientePluginDto> clientes;
-        List<InfoPlaDto> infoPlaDtos; 
+        List<InfoPlaDto> infoPlaDtos;
+        List<DetalheItemDto> DetalheItemDtos;
         int FieldEdit; // variavel que define qual é o botão
         #endregion
-        private void mocardadosFormulario()
+        private async void mocardadosFormulario()
         {
+
+            if (auth != null)
+            {
+                Login login = new Login();
+                AuthenticationServices authentication = new AuthenticationServices();
+                OvTxLogin.Text = "igorteste";
+                OvTxSenha.Text = "Simo12es";
+
+                auth = await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text);
+            }
+            //
+
             List<PlaceCorresp> placeCorresp = new List<PlaceCorresp>();
             placeCorresp.Add(new PlaceCorresp { Id = "0000011683", Description = "7924-MASAYOSHI ( AVE PINHEIRO 1081 )" });
             placeCorresp.Add(new PlaceCorresp { Id = "0000007924", Description = "11683-FITAMETAL ( R JOAO ROBERTO 170A, 7Y )" });
@@ -36,8 +49,12 @@ namespace Usiminas.PluginExcel.Ux
             receiverCorresps.Add(new ReceiverCorresp { Id = "0000012536", Description = "12536-AETHRA ( RUA CAROLINA 51 )" });
 
             #region moc Dto Inforplan
+            deParaBeneficiadorDto = new List<DeParaBeneficiadorDto>();
+            deParaRecebedorDto = new List<DeParaRecebedorDto>();
             ///SalesDto salesdtoMoc = new SalesDto();
             List<InfoPlaDto> infoPlaDtosMoc = new List<InfoPlaDto>();
+            var escolha = 1;
+
             infoPlaDtosMoc.Add(new InfoPlaDto
             {
                 Id = 1,
@@ -51,6 +68,9 @@ namespace Usiminas.PluginExcel.Ux
                 D1 = "0",
                 D2 = "25",
                 D3 = "0"
+                ,
+                PlacerMapped = placeCorresp.Last().Description,
+                ReceiverMapped = receiverCorresps.First().Description
             });
             infoPlaDtosMoc.Add(new InfoPlaDto
             {
@@ -65,6 +85,9 @@ namespace Usiminas.PluginExcel.Ux
                 D1 = "0",
                 D2 = "25",
                 D3 = "0"
+                ,
+                PlacerMapped = placeCorresp.Last().Description,
+                ReceiverMapped = receiverCorresps.First().Description
             });
             infoPlaDtosMoc.Add(new InfoPlaDto
             {
@@ -79,6 +102,9 @@ namespace Usiminas.PluginExcel.Ux
                 D1 = "25",
                 D2 = "0",
                 D3 = "0"
+                ,
+                PlacerMapped = placeCorresp.First().Description,
+                ReceiverMapped = receiverCorresps.Last().Description
             });
             infoPlaDtosMoc.Add(new InfoPlaDto
             {
@@ -93,6 +119,9 @@ namespace Usiminas.PluginExcel.Ux
                 D1 = "0",
                 D2 = "28",
                 D3 = "28"
+                ,
+                PlacerMapped = placeCorresp.First().Description,
+                ReceiverMapped = receiverCorresps.Last().Description
             });
             infoPlaDtosMoc.Add(new InfoPlaDto
             {
@@ -107,15 +136,27 @@ namespace Usiminas.PluginExcel.Ux
                 D1 = "56",
                 D2 = "56",
                 D3 = "28"
+                ,
+                PlacerMapped = placeCorresp.First().Description,
+                ReceiverMapped = receiverCorresps.First().Description
             });
+
             #endregion
 
+            infoPlaDtos = infoPlaDtosMoc;
+            //infoPlaDtos = null;
             PopulateGridMap(ref infoPlaDtos);
             DelAddColumReciver delAddColumReciver = new DelAddColumReciver(AddColumReciver);
             delAddColumReciver.Invoke(infoPlaDtos.First().ReceiverCorresp);
 
             DelAddColumPlace delAddColumPlace = new DelAddColumPlace(AddColumPlace);
             delAddColumPlace.Invoke(infoPlaDtos.First().PlaceCorresp);
+            //var ret = DeParaServices.NovosDeParaBeneficiador(deParaBeneficiadorDto, infoPlaDtos, "0000007711", "UZ22657");
+            var arrayref = infoPlaDtosMoc.Select(p => p.RefClient).ToList();
+            PluginService pluginServices = new PluginService(auth);
+
+            DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(infoPlaDtosMoc.Select(p => p.RefClient).ToArray(), "0000000155");
+
             SelectContext("OvAbaPedido");
         }
 
@@ -127,19 +168,21 @@ namespace Usiminas.PluginExcel.Ux
             InitialStageSelectfields();
         }
 
+
         private void F_Pedido_Load(object sender, EventArgs e)
         {
+            SelectContext("OvAbaConfiguracao");
             InitialStageSelectfields();
             ObBtnChosenClient.Visible = false;
             ObCbClienteGrupo.Visible = false;
             OvLbClienteGrupo.Visible = false;
+            //mocardadosFormulario();
+            //PopulateItens();
         }
         private void FPTimer_Tick(object sender, EventArgs e)
         {
-
             try
             {
-
                 Target = Globals.ThisAddIn.Worksheet_SelectionChange();
                 switch (FieldEdit)
                 {
@@ -168,7 +211,6 @@ namespace Usiminas.PluginExcel.Ux
                         FPTimer.Stop();
                         break;
                 }
-
             }
             catch (Exception ex)
             {
@@ -178,7 +220,6 @@ namespace Usiminas.PluginExcel.Ux
 
         private async void OvBtnEnviar_Click(object sender, EventArgs e)
         {
-
             var resultados = DataAnnotation.ValidateEntity<SalesDto>(salesdto);
             if (resultados.HasError == true)
             {
@@ -187,16 +228,21 @@ namespace Usiminas.PluginExcel.Ux
             }
 
             InformationsPlan informationsPlan = new InformationsPlan();
+
             //pega a lista de recebedor e beneficiador cadastrado
             var PartNumArr = informationsPlan.GetPartNumberPlan(salesdto);
             PluginService pluginServices = new PluginService(auth);
             var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
             var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
+            //****************************************************************
+            //DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
+            //****************************************************************
 
             //carrega os dados que vão ser listados na planilha
             infoPlaDtos = informationsPlan.GetDataforAdress(salesdto, DtPrazoDesejado.Value, placeCorrespForPartNumber, ReceiverCorrespsForPartNumber);
             //delagates criados para deixar o objetos na mesma tread
-            if (GridSales.InvokeRequired == true) { 
+            if (GridSales.InvokeRequired == true)
+            {
                 DelPopulateGridMap delPopulateGridMap = new DelPopulateGridMap(PopulateGridMap);
                 delPopulateGridMap.Invoke(ref infoPlaDtos);
             }
@@ -204,7 +250,6 @@ namespace Usiminas.PluginExcel.Ux
             {
                 PopulateGridMap(ref infoPlaDtos);
             }
-
 
             DelAddColumReciver delAddColumReciver = new DelAddColumReciver(AddColumReciver);
             delAddColumReciver.Invoke(infoPlaDtos.First().ReceiverCorresp);
@@ -232,8 +277,9 @@ namespace Usiminas.PluginExcel.Ux
 
                 Login login = new Login();
                 AuthenticationServices authentication = new AuthenticationServices();
-                OvTxLogin.Text = "igorteste";
-                OvTxSenha.Text = "Simo12es";
+                //homologacao
+                // OvTxLogin.Text = "igorteste";
+                //OvTxSenha.Text = "Simo12es?";
                 login.CreateLogin(OvTxLogin.Text, OvTxSenha.Text);
 
                 var resultados = DataAnnotation.ValidateEntity<Login>(login);
@@ -256,13 +302,14 @@ namespace Usiminas.PluginExcel.Ux
                     //quanto tiver grupo, forçar a seleção
                     if (user.CdGrupo == null)
                     {
+                        auth.SetCliente(user.CdCliente);
                         PluginService pluginServices = new PluginService(auth);
                         var sales = await pluginServices.GetInformationFieldsPlan(user.CdCliente);
                         if (sales != null)
                         {
                             salesdto = sales;
-                            deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync(user.CdCliente);
-                            deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync(user.CdCliente);
+                            deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
+                            deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync();
                         }
                         salesdto.CD_Cliente = user.CdCliente;
                         salesdto.UserName = auth.userName;
@@ -303,6 +350,8 @@ namespace Usiminas.PluginExcel.Ux
                     }
 
                     MessageBox.Show("Login Realizado com sucesso");
+                    SelectContext("OvAbaDados");
+
                 }
                 else
                 {
@@ -313,7 +362,6 @@ namespace Usiminas.PluginExcel.Ux
             {
                 MessageBox.Show("Falha ao tentar logar: " + ex.Message);
             }
-            SelectContext("OvAbaDados");
         }
 
         private void ObCbClienteGrupo_SelectedValueChanged(object sender, EventArgs e)
@@ -335,8 +383,11 @@ namespace Usiminas.PluginExcel.Ux
             if (ObCbClienteGrupo.SelectedValue.ToString() == "1")
                 return;
 
-            PluginService pluginServices = new PluginService(auth);
             var client = clientes.Where(p => p.codigoCliente == ObCbClienteGrupo.SelectedValue.ToString()).FirstOrDefault();
+            //coloca o cliente como padrao dentro do authentication para ser passar como parametro padrao
+
+            auth.SetCliente(client.codigoCliente);
+            PluginService pluginServices = new PluginService(auth);
 
             try
             {
@@ -344,8 +395,8 @@ namespace Usiminas.PluginExcel.Ux
                 if (sales != null)
                 {
                     salesdto = sales;
-                    deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync(client.codigoCliente);
-                    deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync(client.codigoCliente);
+                    deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
+                    deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync();
 
                 }
                 salesdto.CD_Cliente = client.codigoCliente;
@@ -388,13 +439,13 @@ namespace Usiminas.PluginExcel.Ux
         private void OvBtnClassRefCliente_Click(object sender, EventArgs e)
         {
             FieldEdit = 1;
-            salesdto.DesiredPeriod = "$M$21";
-            salesdto.Place = "$C$21";
-            salesdto.Receiver = "$B$21";
-            salesdto.RefClient = "$A$21";
-            salesdto.D1 = "$j$21";
-            salesdto.D2 = "$K$21";
-            salesdto.D3 = "$l$21";
+            //salesdto.DesiredPeriod = "$M$21";
+            //salesdto.Place = "$C$21";
+            //salesdto.Receiver = "$B$21";
+            //salesdto.RefClient = "$A$21";
+            //salesdto.D1 = "$j$21";
+            //salesdto.D2 = "$K$21";
+            //salesdto.D3 = "$l$21";
             SaleDtoEdit();
             InitialStageSelectfields();
 
@@ -579,14 +630,11 @@ namespace Usiminas.PluginExcel.Ux
             FormSalesDtoBind();
         }
 
-
-
-
-
-
-
         #endregion
 
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            mocardadosFormulario();
+        }
     }
 }

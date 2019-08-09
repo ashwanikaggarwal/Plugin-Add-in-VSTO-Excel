@@ -48,4 +48,5 @@ namespace Usiminas.PluginExcel.Dto
         public float? Comprimento { get; set; }
         public bool? Plugin { get; set; }
     }
+
 }

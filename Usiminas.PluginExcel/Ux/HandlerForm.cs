@@ -20,10 +20,10 @@ namespace Usiminas.PluginExcel.Ux
         {
             if (auth.Token == null)
             {
-                if (this.tabControl1.Controls.Contains(OvAbaDados) == true)
+                if (this.TabControl.Controls.Contains(OvAbaDados) == true)
                 {
-                    this.tabControl1.Controls.Remove(this.OvAbaDados);
-                    this.tabControl1.Controls.Remove(this.OvAbaConfiguracao);
+                    this.TabControl.Controls.Remove(this.OvAbaDados);
+                    this.TabControl.Controls.Remove(this.OvAbaConfiguracao);
                 }
                 OvAbaConfiguracao.Focus();
                 SelectContext(this.OvAbaConfiguracao.ToString());
@@ -31,11 +31,11 @@ namespace Usiminas.PluginExcel.Ux
             }
             else
             {
-                if (this.tabControl1.Controls.Contains(OvAbaDados) == false)
+                if (this.TabControl.Controls.Contains(OvAbaDados) == false)
                 {
-                    this.tabControl1.Controls.Add(this.OvAbaDados);
+                    this.TabControl.Controls.Add(this.OvAbaDados);
                 }
-                tabControl1.SelectedTab = OvAbaDados;
+                TabControl.SelectedTab = OvAbaDados;
                 return true;
             }
         }
@@ -43,21 +43,21 @@ namespace Usiminas.PluginExcel.Ux
         public void SelectContext(string context)
         {
 
-            foreach (TabPage item in this.tabControl1.TabPages)
+            foreach (TabPage item in this.TabControl.TabPages)
             {
                 if (item.Name.Contains(context))
                 {
-                    if (tabControl1.InvokeRequired)
+                    if (TabControl.InvokeRequired)
                     {
-                        tabControl1.Invoke(new Action(() =>
+                        TabControl.Invoke(new Action(() =>
                          {
-                             tabControl1.SelectedTab = item;
+                             TabControl.SelectedTab = item;
                          }
                         ));
                     }
                     else
                     {
-                        tabControl1.SelectedTab = item;
+                        TabControl.SelectedTab = item;
                     }
                 }
             }

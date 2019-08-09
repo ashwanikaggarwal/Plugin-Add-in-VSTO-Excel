@@ -27,7 +27,7 @@ namespace Usiminas.PluginExcel.Services
             try
             {
                 var campos = await pluginRepository.Get<List<SalesDto>>(keyValues).ConfigureAwait(false);
-                
+
                 return campos.Where(p => p.Active == true).FirstOrDefault();
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace Usiminas.PluginExcel.Services
             emissaoPedidosDto.CodigoCliente = CodCliente;
 
             PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientReceiverEmissao);
-            string result = JsonConvert.SerializeObject(emissaoPedidosDto, Formatting.None);
+            //string result = JsonConvert.SerializeObject(emissaoPedidosDto, Formatting.None);
 
             var listReciver = await pluginRepository.PostJson(emissaoPedidosDto);
             return Functions.ConvertJsonToListIdDescription<List<ReceiverCorresp>>(listReciver);
@@ -94,27 +94,51 @@ namespace Usiminas.PluginExcel.Services
             return Functions.ConvertJsonToListIdDescription<List<PlaceCorresp>>(listPlace);
 
         }
-        public async Task<List<DeParaRecebedorDto>> RecebedorDeParaGetAsync(string codCliente)
+        public async Task<List<DeParaRecebedorDto>> RecebedorDeParaGetAsync()
         {
 
             Dictionary<string, string> parameters = new Dictionary<string, string>();
 
-            parameters.Add("idclient", codCliente);
+            parameters.Add("idclient", _authentication.CurrentClient);
             parameters.Add("UserName", _authentication.userName);
             PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientReceiverDeParaGet);
             var campos = await pluginRepository.Get<List<DeParaRecebedorDto>>(parameters);
 
             return campos;
         }
-        public async Task<List<DeParaBeneficiadorDto>> BeneficiadorDeParaGetAsync(string codCliente)
+        public async Task<List<DeParaBeneficiadorDto>> BeneficiadorDeParaGetAsync()
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
 
-            parameters.Add("idclient", codCliente);
+            parameters.Add("idclient", _authentication.CurrentClient);
             parameters.Add("UserName", _authentication.userName);
             PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientPlaceDeParaGet);
             var campos = await pluginRepository.Get<List<DeParaBeneficiadorDto>>(parameters);
             return campos;
         }
+        public async void RecebedorDeParaPostAsync(List<DeParaRecebedorDto> deParaRecebedor)
+        {
+            PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientReceiverDeParaPost);
+            var retorno = await pluginRepository.PostJson(deParaRecebedor);
+        }
+        public async void BeneficiadorDeParaPostAsync(List<DeParaBeneficiadorDto> deParaBeneficiador)
+        {
+            PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientPlaceDeParaPost);
+            var retorno = await pluginRepository.PostJson(deParaBeneficiador);
+        }
+        public async Task<List<DetalheItemDto>> DetalhamentoDePartNumber(string[] PartNumbers, string CodCliente)
+        {
+            EmissaoPedidosDto emissaoPedidosDto = new EmissaoPedidosDto();
+            emissaoPedidosDto.TipoBusca = "P";
+            emissaoPedidosDto.PartNumbers = PartNumbers.ToList();
+            emissaoPedidosDto.CodigoCliente = CodCliente;
+
+            PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientListaPartNumber);
+            //string result = JsonConvert.SerializeObject(emissaoPedidosDto, Formatting.None);
+
+            var listReciver = await pluginRepository.PostJson(emissaoPedidosDto);
+            return Functions.ConvertJsonToListIdDescription<List<DetalheItemDto>>(listReciver);
+        }
+
     }
 }

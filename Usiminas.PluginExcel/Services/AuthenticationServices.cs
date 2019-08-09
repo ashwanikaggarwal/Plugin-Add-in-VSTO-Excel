@@ -12,8 +12,6 @@ namespace Usiminas.PluginExcel.Services
 {
     public class AuthenticationServices
     {
-
-
         public async Task<Authentication> ActionLogin(string username, string password)
         {
             try
@@ -56,7 +54,6 @@ namespace Usiminas.PluginExcel.Services
                     dynamic results = JsonConvert.DeserializeObject<dynamic>(responseString);
                     throw new Exception(((Newtonsoft.Json.Linq.JValue)((Newtonsoft.Json.Linq.JContainer)((Newtonsoft.Json.Linq.JContainer)results).Last).Last).Value as string);
                 }
-
                 return responseString;
             }
             catch (Exception ex)

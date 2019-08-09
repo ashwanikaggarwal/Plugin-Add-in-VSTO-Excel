@@ -14,6 +14,8 @@ namespace Usiminas.PluginExcel.Entities
         public string userName { get; private set; }
         public string issued { get; private set; }
         public string expires { get; private set; }
+        public string CurrentClient { get; private set; }
+
         public Authentication()
         {
 
@@ -32,6 +34,10 @@ namespace Usiminas.PluginExcel.Entities
             this.tokenType = results["token_type"];
             this.userName = results["userName"];
 
+        }
+        public void SetCliente(string currentClient)
+        {
+            CurrentClient = currentClient;
         }
     }
 }

@@ -147,7 +147,7 @@ namespace Usiminas.PluginExcel.Util
                 return retorn;
             };
         }
-        public virtual async Task<string> PostJson(EmissaoPedidosDto emissaoPedidosDto) 
+        public virtual async Task<string> PostJson<T>(T Parametro)
         {
             if (EndPoint == null)
                 throw new Exception("Favor Definir um EndPoint");
@@ -156,7 +156,7 @@ namespace Usiminas.PluginExcel.Util
             {
                 //var content = new FormUrlEncodedContent(Parametros);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
-                string json = new JavaScriptSerializer().Serialize(emissaoPedidosDto);
+                string json = new JavaScriptSerializer().Serialize(Parametro);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(UrlBase + EndPoint, content);
 
@@ -172,8 +172,8 @@ namespace Usiminas.PluginExcel.Util
                 }
                 throw new HttpRequestException(contentString);
             };
-
         }
+       
         public Requestbase(Authentication login, string endPoint)
         {
             UrlBase = EndPointsBase.ServerUrlDev;

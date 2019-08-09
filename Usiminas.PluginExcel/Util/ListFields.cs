@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Usiminas.PluginExcel.Dto;
 
 namespace Usiminas.PluginExcel.Util
@@ -187,6 +184,10 @@ namespace Usiminas.PluginExcel.Util
                         SetListNameClass.Add(info.Name, info.GetValue(saleDto, null).ToString());
                         break;
                     case "Place":
+                        if (saleDto.Place == null)
+                        {
+                            break;
+                        }
                         SetListNameClass.Add(info.Name, info.GetValue(saleDto, null).ToString());
                         break;
                     //case "DesiredPeriod":

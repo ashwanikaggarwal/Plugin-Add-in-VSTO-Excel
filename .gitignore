@@ -3,9 +3,9 @@
 ################################################################################
 
 
-Usiminas.PluginExcel/publish/
-Usiminas.PluginExcel/bin/Release/
-Usiminas.PluginExcel/bin/Debug/
-Usiminas.PluginExcel/obj/
-Usiminas.PluginExcel/publish/
+/publish/
+/bin/Release/
+/bin/Debug/
+/obj/
+/publish/
 packages/

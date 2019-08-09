@@ -32,7 +32,7 @@ namespace Usiminas.PluginExcel.Ux
         {
             this.components = new System.ComponentModel.Container();
             this.FPTimer = new System.Windows.Forms.Timer(this.components);
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.TabControl = new System.Windows.Forms.TabControl();
             this.OvAbaConfiguracao = new System.Windows.Forms.TabPage();
             this.ObBtnChosenClient = new System.Windows.Forms.Button();
             this.OvLbClienteGrupo = new System.Windows.Forms.Label();
@@ -81,28 +81,36 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaPedido = new System.Windows.Forms.TabPage();
             this.BtnIrParaCarrinho = new System.Windows.Forms.Button();
             this.GridSales = new System.Windows.Forms.DataGridView();
-            this.BtnCancelar = new System.Windows.Forms.Button();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.PartNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Receiver = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Recebedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RecebedorMapeado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ReceiverMap = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Place = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RecebedorLista = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Beneficiador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BeneficiadorMapeado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PlaceMap = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.BeneficiadorLista = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Mensagem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.D1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.D2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.D3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.period = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabControl1.SuspendLayout();
+            this.BtnCancelar = new System.Windows.Forms.Button();
+            this.OvAbaCarrinho = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.OvLbTotalTonelagemCont = new System.Windows.Forms.Label();
+            this.OvLbTotalTonelagem = new System.Windows.Forms.Label();
+            this.OvLbTotalItemCont = new System.Windows.Forms.Label();
+            this.OvLbTotalItem = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.flowLayoutPanelCarrinho = new System.Windows.Forms.FlowLayoutPanel();
+            this.TabControl.SuspendLayout();
             this.OvAbaConfiguracao.SuspendLayout();
             this.OvAbaDados.SuspendLayout();
             this.OvFrCampos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.OvAbaPedido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).BeginInit();
+            this.OvAbaCarrinho.SuspendLayout();
             this.SuspendLayout();
             // 
             // FPTimer
@@ -110,20 +118,20 @@ namespace Usiminas.PluginExcel.Ux
             this.FPTimer.Enabled = true;
             this.FPTimer.Tick += new System.EventHandler(this.FPTimer_Tick);
             // 
-            // tabControl1
+            // TabControl
             // 
-            this.tabControl1.Controls.Add(this.OvAbaConfiguracao);
-            this.tabControl1.Controls.Add(this.OvAbaDados);
-            this.tabControl1.Controls.Add(this.OvAbaPedido);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(14, 42);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.ShowToolTips = true;
-            this.tabControl1.Size = new System.Drawing.Size(1051, 760);
-            this.tabControl1.TabIndex = 0;
-            this.tabControl1.Tag = "";
+            this.TabControl.Controls.Add(this.OvAbaConfiguracao);
+            this.TabControl.Controls.Add(this.OvAbaDados);
+            this.TabControl.Controls.Add(this.OvAbaPedido);
+            this.TabControl.Controls.Add(this.OvAbaCarrinho);
+            this.TabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TabControl.Location = new System.Drawing.Point(14, 42);
+            this.TabControl.Name = "TabControl";
+            this.TabControl.SelectedIndex = 0;
+            this.TabControl.ShowToolTips = true;
+            this.TabControl.Size = new System.Drawing.Size(1051, 760);
+            this.TabControl.TabIndex = 0;
+            this.TabControl.Tag = "";
             // 
             // OvAbaConfiguracao
             // 
@@ -679,12 +687,12 @@ namespace Usiminas.PluginExcel.Ux
             this.GridSales.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PartNumber,
             this.Id,
-            this.Receiver,
+            this.Recebedor,
             this.RecebedorMapeado,
-            this.ReceiverMap,
-            this.Place,
+            this.RecebedorLista,
+            this.Beneficiador,
             this.BeneficiadorMapeado,
-            this.PlaceMap,
+            this.BeneficiadorLista,
             this.Mensagem,
             this.D1,
             this.D2,
@@ -695,26 +703,8 @@ namespace Usiminas.PluginExcel.Ux
             this.GridSales.RowHeadersVisible = false;
             this.GridSales.Size = new System.Drawing.Size(1008, 614);
             this.GridSales.TabIndex = 4;
+            this.GridSales.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridSales_CellMouseDoubleClick);
             this.GridSales.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridSales_CellValueChanged);
-            // 
-            // BtnCancelar
-            // 
-            this.BtnCancelar.Location = new System.Drawing.Point(917, 682);
-            this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.Size = new System.Drawing.Size(90, 31);
-            this.BtnCancelar.TabIndex = 3;
-            this.BtnCancelar.Text = "Cancelar";
-            this.BtnCancelar.UseVisualStyleBackColor = true;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1043, 729);
-            this.tabPage1.TabIndex = 3;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // PartNumber
             // 
@@ -729,11 +719,11 @@ namespace Usiminas.PluginExcel.Ux
             this.Id.Name = "Id";
             this.Id.Visible = false;
             // 
-            // Receiver
+            // Recebedor
             // 
-            this.Receiver.HeaderText = "Recebedor";
-            this.Receiver.Name = "Receiver";
-            this.Receiver.ReadOnly = true;
+            this.Recebedor.HeaderText = "Recebedor";
+            this.Recebedor.Name = "Recebedor";
+            this.Recebedor.ReadOnly = true;
             // 
             // RecebedorMapeado
             // 
@@ -741,19 +731,19 @@ namespace Usiminas.PluginExcel.Ux
             this.RecebedorMapeado.Name = "RecebedorMapeado";
             this.RecebedorMapeado.Visible = false;
             // 
-            // ReceiverMap
+            // RecebedorLista
             // 
-            this.ReceiverMap.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ReceiverMap.HeaderText = "Mapeamento  Recebedor";
-            this.ReceiverMap.MaxDropDownItems = 12;
-            this.ReceiverMap.Name = "ReceiverMap";
-            this.ReceiverMap.Width = 164;
+            this.RecebedorLista.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.RecebedorLista.HeaderText = "Mapeamento  Recebedor";
+            this.RecebedorLista.MaxDropDownItems = 12;
+            this.RecebedorLista.Name = "RecebedorLista";
+            this.RecebedorLista.Width = 164;
             // 
-            // Place
+            // Beneficiador
             // 
-            this.Place.HeaderText = "Beneficiador";
-            this.Place.Name = "Place";
-            this.Place.ReadOnly = true;
+            this.Beneficiador.HeaderText = "Beneficiador";
+            this.Beneficiador.Name = "Beneficiador";
+            this.Beneficiador.ReadOnly = true;
             // 
             // BeneficiadorMapeado
             // 
@@ -761,12 +751,12 @@ namespace Usiminas.PluginExcel.Ux
             this.BeneficiadorMapeado.Name = "BeneficiadorMapeado";
             this.BeneficiadorMapeado.Visible = false;
             // 
-            // PlaceMap
+            // BeneficiadorLista
             // 
-            this.PlaceMap.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PlaceMap.HeaderText = "Mapeamento Beneficiador";
-            this.PlaceMap.Name = "PlaceMap";
-            this.PlaceMap.Width = 168;
+            this.BeneficiadorLista.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.BeneficiadorLista.HeaderText = "Mapeamento Beneficiador";
+            this.BeneficiadorLista.Name = "BeneficiadorLista";
+            this.BeneficiadorLista.Width = 168;
             // 
             // Mensagem
             // 
@@ -782,21 +772,21 @@ namespace Usiminas.PluginExcel.Ux
             this.D1.HeaderText = "D1";
             this.D1.Name = "D1";
             this.D1.ReadOnly = true;
-            this.D1.Width = 70;
+            this.D1.Width = 50;
             // 
             // D2
             // 
             this.D2.HeaderText = "D2";
             this.D2.Name = "D2";
             this.D2.ReadOnly = true;
-            this.D2.Width = 70;
+            this.D2.Width = 50;
             // 
             // D3
             // 
             this.D3.HeaderText = "D3";
             this.D3.Name = "D3";
             this.D3.ReadOnly = true;
-            this.D3.Width = 70;
+            this.D3.Width = 50;
             // 
             // period
             // 
@@ -804,18 +794,113 @@ namespace Usiminas.PluginExcel.Ux
             this.period.Name = "period";
             this.period.ReadOnly = true;
             // 
+            // BtnCancelar
+            // 
+            this.BtnCancelar.Location = new System.Drawing.Point(917, 682);
+            this.BtnCancelar.Name = "BtnCancelar";
+            this.BtnCancelar.Size = new System.Drawing.Size(90, 31);
+            this.BtnCancelar.TabIndex = 3;
+            this.BtnCancelar.Text = "Cancelar";
+            this.BtnCancelar.UseVisualStyleBackColor = true;
+            // 
+            // OvAbaCarrinho
+            // 
+            this.OvAbaCarrinho.BackColor = System.Drawing.Color.Transparent;
+            this.OvAbaCarrinho.Controls.Add(this.button2);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalTonelagemCont);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalTonelagem);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalItemCont);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalItem);
+            this.OvAbaCarrinho.Controls.Add(this.button1);
+            this.OvAbaCarrinho.Controls.Add(this.flowLayoutPanelCarrinho);
+            this.OvAbaCarrinho.Location = new System.Drawing.Point(4, 27);
+            this.OvAbaCarrinho.Name = "OvAbaCarrinho";
+            this.OvAbaCarrinho.Padding = new System.Windows.Forms.Padding(3);
+            this.OvAbaCarrinho.Size = new System.Drawing.Size(1043, 729);
+            this.OvAbaCarrinho.TabIndex = 3;
+            this.OvAbaCarrinho.Text = "Carrinho";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(962, 25);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // OvLbTotalTonelagemCont
+            // 
+            this.OvLbTotalTonelagemCont.AutoSize = true;
+            this.OvLbTotalTonelagemCont.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalTonelagemCont.Location = new System.Drawing.Point(285, 16);
+            this.OvLbTotalTonelagemCont.Name = "OvLbTotalTonelagemCont";
+            this.OvLbTotalTonelagemCont.Size = new System.Drawing.Size(18, 20);
+            this.OvLbTotalTonelagemCont.TabIndex = 5;
+            this.OvLbTotalTonelagemCont.Text = "0";
+            // 
+            // OvLbTotalTonelagem
+            // 
+            this.OvLbTotalTonelagem.AutoSize = true;
+            this.OvLbTotalTonelagem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalTonelagem.Location = new System.Drawing.Point(161, 16);
+            this.OvLbTotalTonelagem.Name = "OvLbTotalTonelagem";
+            this.OvLbTotalTonelagem.Size = new System.Drawing.Size(127, 20);
+            this.OvLbTotalTonelagem.TabIndex = 4;
+            this.OvLbTotalTonelagem.Text = "Total tonelagem:";
+            // 
+            // OvLbTotalItemCont
+            // 
+            this.OvLbTotalItemCont.AutoSize = true;
+            this.OvLbTotalItemCont.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalItemCont.Location = new System.Drawing.Point(98, 16);
+            this.OvLbTotalItemCont.Name = "OvLbTotalItemCont";
+            this.OvLbTotalItemCont.Size = new System.Drawing.Size(18, 20);
+            this.OvLbTotalItemCont.TabIndex = 3;
+            this.OvLbTotalItemCont.Text = "0";
+            // 
+            // OvLbTotalItem
+            // 
+            this.OvLbTotalItem.AutoSize = true;
+            this.OvLbTotalItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalItem.Location = new System.Drawing.Point(19, 16);
+            this.OvLbTotalItem.Name = "OvLbTotalItem";
+            this.OvLbTotalItem.Size = new System.Drawing.Size(82, 20);
+            this.OvLbTotalItem.TabIndex = 2;
+            this.OvLbTotalItem.Text = "Total item:";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(830, 25);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // flowLayoutPanelCarrinho
+            // 
+            this.flowLayoutPanelCarrinho.AutoScroll = true;
+            this.flowLayoutPanelCarrinho.Location = new System.Drawing.Point(6, 67);
+            this.flowLayoutPanelCarrinho.Name = "flowLayoutPanelCarrinho";
+            this.flowLayoutPanelCarrinho.Size = new System.Drawing.Size(1018, 659);
+            this.flowLayoutPanelCarrinho.TabIndex = 0;
+            // 
             // F_Pedido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 814);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.TabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.ImeMode = System.Windows.Forms.ImeMode.Katakana;
             this.Name = "F_Pedido";
             this.Text = "Tools B2B Usiminas";
             this.Load += new System.EventHandler(this.F_Pedido_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.TabControl.ResumeLayout(false);
             this.OvAbaConfiguracao.ResumeLayout(false);
             this.OvAbaConfiguracao.PerformLayout();
             this.OvAbaDados.ResumeLayout(false);
@@ -824,13 +909,15 @@ namespace Usiminas.PluginExcel.Ux
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.OvAbaPedido.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).EndInit();
+            this.OvAbaCarrinho.ResumeLayout(false);
+            this.OvAbaCarrinho.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.TabPage OvAbaDados;
         private System.Windows.Forms.TabPage OvAbaConfiguracao;
         private System.Windows.Forms.Label label1;
@@ -877,7 +964,7 @@ namespace Usiminas.PluginExcel.Ux
         private System.Windows.Forms.Button OvBtnClassTonelagemD2;
         private System.Windows.Forms.TextBox OvTxSelecaoTonelagemD2;
         private System.Windows.Forms.DateTimePicker DtPrazoDesejado;
-        private TabPage tabPage1;
+        private TabPage OvAbaCarrinho;
         private Label OvLbPeriodoDesejado;
         private Label OvLbClienteGrupo;
         private ComboBox ObCbClienteGrupo;
@@ -885,16 +972,23 @@ namespace Usiminas.PluginExcel.Ux
         private Button BtnIrParaCarrinho;
         private DataGridViewTextBoxColumn PartNumber;
         private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn Receiver;
+        private DataGridViewTextBoxColumn Recebedor;
         private DataGridViewTextBoxColumn RecebedorMapeado;
-        private DataGridViewComboBoxColumn ReceiverMap;
-        private DataGridViewTextBoxColumn Place;
+        private DataGridViewComboBoxColumn RecebedorLista;
+        private DataGridViewTextBoxColumn Beneficiador;
         private DataGridViewTextBoxColumn BeneficiadorMapeado;
-        private DataGridViewComboBoxColumn PlaceMap;
+        private DataGridViewComboBoxColumn BeneficiadorLista;
         private DataGridViewTextBoxColumn Mensagem;
         private DataGridViewTextBoxColumn D1;
         private DataGridViewTextBoxColumn D2;
         private DataGridViewTextBoxColumn D3;
         private DataGridViewTextBoxColumn period;
+        public FlowLayoutPanel flowLayoutPanelCarrinho;
+        private Button button1;
+        private Label OvLbTotalItemCont;
+        private Label OvLbTotalItem;
+        private Label OvLbTotalTonelagemCont;
+        private Label OvLbTotalTonelagem;
+        private Button button2;
     }
 }

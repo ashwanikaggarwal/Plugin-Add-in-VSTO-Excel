@@ -24,7 +24,6 @@ namespace Usiminas.PluginExcel.Repository
 
             try
             {
-
                 //var retorn =  Activator.CreateInstance<T>();
                 using (HttpClient client = new HttpClient())
                 {

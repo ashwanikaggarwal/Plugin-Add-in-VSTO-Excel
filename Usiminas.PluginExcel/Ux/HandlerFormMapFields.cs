@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Usiminas.PluginExcel.Dto;
 using Usiminas.PluginExcel.Entities;
+using Usiminas.PluginExcel.Services;
 using Usiminas.PluginExcel.Util;
 
 namespace Usiminas.PluginExcel.Ux
@@ -19,6 +20,7 @@ namespace Usiminas.PluginExcel.Ux
         private delegate void DelAddColumReciver(List<ReceiverCorresp> receiverCorresp);
         private delegate void DelAddColumPlace(List<PlaceCorresp> PlaceCorresp);
         #endregion
+
         #region  HandlerGrid
         /// <summary>
         /// bind the grid for maping fields from Excel
@@ -39,17 +41,17 @@ namespace Usiminas.PluginExcel.Ux
         {
             foreach (DataGridViewRow item in GridSales.Rows)
             {
-                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells["ReceiverMap"]);
+                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.RecebedorLista.Key]);
                 ContactCombo.DataSource = receiverCorresp.Select(p => p.Description).ToArray();
 
-                string preencher = Functions.GetValueintoListRecebedor(deParaRecebedorDto, receiverCorresp, item.Cells["Receiver"].Value.ToString());
+                string preencher = Functions.GetValueintoListRecebedor(deParaRecebedorDto, receiverCorresp, item.Cells[TabMapColGrid.Recebedor.Key].Value.ToString());
 
                 if (preencher != null)
                 {
-                    item.Cells["ReceiverMap"].Value = preencher;
-                    item.Cells["RecebedorMapeado"].Value = preencher;
+                    item.Cells[TabMapColGrid.RecebedorLista.Key].Value = preencher;
+                    item.Cells[TabMapColGrid.RecebedorMapeado.Key].Value = preencher;
                     //altera o val or da lista existente
-                    infoPlaDtos.Where(p => p.Id.ToString() == item.Cells["ReceiverMap"].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                    infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
                     //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
                 }
             }
@@ -64,111 +66,176 @@ namespace Usiminas.PluginExcel.Ux
             foreach (DataGridViewRow item in GridSales.Rows)
             {
 
-                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells["PlaceMap"]);
+                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.BeneficiadorLista.Key]);
                 ContactCombo.DataSource = PlaceCorresp.Select(p => p.Description).ToArray();
+
                 //verifica se tem historico de mapeamento
-                if (item.Cells["Place"].Value != null)
+                if (item.Cells[TabMapColGrid.Beneficiador.Key].Value != null)
                 {
-                    string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, PlaceCorresp, item.Cells["Place"].Value.ToString());
+                    string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, PlaceCorresp, item.Cells[TabMapColGrid.Beneficiador.Key].Value.ToString());
                     if (preencher != null)
                     {
-                        item.Cells["PlaceMap"].Value = preencher;
-                        item.Cells["RecebedorMapeado"].Value = preencher;
+                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = false;
+                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = false;
+                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value = preencher;
+                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = preencher;
                         //altera o valor da lista existente
-                        infoPlaDtos.Where(p => p.Id.ToString() == item.Cells["PlaceMap"].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                        infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
                         //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
                     }
                 }
-
-            }
-        }
-        /// <summary> 
-        /// change value form field infoPlaDtos.PlacerMapped to currente place
-        /// </summary>
-        private void ChangeColumPlace()
-        {
-            foreach (DataGridViewRow item in GridSales.Rows)
-            {
-                //verifica se tem historico de mapeamento
-                if (item.Cells["Place"].Value != null)
+                else
                 {
-                    item.Cells["RecebedorMapeado"].Value = item.Cells["PlaceMap"].Value;
-                    //altera o valor da lista existente
-                    infoPlaDtos.Where(p => p.Id.ToString() == item.Cells["PlaceMap"].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = item.Cells["RecebedorMapeado"].Value.ToString());
+                    item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = true;
+                    item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = true;
                 }
 
             }
         }
-        /// <summary>
-        /// change value form field infoPlaDtos.ReceiverMapped to currente Receiver
-        /// </summary>
-        private void ChangeColumReciver()
+
+        private string ValidGridToMap(int RowIndex)
         {
-            foreach (DataGridViewRow item in GridSales.Rows)
+            string retstring = null;
+            if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value == "" || GridSales.Rows[RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value == null)
+                retstring = string.Format("O campo {0} é obrigado a ter um recebedor mapeado, favor selecionar uma opção!", TabMapColGrid.Recebedor.Value);
+
+            if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value != null)
             {
-                item.Cells["RecebedorMapeado"].Value = item.Cells["ReceiverMap"].Value;
-                //altera o valor da lista existente
-                infoPlaDtos.Where(p => p.Id.ToString() == item.Cells["ReceiverMap"].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = item.Cells["RecebedorMapeado"].Value.ToString());
+                if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value.ToString() != "")
+                {
+                    if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value == "" || GridSales.Rows[RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value == null)
+                    {
+                        retstring += String.Format("O mapeamento do campo {0} é obrigado a ter um {1} mapeado, favor selecionar uma opção!", TabMapColGrid.BeneficiadorLista.Value, TabMapColGrid.Beneficiador.Value);
+                    }
+                }
+            }
+
+            return retstring;
+        }
+
+        private bool SelecionarValoresCombobox()
+        {
+            bool ValidGrd = true;
+            for (int linha = 0; linha < GridSales.Rows.Count; linha++)
+            {
+                GridSales.Rows[linha].Cells[TabMapColGrid.Messagem.Key].Value = null;
+                var validacao = ValidGridToMap(linha);
+                if (validacao != null)
+                {
+                    GridSales.Rows[linha].Cells[TabMapColGrid.Messagem.Key].Value = validacao;
+                    ValidGrd = false;
+                }
+
+            }
+            return ValidGrd;
+        }
+        private void PreencherValoresColuna(string ColunaLista, string ColunaMapeada, string PreencherTexto)
+        {
+            for (int linha = 0; linha < GridSales.Rows.Count; linha++)
+            {
+                GridSales.Rows[linha].Cells[ColunaLista].Value = PreencherTexto;
+                GridSales.Rows[linha].Cells[ColunaMapeada].Value = PreencherTexto;
+                if (ColunaLista == "RecebedorLista")
+                {
+                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = PreencherTexto);
+                }
+                if (ColunaLista == "BeneficiadorLista")
+                {
+                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = PreencherTexto);
+                }
             }
         }
+
+        #endregion
+
+        #region EventsGrid
+        private void BtnIrParaCarrinho_Click(object sender, EventArgs e)
+        {
+            if (SelecionarValoresCombobox() == false)
+            {
+                MessageBox.Show("Existem pendências no mapeamento!");
+            }
+
+            //caso exista novos mapeamentos, são salvos no banco
+            var NovosMapeamentoBeneficiador = DeParaServices.NovosDeParaBeneficiador(deParaBeneficiadorDto, infoPlaDtos, auth.CurrentClient, auth.userName);
+            var NovosMapeamentoRecebedor = DeParaServices.NovosDeParaRecebedor(deParaRecebedorDto, infoPlaDtos, auth.CurrentClient, auth.userName);
+            PluginService pluginServices = new PluginService(auth);
+
+            if (NovosMapeamentoBeneficiador != null)
+                pluginServices.BeneficiadorDeParaPostAsync(NovosMapeamentoBeneficiador);
+
+            if (NovosMapeamentoRecebedor != null)
+                pluginServices.RecebedorDeParaPostAsync(NovosMapeamentoRecebedor);
+
+        }
+
         private void GridSales_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1)
                 return;
-            string HearderGrid = GridSales.Rows[0].Cells[e.ColumnIndex].Value.ToString();
 
-            foreach (DataGridViewRow item in GridSales.Rows)
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.BeneficiadorLista.Key))
             {
-                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells["PlaceMap"]);
-                ContactCombo.DataSource = infoPlaDtos.First().PlaceCorresp.Select(p => p.Description).ToArray();
-                //verifica se tem historico de mapeamento
-                if (item.Cells["Place"].Value != null)
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value != null)
                 {
-                    string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, infoPlaDtos.First().PlaceCorresp, item.Cells["Place"].Value.ToString());
-                    if (preencher != null)
+                    string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                    GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = novoValor;
+                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = novoValor);
+                    //SelecionarValoresCombobox();
+                }
+            }
+
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.RecebedorLista.Key))
+            {
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Recebedor.Key].Value != null)
+                {
+                    string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                    GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorMapeado.Key].Value = novoValor;
+                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = novoValor);
+                    //SelecionarValoresCombobox();
+                }
+            }
+            //GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Messagem.Key].Value = ValidGridToMap(e).ToString();
+        }
+
+
+        private void GridSales_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.BeneficiadorLista.Key))
+            {
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value != null)
+                {
+                    if (MessageBox.Show(string.Format("Deseja aplicar o valor {0} para todos campos?", GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value),
+                        string.Format("Aplicar valores na coluna {0}", TabMapColGrid.Beneficiador.Key.ToString()), MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        item.Cells["PlaceMap"].Value = preencher;
-                        item.Cells["RecebedorMapeado"].Value = preencher;
-                        //altera o valor da lista existente
-                        infoPlaDtos.Where(p => p.Id.ToString() == item.Cells["PlaceMap"].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
-                        //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                        string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                        PreencherValoresColuna(TabMapColGrid.BeneficiadorLista.Key, TabMapColGrid.BeneficiadorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString());
+                    }
+
+                    //SelecionarValoresCombobox();
+                }
+            }
+
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.RecebedorLista.Key))
+            {
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value != null)
+                {
+                    if (MessageBox.Show(string.Format("Deseja aplicar o valor '{0}' para todos campos?", GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value),
+                        string.Format("Aplicar valores na coluna {0}", TabMapColGrid.RecebedorLista.Value.ToString()), MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                        PreencherValoresColuna(TabMapColGrid.RecebedorLista.Key, TabMapColGrid.RecebedorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString());
                     }
                 }
             }
         }
-        private IEnumerator<string> ValidRevicerMap(DataGridViewCellEventArgs e)
-        {
-            if (GridSales.Rows[e.RowIndex].Cells["ReceiverMap"].Value.ToString() == "")
-                yield return String.Format("O campo {0} é obrigado a ter um recebedor mapeado, favor selecionar uma opção!", TabMapColGrid.receiver);
-
-            if (GridSales.Rows[e.RowIndex].Cells["Receiver"].Value.ToString() != GridSales.Rows[e.RowIndex].Cells["ReciverMapped"].Value.ToString())
-            {
-                yield return String.Format("Favor seleconar um recebedor valdido!");
-            }
-
-            yield return null;
-        }
-        private void BtnIrParaCarrinho_Click(object sender, EventArgs e)
-        {
-            SelecionarValoresCombobox();
-        }
-
-        #endregion
-        private void SelecionarValoresCombobox()
-        {
-
-            foreach (DataGridViewRow linha in GridSales.Rows)
-            {
-
-                //foreach (DataGridViewColumn coluna in GridSales.Columns)
-                //{
-                //    DataGridViewCell valorCelula = linha.Cells[coluna.Name.ToString()];
-
-                //}
-            }
-            //GridSales.CurrentRow.Cells["UF"].ReadOnly;
-        }
-
     }
+
+    #endregion
+
+
 }
+
 

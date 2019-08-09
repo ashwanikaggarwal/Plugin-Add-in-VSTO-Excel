@@ -35,8 +35,10 @@ namespace Usiminas.PluginExcel.Dto
 
         public string D3 { get; set; }
         public bool Active { get; set; }
-        public string ReciverMapped { get; set; }
+        public string ReceiverMapped { get; set; }
         public string PlacerMapped { get; set; }
+
+        public DetalheItemDto detalheItem { get; set; }
     }
 
 

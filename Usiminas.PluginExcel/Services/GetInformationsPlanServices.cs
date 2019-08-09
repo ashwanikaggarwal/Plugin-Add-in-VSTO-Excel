@@ -30,12 +30,11 @@ namespace Usiminas.PluginExcel.Services
 
                         case "RefClient":
                             if (partnumber.Contains(Valor) == false)
-                                partnumber.Add(Valor); 
-
+                                partnumber.Add(Valor);
                             break;
                     }
                 }
-                if (Valor == "" )
+                if (Valor == "")
                 {
                     repet = false;
                 }
@@ -87,25 +86,39 @@ namespace Usiminas.PluginExcel.Services
                     //sempre adiciona o valor da data do pedido
                     infoPlaDto.DesiredPeriod = dtPedido.ToString("MM/yyyy");
                 }
+
+                //entender se é para filtrar os dados ou apenas retornar o erro 
+
                 //insere a lista de recebedores
                 infoPlaDto.ReceiverCorresp.AddRange(receiverCorresp);
-
-                //insere a lista de beneficiadores, caso exitir
-                if (infoPlaDto.Place != "" || infoPlaDto.Place != null)
+                if (infoPlaDto.D1 == "" && infoPlaDto.D2 == "" && infoPlaDto.D3 == "")
                 {
-                    infoPlaDto.PlaceCorresp.AddRange(placeCorresp);
-                }
-
-                if (infoPlaDto.RefClient != "" && infoPlaDto.Receiver != "")
-                {
-                    values.Add(infoPlaDto);
+                    contar += 1;
+                    if (infoPlaDto.RefClient == "" && infoPlaDto.Receiver == "")
+                    {
+                        repet = false;
+                    }
                 }
                 else
                 {
-                    repet = false;
+                    //insere a lista de beneficiadores, caso exitir
+                    if (infoPlaDto.Place != "" || infoPlaDto.Place != null)
+                    {
+                        infoPlaDto.PlaceCorresp.AddRange(placeCorresp);
+                    }
+
+                    if (infoPlaDto.RefClient != "" && infoPlaDto.Receiver != "")
+                    {
+                        values.Add(infoPlaDto);
+                    }
+                    else
+                    {
+                        repet = false;
+                    }
+                    contar += 1;
+                    infoPlaDto.Id = contar;
                 }
-                contar += 1;
-                infoPlaDto.Id = contar;
+
             }
             return values;
         }
@@ -134,18 +147,20 @@ namespace Usiminas.PluginExcel.Services
 
             //Tuple<string, int, int> values = new Tuple<string, int, int>("DesiredPeriod", cell.Row, cell.Column);
             // list.Add(values);
-
-            Excel.Range cell = worksheet.Range[salesDto.Place];
-            Tuple<string, int, int> values = new Tuple<string, int, int>("Place", cell.Row, cell.Column);
+            Excel.Range cell = worksheet.Range[salesDto.RefClient];
+            Tuple<string, int, int> values = new Tuple<string, int, int>("RefClient", cell.Row, cell.Column);
             list.Add(values);
 
             cell = worksheet.Range[salesDto.Receiver];
             values = new Tuple<string, int, int>("Receiver", cell.Row, cell.Column);
             list.Add(values);
 
-            cell = worksheet.Range[salesDto.RefClient];
-            values = new Tuple<string, int, int>("RefClient", cell.Row, cell.Column);
-            list.Add(values);
+            if (salesDto.Place != null)
+            {
+                cell = worksheet.Range[salesDto.Place];
+                values = new Tuple<string, int, int>("Place", cell.Row, cell.Column);
+                list.Add(values);
+            }
 
             cell = worksheet.Range[salesDto.D1];
             values = new Tuple<string, int, int>("D1", cell.Row, cell.Column);

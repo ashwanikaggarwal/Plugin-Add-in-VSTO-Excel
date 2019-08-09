@@ -34,5 +34,8 @@ namespace Usiminas.PluginExcel.Util
         static public string ClientPlaceDeParaPost = ConfigurationManager.AppSettings["EndPointBeneficiadorDePara"];
         static public string ClientPlaceDeParaDelete = ConfigurationManager.AppSettings["EndPointBeneficiadorDePara"];
 
+        //partNumber
+        static public string ClientListaPartNumber = ConfigurationManager.AppSettings["EndPointListaPartNumber"];
+
     }
 }

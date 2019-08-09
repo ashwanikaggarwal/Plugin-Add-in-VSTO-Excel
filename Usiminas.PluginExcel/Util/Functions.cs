@@ -24,16 +24,19 @@ namespace Usiminas.PluginExcel.Util
             string preencher = deParaBeneficiadorDto.Where(p => p.CodBeneficiadorCliente.Contains(texto) && p.Ativo == true).Select(p => p.DesBeneficiadorUsiminas).FirstOrDefault();
             if (preencher == null)
                 return null;
-            var valorretorno = PlaceCorresp.Where(p => p.Description.Contains(preencher) == true).FirstOrDefault();
+            var valorretorno = PlaceCorresp.Where(p => p.Description.Contains(preencher.Trim()) == true).FirstOrDefault();
             
             return valorretorno.Description;
         }
         public static string GetValueintoListRecebedor(this List<DeParaRecebedorDto> deParaRecebedorDto, List<ReceiverCorresp> ReceiverCorresp, string texto)
         {
+            if (deParaRecebedorDto == null)
+                return null;
+
             string preencher = deParaRecebedorDto.Where(p => p.CodRecebedorCliente.Contains(texto) && p.Ativo == true).Select(p => p.DesRecebedorUsiminas).FirstOrDefault();
             if (preencher == null)
                 return null;
-            var valorretorno = ReceiverCorresp.Where(p => p.Description.Contains(preencher) == true).FirstOrDefault();
+            var valorretorno = ReceiverCorresp.Where(p => p.Description.Contains(preencher.Trim()) == true).FirstOrDefault();
 
             return valorretorno.Description;
         }
