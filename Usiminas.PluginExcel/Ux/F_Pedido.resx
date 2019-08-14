@@ -159,7 +159,123 @@
   <metadata name="period.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="PartNumber.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Id.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Recebedor.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="RecebedorMapeado.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="RecebedorLista.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Beneficiador.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="BeneficiadorMapeado.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="BeneficiadorLista.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Mensagem.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="D1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="D2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="D3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="period.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>94</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABMLAAATCwAAAAAAAAAA
+        AADTqnIG06pyANOqciPTqnKR06py09OqcurTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOq
+        curTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLS06pyktOq
+        ciTTqnIA06pyAtOqcgDTqnJE06py59Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py6NOqckPTqnIA06pyI9OqcurTqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py6dOqciXTqnKV06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqXH/0qhv/9Gnbf/Rpmz/0aZs/9Gnbf/SqG//06lx/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06pylNOqctXTqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/SqG//0aVq/9Kob//WsX3/2riK/929kP/dvZD/2riK/9awff/SqG7/0KVq/9Ko
+        b//TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnLV06py6dOqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/0KVq/9Wve//mzq7/9Onb//v38f/+/fz////////////+/fz/+vbw//Po
+        2f/lzav/1a55/9Glav/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9OqcurTqnLq06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06lx/9Gla//hxqH/+vTu////////////////////////////////////
+        ///////////////////58+v/4MSc/9Gmav/TqXH/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py6tOq
+        curTqnL/06py/9Oqcv/TqnL/06py/9Oqcv/RpWr/5c2r////////////////////////////////////
+        /////////////////////////////////////v7/48ml/9Glav/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnLq06py6tOqcv/TqnL/06py/9Oqcv/TqnL/0ads/9u6jv/+/fv/////////////////////////
+        ///59O3/9eve//Xr3v/59e/////////////////////////////9/Pn/2reI/9Gnbf/TqnL/06py/9Oq
+        cv/TqnL/06py/9OqcurTqnLq06py/9Oqcv/TqnL/06py/9Oqcv/Rpmz/7+HO////////////////////
+        ///38Of/38GY/9Std//SqXH/0qlx/9WueP/gw5z/+fPr///////////////////////u3cf/0aZr/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py6tOqcurTqnL/06py/9Oqcv/TqnL/0qhv/9ave//69vH/////////
+        ////////+/fy/9m1g//Qo2f/0qhw/9Opcf/TqXH/0qhv/8+jZv/auIn//Pn2//////////////////nz
+        6//UrXf/0qlw/9Oqcv/TqnL/06py/9Oqcv/TqnLq06py6tOqcv/TqnL/06py/9Oqcv/Sp23/2reI//78
+        +v/////////////////t3MX/0KRo/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Claf/v4Mz/////////
+        /////////fv3/9i1g//SqG7/06py/9Oqcv/TqnL/06py/9OqcurTqnLq06py/9Oqcv/TqnL/06py/9Gn
+        bf/buoz//v79/////////////////+bOrv/QpWr/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/0aVq/+jS
+        tv/////////////////9/Pr/2beI/9Knbf/TqnL/06py/9Oqcv/TqnL/06py6tOqcurTqnL/06py/9Oq
+        cv/TqnL/0adt/9u6jP/+/v3/////////////////5c2s/9Clav/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/RpWr/6NK1//////////////////38+v/Zt4j/0qdt/9Oqcv/TqnL/06py/9Oqcv/TqnLq06py6tOq
+        cv/TqnL/06py/9Oqcv/Rp23/27qM//7+/f/////////////////lzaz/0KVq/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Glav/o0rX//////////////////fz6/9m3iP/Sp23/06py/9Oqcv/TqnL/06py/9Oq
+        curTqnLq06py/9Oqcv/TqnL/06py/9Gnbf/buoz//v79/////////////////+XNrP/QpWr/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/0aVq/+jStf/////////////////9/Pr/2beI/9Knbf/TqnL/06py/9Oq
+        cv/TqnL/06py6tOqcurTqnL/06py/9Oqcv/TqnL/0adt/9u6jP/+/v3/////////////////5c2s/9Cl
+        av/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/RpWr/6NK1//////////////////38+v/Zt4j/0qdt/9Oq
+        cv/TqnL/06py/9Oqcv/TqnLq06py6tOqcv/TqnL/06py/9Oqcv/Rp23/27qM//7+/f//////////////
+        ///lzaz/0KVq/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Glav/o0rX//////////////////fz6/9m3
+        iP/Sp23/06py/9Oqcv/TqnL/06py/9OqcurTqnLq06py/9Oqcv/TqnL/06py/9Gnbf/buoz//v79////
+        /////////////+XNrP/QpWr/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/0aVq/+jStf//////////////
+        ///9/Pr/2beI/9Knbf/TqnL/06py/9Oqcv/TqnL/06py6tOqcurTqnL/06py/9Oqcv/TqnL/0adt/9u6
+        jP/+/v3/////////////////5c2s/9Clav/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/RpWr/6NK1////
+        //////////////38+v/Zt4j/0qdt/9Oqcv/TqnL/06py/9Oqcv/TqnLq06py6tOqcv/TqnL/06py/9Oq
+        cv/Rp23/27qM//7+/f/////////////////ky6n/0KVq/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Gl
+        af/nz7D//////////////////fz6/9m3iP/Sp23/06py/9Oqcv/TqnL/06py/9OqcurTqnLq06py/9Oq
+        cv/TqnL/06py/9Gnbf/buoz//v79/////////////////97Alv/Rpmv/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/0aZr/+DEnP/////////////////9/Pr/2beI/9Knbf/TqnL/06py/9Oqcv/TqnL/06py6tOq
+        curTqnL/06py/9Oqcv/TqnL/0adt/9u6jP/+/v3////////////38Of/1Kx1/9KpcP/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/SqW//1a55//n07P////////////38+v/Zt4j/0qdt/9Oqcv/TqnL/06py/9Oq
+        cv/TqnLq06py6tOqcv/TqnL/06py/9Oqcv/Rp23/27qM//7+/f///////v37/9/Al//Rpmv/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/Rpmv/4MSd//7+/f///////fz6/9m3iP/Sp23/06py/9Oq
+        cv/TqnL/06py/9OqcurTqnLq06py/9Oqcv/TqnL/06py/9Gnbf/cu47///////v48//gxJ3/0KVq/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/Qpmr/4sei//z69///////2biJ/9Kn
+        bf/TqnL/06py/9Oqcv/TqnL/06py6tOqcurTqnL/06py/9Oqcv/TqnL/0qhu/9m1hv/r2L7/2baF/9Gl
+        av/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/QpWr/2riJ/+vY
+        v//Ys4L/0qhv/9Oqcv/TqnL/06py/9Oqcv/TqnLq06py6tOqcv/TqnL/06py/9Oqcv/TqnL/06lx/9Gl
+        a//Sp27/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/Rp23/0aZr/9Opcf/TqnL/06py/9Oqcv/TqnL/06py/9OqcunTqnLV06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py1tOqcpXTqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnKU06pyJNOq
+        curTqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py6tOq
+        ciPTqnIA06pyRNOqcujTqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oqcv/TqnL/06py/9Oq
+        cufTqnJE06pyANOqcgjTqnIA06pyJdOqcpTTqnLU06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOq
+        curTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOqcurTqnLq06py6tOq
+        ctPTqnKT06pyJNOqcgDTqnIGQAAAAoAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAgAAAAUAAAAI=
+</value>
+  </data>
 </root>

@@ -16,5 +16,11 @@ namespace Usiminas.PluginExcel.Dto
         public string Largura { get; set; }
         public string Comprimento { get; set; }
         public string Tipo { get; set; }
+        public string Status { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} /{1} / Espe. {2} /Larg. {3} / Comp. {4}", this.Produto, this.Qualidade,this.Espessura,this.Largura, this.Comprimento) ;
+        }
     }
 }

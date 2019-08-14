@@ -136,9 +136,22 @@ namespace Usiminas.PluginExcel.Services
             PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientListaPartNumber);
             //string result = JsonConvert.SerializeObject(emissaoPedidosDto, Formatting.None);
 
-            var listReciver = await pluginRepository.PostJson(emissaoPedidosDto);
-            return Functions.ConvertJsonToListIdDescription<List<DetalheItemDto>>(listReciver);
+            var list = await pluginRepository.PostJson(emissaoPedidosDto);
+            return Functions.ConvertJsonToListIdDescription<List<DetalheItemDto>>(list);
         }
+        public async Task<List<MinimoMultiploDto>> PesoMultiploPartNumberAsync(ValidaPesoMultiPartNumberDto validaPesoMultiPartNumberDto)
+        {
+            PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientPesoMultiploPost);
 
+            var list = await pluginRepository.PostJson(validaPesoMultiPartNumberDto);
+            return Functions.ConvertJsonToListIdDescription<List<MinimoMultiploDto>>(list);
+        }
+        public async Task<List<DadosDataAceiteDto>> CalendarioAceiteAsync(List<CalendarioAceiteFilterDto> calendarioAceiteFilterDto)
+        {
+            PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientCalendarioAceitePost);
+
+            var list = await pluginRepository.PostJson(calendarioAceiteFilterDto);
+            return Functions.ConvertJsonToListIdDescription<List<DadosDataAceiteDto>>(list);
+        }
     }
 }

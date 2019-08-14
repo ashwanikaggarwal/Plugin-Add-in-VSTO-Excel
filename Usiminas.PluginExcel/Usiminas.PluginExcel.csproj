@@ -211,12 +211,16 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Dto\CalendarioAceiteFilterDto.cs" />
     <Compile Include="Dto\DeParaRecebedorDto.cs" />
     <Compile Include="Dto\DetalheItemDto.cs" />
     <Compile Include="Dto\EmissaoPedidosDto.cs" />
     <Compile Include="Dto\FilterDto.cs" />
     <Compile Include="Dto\InfoPlaDto.cs" />
+    <Compile Include="Dto\DadosDataAceiteDto.cs" />
+    <Compile Include="Dto\MinimoMultiploDto.cs" />
     <Compile Include="Dto\SalesDto.cs" />
+    <Compile Include="Dto\ValidaPesoMultiPartNumberDto.cs" />
     <Compile Include="Entities\Authetication.cs" />
     <Compile Include="Entities\ClientLogin.cs" />
     <Compile Include="Dto\DeParaBeneficiadorDto.cs" />
@@ -237,18 +241,19 @@
     <Compile Include="Services\GetInformationsPlanServices.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Services\PluginService.cs" />
+    <Compile Include="Services\ServiceMoc.cs" />
     <Compile Include="Util\EndPoints.cs" />
     <Compile Include="Util\Functions.cs" />
     <Compile Include="Util\ListFields.cs" />
     <Compile Include="Util\RequestHttpBase.cs" />
     <Compile Include="Util\TabMapGrid.cs" />
-    <Compile Include="Ux\HandlerFormMapFields.cs">
+    <Compile Include="Ux\MapeamentoPlanilha.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ux\HandlerForm.cs">
+    <Compile Include="Ux\SelecaoCampos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ux\HandlerSalesOrder.cs">
+    <Compile Include="Ux\Carrinho.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Ux\ItemCarrinho.cs">
@@ -341,6 +346,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Repository\MocMontarCarrinho.txt" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

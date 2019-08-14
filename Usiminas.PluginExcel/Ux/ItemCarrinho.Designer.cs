@@ -39,7 +39,7 @@
             this.ICPartNumber.AutoSize = true;
             this.ICPartNumber.BackColor = System.Drawing.Color.Silver;
             this.ICPartNumber.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ICPartNumber.Location = new System.Drawing.Point(17, 14);
+            this.ICPartNumber.Location = new System.Drawing.Point(6, 6);
             this.ICPartNumber.Name = "ICPartNumber";
             this.ICPartNumber.Size = new System.Drawing.Size(118, 17);
             this.ICPartNumber.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             this.ICDetalhamento.AutoSize = true;
             this.ICDetalhamento.BackColor = System.Drawing.Color.Silver;
-            this.ICDetalhamento.Location = new System.Drawing.Point(20, 35);
+            this.ICDetalhamento.Location = new System.Drawing.Point(9, 27);
             this.ICDetalhamento.Name = "ICDetalhamento";
             this.ICDetalhamento.Size = new System.Drawing.Size(296, 13);
             this.ICDetalhamento.TabIndex = 1;
@@ -60,7 +60,7 @@
             this.pictureBox1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.pictureBox1.Location = new System.Drawing.Point(1, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(671, 63);
+            this.pictureBox1.Size = new System.Drawing.Size(636, 42);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -75,7 +75,8 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "ItemCarrinho";
             this.Padding = new System.Windows.Forms.Padding(1);
-            this.Size = new System.Drawing.Size(671, 67);
+            this.Size = new System.Drawing.Size(635, 46);
+            this.Load += new System.EventHandler(this.ItemCarrinho_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

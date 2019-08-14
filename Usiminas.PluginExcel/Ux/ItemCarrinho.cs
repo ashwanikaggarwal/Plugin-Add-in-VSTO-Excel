@@ -12,25 +12,31 @@ namespace Usiminas.PluginExcel.Ux
 {
     public partial class ItemCarrinho : UserControl
     {
-        //private ItemCarrinhoDetalhe itemCarrinhoDetalhe;
+        private string DetalheCabecalho;
 
-        //public ItemCarrinhoDetalhe ItemCarrinhoDetalhe
-        //{
-        //    get { return itemCarrinhoDetalhe; }
-        //    set { itemCarrinhoDetalhe = value; }
-        //}
-        //private int resizeheigt = 0; 
+        public string DetalCabecalho
+        {
+            get { return DetalheCabecalho; }
+            set { DetalheCabecalho = value; }
+        }
+        private string PartNumberDetalhe;
+
+        public string DetalParNumber
+        {
+            get { return PartNumberDetalhe; }
+            set { PartNumberDetalhe = value; }
+        }
+
         public ItemCarrinho()
         {
             InitializeComponent();
             //resizeheigt += flowLayoutPanelIemCarrrinho.Size.Height;
         }
-        public void AddItem(ItemCarrinhoDetalhe item)
+
+        private void ItemCarrinho_Load(object sender, EventArgs e)
         {
-            //flowLayoutPanelIemCarrrinho.Controls.Add(item);
-            //flowLayoutPanelIemCarrrinho.MaximumSize = new Size(flowLayoutPanelIemCarrrinho.Size.Width, resizeheigt + item.Size.Height);
-            //flowLayoutPanelIemCarrrinho.AutoSize = true;
-            //flowLayoutPanelIemCarrrinho.Size = new Size(flowLayoutPanelIemCarrrinho.Size.Width, flowLayoutPanelIemCarrrinho.Size.Height + item.Size.Height +5); //.Height = 1; // = this.Size.Height + item.Height;
+            this.ICDetalhamento.Text = DetalheCabecalho;
+            this.ICPartNumber.Text = PartNumberDetalhe;
         }
     }
 }

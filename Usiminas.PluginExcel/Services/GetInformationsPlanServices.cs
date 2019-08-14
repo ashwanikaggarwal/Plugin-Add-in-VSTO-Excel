@@ -29,15 +29,18 @@ namespace Usiminas.PluginExcel.Services
                     {
 
                         case "RefClient":
+                            if (Valor == "")
+                            {
+                                repet = false;
+                                break;
+
+                            }
                             if (partnumber.Contains(Valor) == false)
                                 partnumber.Add(Valor);
                             break;
                     }
                 }
-                if (Valor == "")
-                {
-                    repet = false;
-                }
+
                 contar += 1;
             }
             return partnumber;

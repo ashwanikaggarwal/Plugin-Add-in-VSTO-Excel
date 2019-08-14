@@ -22,18 +22,23 @@ namespace Usiminas.PluginExcel.Ux
         SalesDto salesdto = new SalesDto();
         List<ClientePluginDto> clientes;
         List<InfoPlaDto> infoPlaDtos;
+
         List<DetalheItemDto> DetalheItemDtos;
+        List<CalendarioAceiteFilterDto> calendarioAceiteFilterDto;
+
         int FieldEdit; // variavel que define qual é o botão
         #endregion
         private async void mocardadosFormulario()
         {
 
-            if (auth != null)
+            InformationsPlan informationsPlan = new InformationsPlan();
+
+            if (auth.accessToken == null)
             {
                 Login login = new Login();
                 AuthenticationServices authentication = new AuthenticationServices();
                 OvTxLogin.Text = "igorteste";
-                OvTxSenha.Text = "Simo12es";
+                OvTxSenha.Text = "Simo12es?";
 
                 auth = await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text);
             }
@@ -155,6 +160,19 @@ namespace Usiminas.PluginExcel.Ux
             var arrayref = infoPlaDtosMoc.Select(p => p.RefClient).ToList();
             PluginService pluginServices = new PluginService(auth);
 
+            //pega a lista de recebedor e beneficiador cadastrado
+            SalesDto dto = new SalesDto { CD_Cliente = "0000000155", RefClient = "B7", D1 = "ag7", D2 = "ah7", D3 = "ai7", Receiver = "aq7" };
+            var PartNumArr = informationsPlan.GetPartNumberPlan(dto);
+            var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
+            var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
+            var validaPesoMultiPartNumberDto = new ValidaPesoMultiPartNumberDto();
+            validaPesoMultiPartNumberDto.CdCliente = "0000007711";
+            validaPesoMultiPartNumberDto.PartNumbers = PartNumArr;
+            validaPesoMultiPartNumberDto.Recebedores = ReceiverCorrespsForPartNumber.Select(p => p.Id).ToList();
+
+            var itemDtos = pluginServices.PesoMultiploPartNumberAsync(validaPesoMultiPartNumberDto);
+            //DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
+
             DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(infoPlaDtosMoc.Select(p => p.RefClient).ToArray(), "0000000155");
 
             SelectContext("OvAbaPedido");
@@ -167,8 +185,6 @@ namespace Usiminas.PluginExcel.Ux
             InitializeComponent();
             InitialStageSelectfields();
         }
-
-
         private void F_Pedido_Load(object sender, EventArgs e)
         {
             SelectContext("OvAbaConfiguracao");
@@ -234,12 +250,33 @@ namespace Usiminas.PluginExcel.Ux
             PluginService pluginServices = new PluginService(auth);
             var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
             var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
-            //****************************************************************
-            //DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
-            //****************************************************************
+
+            //pega o dstalhamento de acordo com os partnumbers
+            DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
+            //carrega o minimo multiplo
+            var validaPesoMultiPartNumberDto = new ValidaPesoMultiPartNumberDto();
+            validaPesoMultiPartNumberDto.PartNumbers = PartNumArr;
+            validaPesoMultiPartNumberDto.Recebedores = ReceiverCorrespsForPartNumber.Select(p => p.Id).ToList();
+
+            List<MinimoMultiploDto> MinimoMultiplo = await pluginServices.PesoMultiploPartNumberAsync(validaPesoMultiPartNumberDto);
+
+            calendarioAceiteFilterDto = new List<CalendarioAceiteFilterDto>();
+            //carrega os dados de calendario de aceite
+            foreach (var item in PartNumArr)
+            {
+                calendarioAceiteFilterDto.Add(new CalendarioAceiteFilterDto { TipoBusca = "P", CdCliente = salesdto.CD_Cliente,  Mercado = "MI", PartNumber = item});
+            }
+
+
+            List<DadosDataAceiteDto> dadosDataAceiteDto;
+            dadosDataAceiteDto = await pluginServices.CalendarioAceiteAsync(calendarioAceiteFilterDto);
 
             //carrega os dados que vão ser listados na planilha
             infoPlaDtos = informationsPlan.GetDataforAdress(salesdto, DtPrazoDesejado.Value, placeCorrespForPartNumber, ReceiverCorrespsForPartNumber);
+
+            //popula os detalhamentos de acordo com os partnumbers
+            insertDetalPedido(ref infoPlaDtos, DetalheItemDtos, dadosDataAceiteDto);
+
             //delagates criados para deixar o objetos na mesma tread
             if (GridSales.InvokeRequired == true)
             {
@@ -267,6 +304,31 @@ namespace Usiminas.PluginExcel.Ux
             }
             SelectContext("OvAbaPedido");
         }
+
+        private void insertDetalPedido(ref List<InfoPlaDto> plaDto, List<DetalheItemDto> detalheItem, List<DadosDataAceiteDto> dadosDataAceiteDto, List<MinimoMultiploDto> minimoMultiplos)
+        {
+         
+            //mensagem padrao de como nao foi localizado
+            plaDto.ForEach(s =>
+            {
+                s.Mensagem = "Part number não foi localizado";
+                s.Validado = false;
+            });
+            //foreach (var item in detalheItem.Where(p => p.Status == "A"))
+            foreach (var item in detalheItem)
+            {
+                //infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = novoValor);
+                if (plaDto.Select(p => p.RefClient == item.Description).Any() == true)
+                {
+                    plaDto.Where(p => p.RefClient == item.Description).ToList().ForEach(s =>
+                    {
+                        s.Mensagem = "";
+                        s.Validado = true;
+                        s.detalheItem = item;
+                    });
+                }
+            }
+        }
         #endregion
 
         #region //////// Inicializar pedido
@@ -278,8 +340,8 @@ namespace Usiminas.PluginExcel.Ux
                 Login login = new Login();
                 AuthenticationServices authentication = new AuthenticationServices();
                 //homologacao
-                // OvTxLogin.Text = "igorteste";
-                //OvTxSenha.Text = "Simo12es?";
+                OvTxLogin.Text = "igorteste";
+                OvTxSenha.Text = "Simo12es?";
                 login.CreateLogin(OvTxLogin.Text, OvTxSenha.Text);
 
                 var resultados = DataAnnotation.ValidateEntity<Login>(login);
@@ -302,6 +364,8 @@ namespace Usiminas.PluginExcel.Ux
                     //quanto tiver grupo, forçar a seleção
                     if (user.CdGrupo == null)
                     {
+
+                        NameClienteForm(user.Cliente.DsCliente);
                         auth.SetCliente(user.CdCliente);
                         PluginService pluginServices = new PluginService(auth);
                         var sales = await pluginServices.GetInformationFieldsPlan(user.CdCliente);
@@ -401,6 +465,7 @@ namespace Usiminas.PluginExcel.Ux
                 }
                 salesdto.CD_Cliente = client.codigoCliente;
                 salesdto.UserName = auth.userName;
+                NameClienteForm(client.descricaoCliente);
 
                 InitialStageSelectfields();
 

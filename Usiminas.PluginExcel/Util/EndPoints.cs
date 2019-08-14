@@ -37,5 +37,11 @@ namespace Usiminas.PluginExcel.Util
         //partNumber
         static public string ClientListaPartNumber = ConfigurationManager.AppSettings["EndPointListaPartNumber"];
 
+        //Peso Multiplo
+        static public string ClientPesoMultiploPost = ConfigurationManager.AppSettings["EndPointPesoMultiplo"];
+
+        //calendario aceite
+        static public string ClientCalendarioAceitePost = ConfigurationManager.AppSettings["EndPointCalendarioAceite"];
+
     }
 }

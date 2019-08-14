@@ -9,14 +9,17 @@ namespace Usiminas.PluginExcel.Dto
 {
     public class InfoPlaDto
     {
-        public InfoPlaDto() 
+        public InfoPlaDto()
         {
             ReceiverCorresp = new List<ReceiverCorresp>();
             PlaceCorresp = new List<PlaceCorresp>();
+            detalheItem = new DetalheItemDto { Espessura = "1.7", Largura = "1200.0", Comprimento = "0", Produto = "BF", Qualidade = "NBR5915EEPG2" };
+            calendarioAceite = new CalendarioAceiteFilterDto();
+            DataAceite = new DadosDataAceiteDto();
         }
         public string Mensagem { get; set; }
         public List<ReceiverCorresp> ReceiverCorresp { get; set; }
-        public List<PlaceCorresp>PlaceCorresp { get; set; }
+        public List<PlaceCorresp> PlaceCorresp { get; set; }
         public bool Validado { get; set; }
         public int Id { get; set; }
 
@@ -39,6 +42,14 @@ namespace Usiminas.PluginExcel.Dto
         public string PlacerMapped { get; set; }
 
         public DetalheItemDto detalheItem { get; set; }
+        public CalendarioAceiteFilterDto calendarioAceite { get; set; }
+        public DadosDataAceiteDto DataAceite { get; set; }
+        public override string ToString()
+        {
+            string RET = string.Format("ID {0}|partnum: {1}|receiver: {2}|receiverMap: {3}|place: {4}|placerMap: {5}|D1: {6}|D2: {7}|D3 {8}|",
+            this.Id, this.RefClient, this.Receiver, this.ReceiverMapped, this.Place, this.PlacerMapped, this.D1, this.D2, this.D3);
+            return RET;
+        }
     }
 
 

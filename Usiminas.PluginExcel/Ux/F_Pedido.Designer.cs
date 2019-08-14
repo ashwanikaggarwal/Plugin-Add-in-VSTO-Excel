@@ -31,6 +31,7 @@ namespace Usiminas.PluginExcel.Ux
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(F_Pedido));
             this.FPTimer = new System.Windows.Forms.Timer(this.components);
             this.TabControl = new System.Windows.Forms.TabControl();
             this.OvAbaConfiguracao = new System.Windows.Forms.TabPage();
@@ -103,6 +104,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvLbTotalItem = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanelCarrinho = new System.Windows.Forms.FlowLayoutPanel();
+            this.OvLbClientePedido = new System.Windows.Forms.Label();
             this.TabControl.SuspendLayout();
             this.OvAbaConfiguracao.SuspendLayout();
             this.OvAbaDados.SuspendLayout();
@@ -120,6 +122,9 @@ namespace Usiminas.PluginExcel.Ux
             // 
             // TabControl
             // 
+            this.TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TabControl.Controls.Add(this.OvAbaConfiguracao);
             this.TabControl.Controls.Add(this.OvAbaDados);
             this.TabControl.Controls.Add(this.OvAbaPedido);
@@ -828,7 +833,6 @@ namespace Usiminas.PluginExcel.Ux
             this.button2.TabIndex = 6;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // OvLbTotalTonelagemCont
@@ -889,13 +893,28 @@ namespace Usiminas.PluginExcel.Ux
             this.flowLayoutPanelCarrinho.Size = new System.Drawing.Size(1018, 659);
             this.flowLayoutPanelCarrinho.TabIndex = 0;
             // 
+            // OvLbClientePedido
+            // 
+            this.OvLbClientePedido.AutoSize = true;
+            this.OvLbClientePedido.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbClientePedido.Location = new System.Drawing.Point(17, 9);
+            this.OvLbClientePedido.Name = "OvLbClientePedido";
+            this.OvLbClientePedido.Size = new System.Drawing.Size(117, 20);
+            this.OvLbClientePedido.TabIndex = 1;
+            this.OvLbClientePedido.Text = "Cliente XXXXX";
+            this.OvLbClientePedido.Visible = false;
+            // 
             // F_Pedido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1112, 814);
+            this.Controls.Add(this.OvLbClientePedido);
             this.Controls.Add(this.TabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Katakana;
             this.Name = "F_Pedido";
             this.Text = "Tools B2B Usiminas";
@@ -912,6 +931,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaCarrinho.ResumeLayout(false);
             this.OvAbaCarrinho.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -990,5 +1010,6 @@ namespace Usiminas.PluginExcel.Ux
         private Label OvLbTotalTonelagemCont;
         private Label OvLbTotalTonelagem;
         private Button button2;
+        private Label OvLbClientePedido;
     }
 }

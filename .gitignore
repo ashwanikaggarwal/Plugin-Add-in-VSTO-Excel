@@ -3,9 +3,12 @@
 ################################################################################
 
 
-/publish/
-/bin/Release/
-/bin/Debug/
-/obj/
-/publish/
-packages/
+/Usiminas.PluginExcel/publish/
+/Usiminas.PluginExcel/bin/Release/
+/Usiminas.PluginExcel/bin/Debug/
+/Usiminas.PluginExcel/obj/
+/Usiminas.PluginExcel/publish/
+/packages/
+/Plan/
+/Backup/
+/.vs/

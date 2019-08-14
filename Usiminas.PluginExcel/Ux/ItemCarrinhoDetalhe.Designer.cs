@@ -43,67 +43,67 @@
             this.OvLbIcMesMap = new System.Windows.Forms.Label();
             this.OvLbIcTonelageMap = new System.Windows.Forms.Label();
             this.OvGbIcDisponível = new System.Windows.Forms.GroupBox();
-            this.OvLbIcDecPossivel = new System.Windows.Forms.Label();
             this.OvCbIcDecendio = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.OvLbIcDecPossivel = new System.Windows.Forms.Label();
+            this.OvGbIcDesejado = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.OvNuIcMultTonelage)).BeginInit();
             this.OvGbIcDisponível.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.OvGbIcDesejado.SuspendLayout();
             this.SuspendLayout();
             // 
             // OvLbIcDecendio
             // 
             this.OvLbIcDecendio.AutoSize = true;
-            this.OvLbIcDecendio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbIcDecendio.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvLbIcDecendio.Location = new System.Drawing.Point(8, 17);
             this.OvLbIcDecendio.Name = "OvLbIcDecendio";
-            this.OvLbIcDecendio.Size = new System.Drawing.Size(32, 15);
+            this.OvLbIcDecendio.Size = new System.Drawing.Size(39, 18);
             this.OvLbIcDecendio.TabIndex = 1;
             this.OvLbIcDecendio.Text = "Dec:";
             // 
             // OvLbIcMes
             // 
             this.OvLbIcMes.AutoSize = true;
-            this.OvLbIcMes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbIcMes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvLbIcMes.Location = new System.Drawing.Point(56, 17);
             this.OvLbIcMes.Name = "OvLbIcMes";
-            this.OvLbIcMes.Size = new System.Drawing.Size(40, 15);
+            this.OvLbIcMes.Size = new System.Drawing.Size(50, 18);
             this.OvLbIcMes.TabIndex = 3;
             this.OvLbIcMes.Text = "| Mês:";
             // 
             // OvLbIcTonelage
             // 
             this.OvLbIcTonelage.AutoSize = true;
-            this.OvLbIcTonelage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbIcTonelage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvLbIcTonelage.Location = new System.Drawing.Point(148, 17);
             this.OvLbIcTonelage.Margin = new System.Windows.Forms.Padding(0);
             this.OvLbIcTonelage.Name = "OvLbIcTonelage";
-            this.OvLbIcTonelage.Size = new System.Drawing.Size(79, 15);
+            this.OvLbIcTonelage.Size = new System.Drawing.Size(95, 18);
             this.OvLbIcTonelage.TabIndex = 5;
             this.OvLbIcTonelage.Text = "| Tonelagem:";
             // 
             // OvLbIcTonelageMult
             // 
             this.OvLbIcTonelageMult.AutoSize = true;
-            this.OvLbIcTonelageMult.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbIcTonelageMult.Location = new System.Drawing.Point(253, 16);
+            this.OvLbIcTonelageMult.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbIcTonelageMult.Location = new System.Drawing.Point(250, 16);
             this.OvLbIcTonelageMult.Name = "OvLbIcTonelageMult";
-            this.OvLbIcTonelageMult.Size = new System.Drawing.Size(94, 15);
+            this.OvLbIcTonelageMult.Size = new System.Drawing.Size(114, 18);
             this.OvLbIcTonelageMult.TabIndex = 7;
             this.OvLbIcTonelageMult.Text = "Ton. Disponível:";
             // 
             // OvCbIcRecebedor
             // 
             this.OvCbIcRecebedor.FormattingEnabled = true;
-            this.OvCbIcRecebedor.Location = new System.Drawing.Point(74, 56);
+            this.OvCbIcRecebedor.Location = new System.Drawing.Point(62, 56);
             this.OvCbIcRecebedor.Name = "OvCbIcRecebedor";
-            this.OvCbIcRecebedor.Size = new System.Drawing.Size(240, 21);
+            this.OvCbIcRecebedor.Size = new System.Drawing.Size(223, 21);
             this.OvCbIcRecebedor.TabIndex = 8;
             // 
             // OvCbIcBeneficiador
             // 
             this.OvCbIcBeneficiador.FormattingEnabled = true;
-            this.OvCbIcBeneficiador.Location = new System.Drawing.Point(401, 57);
+            this.OvCbIcBeneficiador.Location = new System.Drawing.Point(347, 56);
             this.OvCbIcBeneficiador.Name = "OvCbIcBeneficiador";
             this.OvCbIcBeneficiador.Size = new System.Drawing.Size(266, 21);
             this.OvCbIcBeneficiador.TabIndex = 9;
@@ -122,7 +122,7 @@
             // 
             this.OvLbIcBeneficiador.AutoSize = true;
             this.OvLbIcBeneficiador.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbIcBeneficiador.Location = new System.Drawing.Point(324, 57);
+            this.OvLbIcBeneficiador.Location = new System.Drawing.Point(286, 57);
             this.OvLbIcBeneficiador.Name = "OvLbIcBeneficiador";
             this.OvLbIcBeneficiador.Size = new System.Drawing.Size(79, 15);
             this.OvLbIcBeneficiador.TabIndex = 11;
@@ -131,13 +131,12 @@
             // OvLbIcMesDesejadoPos
             // 
             this.OvLbIcMesDesejadoPos.AutoSize = true;
-            this.OvLbIcMesDesejadoPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbIcMesDesejadoPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvLbIcMesDesejadoPos.Location = new System.Drawing.Point(83, 18);
             this.OvLbIcMesDesejadoPos.Name = "OvLbIcMesDesejadoPos";
-            this.OvLbIcMesDesejadoPos.Size = new System.Drawing.Size(94, 15);
+            this.OvLbIcMesDesejadoPos.Size = new System.Drawing.Size(113, 18);
             this.OvLbIcMesDesejadoPos.TabIndex = 15;
             this.OvLbIcMesDesejadoPos.Text = "Mês Disponivel:";
-            this.OvLbIcMesDesejadoPos.Click += new System.EventHandler(this.OvLbIcMesDesejado_Click);
             // 
             // OvNuIcMultTonelage
             // 
@@ -146,11 +145,10 @@
             0,
             0,
             0});
-            this.OvNuIcMultTonelage.Location = new System.Drawing.Point(343, 18);
+            this.OvNuIcMultTonelage.Location = new System.Drawing.Point(339, 18);
             this.OvNuIcMultTonelage.Name = "OvNuIcMultTonelage";
             this.OvNuIcMultTonelage.Size = new System.Drawing.Size(51, 20);
             this.OvNuIcMultTonelage.TabIndex = 16;
-            this.OvNuIcMultTonelage.ValueChanged += new System.EventHandler(this.OvNuIcMultTonelage_ValueChanged);
             // 
             // OvNuIc
             // 
@@ -158,14 +156,14 @@
             this.OvNuIc.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.OvNuIc.Location = new System.Drawing.Point(173, 18);
             this.OvNuIc.Name = "OvNuIc";
-            this.OvNuIc.Size = new System.Drawing.Size(81, 20);
+            this.OvNuIc.Size = new System.Drawing.Size(71, 20);
             this.OvNuIc.TabIndex = 17;
             // 
             // OvLbIcDecendioMap
             // 
             this.OvLbIcDecendioMap.AutoSize = true;
             this.OvLbIcDecendioMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbIcDecendioMap.Location = new System.Drawing.Point(33, 19);
+            this.OvLbIcDecendioMap.Location = new System.Drawing.Point(33, 21);
             this.OvLbIcDecendioMap.Name = "OvLbIcDecendioMap";
             this.OvLbIcDecendioMap.Size = new System.Drawing.Size(23, 13);
             this.OvLbIcDecendioMap.TabIndex = 18;
@@ -175,7 +173,7 @@
             // 
             this.OvLbIcMesMap.AutoSize = true;
             this.OvLbIcMesMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbIcMesMap.Location = new System.Drawing.Point(86, 18);
+            this.OvLbIcMesMap.Location = new System.Drawing.Point(86, 20);
             this.OvLbIcMesMap.Name = "OvLbIcMesMap";
             this.OvLbIcMesMap.Size = new System.Drawing.Size(60, 15);
             this.OvLbIcMesMap.TabIndex = 19;
@@ -186,7 +184,7 @@
             this.OvLbIcTonelageMap.AutoSize = true;
             this.OvLbIcTonelageMap.BackColor = System.Drawing.Color.Transparent;
             this.OvLbIcTonelageMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbIcTonelageMap.Location = new System.Drawing.Point(218, 17);
+            this.OvLbIcTonelageMap.Location = new System.Drawing.Point(204, 19);
             this.OvLbIcTonelageMap.Name = "OvLbIcTonelageMap";
             this.OvLbIcTonelageMap.Size = new System.Drawing.Size(23, 15);
             this.OvLbIcTonelageMap.TabIndex = 20;
@@ -200,22 +198,12 @@
             this.OvGbIcDisponível.Controls.Add(this.OvLbIcMesDesejadoPos);
             this.OvGbIcDisponível.Controls.Add(this.OvNuIcMultTonelage);
             this.OvGbIcDisponível.Controls.Add(this.OvNuIc);
-            this.OvGbIcDisponível.Location = new System.Drawing.Point(252, 3);
+            this.OvGbIcDisponível.Location = new System.Drawing.Point(238, 3);
             this.OvGbIcDisponível.Name = "OvGbIcDisponível";
-            this.OvGbIcDisponível.Size = new System.Drawing.Size(403, 48);
+            this.OvGbIcDisponível.Size = new System.Drawing.Size(397, 48);
             this.OvGbIcDisponível.TabIndex = 21;
             this.OvGbIcDisponível.TabStop = false;
             this.OvGbIcDisponível.Text = "Disponível";
-            // 
-            // OvLbIcDecPossivel
-            // 
-            this.OvLbIcDecPossivel.AutoSize = true;
-            this.OvLbIcDecPossivel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbIcDecPossivel.Location = new System.Drawing.Point(2, 16);
-            this.OvLbIcDecPossivel.Name = "OvLbIcDecPossivel";
-            this.OvLbIcDecPossivel.Size = new System.Drawing.Size(32, 15);
-            this.OvLbIcDecPossivel.TabIndex = 22;
-            this.OvLbIcDecPossivel.Text = "Dec:";
             // 
             // OvCbIcDecendio
             // 
@@ -225,20 +213,30 @@
             this.OvCbIcDecendio.Size = new System.Drawing.Size(52, 21);
             this.OvCbIcDecendio.TabIndex = 22;
             // 
-            // groupBox1
+            // OvLbIcDecPossivel
             // 
-            this.groupBox1.Controls.Add(this.OvLbIcTonelageMap);
-            this.groupBox1.Controls.Add(this.OvLbIcMes);
-            this.groupBox1.Controls.Add(this.OvLbIcMesMap);
-            this.groupBox1.Controls.Add(this.OvLbIcDecendio);
-            this.groupBox1.Controls.Add(this.OvLbIcDecendioMap);
-            this.groupBox1.Controls.Add(this.OvLbIcTonelage);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(244, 47);
-            this.groupBox1.TabIndex = 22;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Desejado";
+            this.OvLbIcDecPossivel.AutoSize = true;
+            this.OvLbIcDecPossivel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbIcDecPossivel.Location = new System.Drawing.Point(2, 16);
+            this.OvLbIcDecPossivel.Name = "OvLbIcDecPossivel";
+            this.OvLbIcDecPossivel.Size = new System.Drawing.Size(39, 18);
+            this.OvLbIcDecPossivel.TabIndex = 22;
+            this.OvLbIcDecPossivel.Text = "Dec:";
+            // 
+            // OvGbIcDesejado
+            // 
+            this.OvGbIcDesejado.Controls.Add(this.OvLbIcTonelageMap);
+            this.OvGbIcDesejado.Controls.Add(this.OvLbIcMes);
+            this.OvGbIcDesejado.Controls.Add(this.OvLbIcMesMap);
+            this.OvGbIcDesejado.Controls.Add(this.OvLbIcDecendio);
+            this.OvGbIcDesejado.Controls.Add(this.OvLbIcDecendioMap);
+            this.OvGbIcDesejado.Controls.Add(this.OvLbIcTonelage);
+            this.OvGbIcDesejado.Location = new System.Drawing.Point(3, 3);
+            this.OvGbIcDesejado.Name = "OvGbIcDesejado";
+            this.OvGbIcDesejado.Size = new System.Drawing.Size(233, 47);
+            this.OvGbIcDesejado.TabIndex = 22;
+            this.OvGbIcDesejado.TabStop = false;
+            this.OvGbIcDesejado.Text = "Desejado";
             // 
             // ItemCarrinhoDetalhe
             // 
@@ -251,17 +249,16 @@
             this.Controls.Add(this.OvCbIcBeneficiador);
             this.Controls.Add(this.OvCbIcRecebedor);
             this.Controls.Add(this.OvGbIcDisponível);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.OvGbIcDesejado);
             this.Margin = new System.Windows.Forms.Padding(1);
             this.MaximumSize = new System.Drawing.Size(770, 107);
             this.Name = "ItemCarrinhoDetalhe";
-            this.Size = new System.Drawing.Size(672, 81);
-            this.Load += new System.EventHandler(this.ItemCarrinhoDetalhe_Load);
+            this.Size = new System.Drawing.Size(636, 81);
             ((System.ComponentModel.ISupportInitialize)(this.OvNuIcMultTonelage)).EndInit();
             this.OvGbIcDisponível.ResumeLayout(false);
             this.OvGbIcDisponível.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.OvGbIcDesejado.ResumeLayout(false);
+            this.OvGbIcDesejado.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,6 +282,6 @@
         private System.Windows.Forms.GroupBox OvGbIcDisponível;
         private System.Windows.Forms.Label OvLbIcDecPossivel;
         private System.Windows.Forms.ComboBox OvCbIcDecendio;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox OvGbIcDesejado;
     }
 }
