@@ -70,7 +70,11 @@ namespace Usiminas.PluginExcel.Services
             //string result = JsonConvert.SerializeObject(emissaoPedidosDto, Formatting.None);
 
             var listReciver = await pluginRepository.PostJson(emissaoPedidosDto);
-            return Functions.ConvertJsonToListIdDescription<List<ReceiverCorresp>>(listReciver);
+            //adiconado para a lista suspensa ficar com um valor padrão
+            List<ReceiverCorresp> receiverCorresps = new List<ReceiverCorresp>();
+            receiverCorresps.Add(new ReceiverCorresp { Id = "0", Description = "Selecione um recebedor" });
+            receiverCorresps.AddRange(Functions.ConvertJsonToListIdDescription<List<ReceiverCorresp>>(listReciver));
+            return receiverCorresps;
         }
         /// <summary>
         /// retorna a lista de beneficiador de acordo com o cliente e partnumber
@@ -87,11 +91,13 @@ namespace Usiminas.PluginExcel.Services
             emissaoPedidosDto.CodigoCliente = CodCliente;
 
             PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientPlaceGetEmissao);
-
-            string result = JsonConvert.SerializeObject(emissaoPedidosDto, Formatting.None);
-
             var listPlace = await pluginRepository.PostJson(emissaoPedidosDto);
-            return Functions.ConvertJsonToListIdDescription<List<PlaceCorresp>>(listPlace);
+
+            List<PlaceCorresp> receiverCorresps = new List<PlaceCorresp>();
+            receiverCorresps.Add(new PlaceCorresp { Id = "0", Description = "Selecione um beneficiador" });
+            receiverCorresps.AddRange(Functions.ConvertJsonToListIdDescription<List<PlaceCorresp>>(listPlace));
+
+            return receiverCorresps;
 
         }
         public async Task<List<DeParaRecebedorDto>> RecebedorDeParaGetAsync()
@@ -153,5 +159,13 @@ namespace Usiminas.PluginExcel.Services
             var list = await pluginRepository.PostJson(calendarioAceiteFilterDto);
             return Functions.ConvertJsonToListIdDescription<List<DadosDataAceiteDto>>(list);
         }
+        public async Task<EmitirPedidoRespDto> EmissaoDePedidoAsync(List<EmitirPedidoItemDto> emitirPedidoItemDtos)
+        {
+            PluginRepository pluginRepository = new PluginRepository(_authentication, EndPointsAPI.ClientEmissaoPedido);
+
+            var list = await pluginRepository.PostJson(emitirPedidoItemDtos);
+            return Functions.ConvertJsonToListIdDescription<EmitirPedidoRespDto>(list);
+        }
+
     }
 }

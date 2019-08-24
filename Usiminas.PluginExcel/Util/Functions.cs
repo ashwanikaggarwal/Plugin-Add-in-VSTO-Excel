@@ -45,6 +45,6 @@ namespace Usiminas.PluginExcel.Util
             var entries = dict.Select(d => string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value)));
             return "{" + string.Join(",", entries) + "}";
         }
-
+        
     }
 }

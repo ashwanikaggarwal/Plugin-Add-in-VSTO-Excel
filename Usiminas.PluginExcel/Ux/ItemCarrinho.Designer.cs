@@ -41,9 +41,9 @@
             this.ICPartNumber.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ICPartNumber.Location = new System.Drawing.Point(6, 6);
             this.ICPartNumber.Name = "ICPartNumber";
-            this.ICPartNumber.Size = new System.Drawing.Size(118, 17);
+            this.ICPartNumber.Size = new System.Drawing.Size(84, 17);
             this.ICPartNumber.TabIndex = 0;
-            this.ICPartNumber.Text = "BOF0170DH1200";
+            this.ICPartNumber.Text = "PartNumber";
             // 
             // ICDetalhamento
             // 
@@ -51,9 +51,9 @@
             this.ICDetalhamento.BackColor = System.Drawing.Color.Silver;
             this.ICDetalhamento.Location = new System.Drawing.Point(9, 27);
             this.ICDetalhamento.Name = "ICDetalhamento";
-            this.ICDetalhamento.Size = new System.Drawing.Size(296, 13);
+            this.ICDetalhamento.Size = new System.Drawing.Size(129, 13);
             this.ICDetalhamento.TabIndex = 1;
-            this.ICDetalhamento.Text = "BF / NBR5915EEPG2 / Espe. 1,70 / Larg. 1200,0 / Comp. 0";
+            this.ICDetalhamento.Text = "Datalhamento partnumber";
             // 
             // pictureBox1
             // 

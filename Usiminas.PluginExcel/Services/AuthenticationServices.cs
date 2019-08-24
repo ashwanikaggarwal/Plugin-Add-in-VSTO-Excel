@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Usiminas.PluginExcel.Entities;
+using Usiminas.PluginExcel.Util;
 
 namespace Usiminas.PluginExcel.Services
 {
@@ -16,21 +17,21 @@ namespace Usiminas.PluginExcel.Services
         {
             try
             {
-                string Url = ConfigurationManager.AppSettings["OAuthServerUrlDev"];
-                string login = ConfigurationManager.AppSettings["ComplementUrlLogin"];
+                string Url = EndPointsBase.UrlBaseAOthServer;
+                string login = EndPointsAPI.Login;
                 var clientId = ConfigurationManager.AppSettings["AuthClientId"];
                 var clientSecret = ConfigurationManager.AppSettings["AuthClientSecret"];
-                var response = await LoginToken(username, password, clientId, clientSecret);
-                
+                var response = await LoginToken(username, password, clientId, clientSecret, Url);
+
                 Authentication auth = new Authentication(response);
                 return auth;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message,ex);
+                throw new Exception(ex.Message, ex);
             }
         }
-        private async Task<string> LoginToken(string username, string password, string clientId, string clientSecret)
+        private async Task<string> LoginToken(string username, string password, string clientId, string clientSecret, string Url)
         {
 
             try
@@ -46,7 +47,7 @@ namespace Usiminas.PluginExcel.Services
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Base64Encode(clientId + ":" + clientSecret));
 
                 var content = new FormUrlEncodedContent(values);
-                var response = await client.PostAsync(ConfigurationManager.AppSettings["OAuthServerUrl"] + "/oauth/token", content);
+                var response = await client.PostAsync(Url + "/oauth/token", content);
                 var responseString = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)

@@ -40,7 +40,7 @@
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.6</ApplicationVersion>
+    <ApplicationVersion>1.0.0.12</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -215,9 +215,12 @@
     <Compile Include="Dto\DeParaRecebedorDto.cs" />
     <Compile Include="Dto\DetalheItemDto.cs" />
     <Compile Include="Dto\EmissaoPedidosDto.cs" />
+    <Compile Include="Dto\EmitirPedidoItemDto.cs" />
+    <Compile Include="Dto\EmitirPedidoRespDto.cs" />
     <Compile Include="Dto\FilterDto.cs" />
     <Compile Include="Dto\InfoPlaDto.cs" />
     <Compile Include="Dto\DadosDataAceiteDto.cs" />
+    <Compile Include="Dto\LogPluginDto.cs" />
     <Compile Include="Dto\MinimoMultiploDto.cs" />
     <Compile Include="Dto\SalesDto.cs" />
     <Compile Include="Dto\ValidaPesoMultiPartNumberDto.cs" />
@@ -240,13 +243,19 @@
     <Compile Include="Services\DeParaServices.cs" />
     <Compile Include="Services\GetInformationsPlanServices.cs" />
     <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Services\LogServices.cs" />
     <Compile Include="Services\PluginService.cs" />
-    <Compile Include="Services\ServiceMoc.cs" />
     <Compile Include="Util\EndPoints.cs" />
     <Compile Include="Util\Functions.cs" />
     <Compile Include="Util\ListFields.cs" />
     <Compile Include="Util\RequestHttpBase.cs" />
     <Compile Include="Util\TabMapGrid.cs" />
+    <Compile Include="Ux\Load.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ux\Load.Designer.cs">
+      <DependentUpon>Load.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ux\MapeamentoPlanilha.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ux\ItemCarrinhoDetalhe.resx">
       <DependentUpon>ItemCarrinhoDetalhe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ux\Load.resx">
+      <DependentUpon>Load.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ux\RibbonB2B.resx">
       <DependentUpon>RibbonB2B.cs</DependentUpon>

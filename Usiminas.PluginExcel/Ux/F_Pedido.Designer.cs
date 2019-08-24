@@ -97,14 +97,19 @@ namespace Usiminas.PluginExcel.Ux
             this.period = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.OvAbaCarrinho = new System.Windows.Forms.TabPage();
+            this.OvLbTotalToneContFinal = new System.Windows.Forms.Label();
+            this.OvLbTotalToneFinal = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.OvLbTotalTonelagemCont = new System.Windows.Forms.Label();
-            this.OvLbTotalTonelagem = new System.Windows.Forms.Label();
+            this.OvLbTotalToneCont = new System.Windows.Forms.Label();
+            this.OvLbTotalToneMap = new System.Windows.Forms.Label();
             this.OvLbTotalItemCont = new System.Windows.Forms.Label();
             this.OvLbTotalItem = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtnEnviarPedido = new System.Windows.Forms.Button();
             this.flowLayoutPanelCarrinho = new System.Windows.Forms.FlowLayoutPanel();
             this.OvLbClientePedido = new System.Windows.Forms.Label();
+            this.OvAbaCarrinhoTab = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DecMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TabControl.SuspendLayout();
             this.OvAbaConfiguracao.SuspendLayout();
             this.OvAbaDados.SuspendLayout();
@@ -113,6 +118,8 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaPedido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).BeginInit();
             this.OvAbaCarrinho.SuspendLayout();
+            this.OvAbaCarrinhoTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // FPTimer
@@ -303,7 +310,7 @@ namespace Usiminas.PluginExcel.Ux
             // 
             this.OvLbPeriodoDesejado.AutoSize = true;
             this.OvLbPeriodoDesejado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.OvLbPeriodoDesejado.Location = new System.Drawing.Point(43, 315);
+            this.OvLbPeriodoDesejado.Location = new System.Drawing.Point(32, 315);
             this.OvLbPeriodoDesejado.Name = "OvLbPeriodoDesejado";
             this.OvLbPeriodoDesejado.Size = new System.Drawing.Size(122, 20);
             this.OvLbPeriodoDesejado.TabIndex = 50;
@@ -811,12 +818,14 @@ namespace Usiminas.PluginExcel.Ux
             // OvAbaCarrinho
             // 
             this.OvAbaCarrinho.BackColor = System.Drawing.Color.Transparent;
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalToneContFinal);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalToneFinal);
             this.OvAbaCarrinho.Controls.Add(this.button2);
-            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalTonelagemCont);
-            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalTonelagem);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalToneCont);
+            this.OvAbaCarrinho.Controls.Add(this.OvLbTotalToneMap);
             this.OvAbaCarrinho.Controls.Add(this.OvLbTotalItemCont);
             this.OvAbaCarrinho.Controls.Add(this.OvLbTotalItem);
-            this.OvAbaCarrinho.Controls.Add(this.button1);
+            this.OvAbaCarrinho.Controls.Add(this.BtnEnviarPedido);
             this.OvAbaCarrinho.Controls.Add(this.flowLayoutPanelCarrinho);
             this.OvAbaCarrinho.Location = new System.Drawing.Point(4, 27);
             this.OvAbaCarrinho.Name = "OvAbaCarrinho";
@@ -825,41 +834,62 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaCarrinho.TabIndex = 3;
             this.OvAbaCarrinho.Text = "Carrinho";
             // 
+            // OvLbTotalToneContFinal
+            // 
+            this.OvLbTotalToneContFinal.AutoSize = true;
+            this.OvLbTotalToneContFinal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalToneContFinal.Location = new System.Drawing.Point(491, 32);
+            this.OvLbTotalToneContFinal.Name = "OvLbTotalToneContFinal";
+            this.OvLbTotalToneContFinal.Size = new System.Drawing.Size(18, 20);
+            this.OvLbTotalToneContFinal.TabIndex = 8;
+            this.OvLbTotalToneContFinal.Text = "0";
+            // 
+            // OvLbTotalToneFinal
+            // 
+            this.OvLbTotalToneFinal.AutoSize = true;
+            this.OvLbTotalToneFinal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalToneFinal.Location = new System.Drawing.Point(339, 32);
+            this.OvLbTotalToneFinal.Name = "OvLbTotalToneFinal";
+            this.OvLbTotalToneFinal.Size = new System.Drawing.Size(157, 20);
+            this.OvLbTotalToneFinal.TabIndex = 7;
+            this.OvLbTotalToneFinal.Text = "Total tonelagem real:";
+            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(962, 25);
+            this.button2.Location = new System.Drawing.Point(716, 19);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 6;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // OvLbTotalTonelagemCont
+            // OvLbTotalToneCont
             // 
-            this.OvLbTotalTonelagemCont.AutoSize = true;
-            this.OvLbTotalTonelagemCont.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbTotalTonelagemCont.Location = new System.Drawing.Point(285, 16);
-            this.OvLbTotalTonelagemCont.Name = "OvLbTotalTonelagemCont";
-            this.OvLbTotalTonelagemCont.Size = new System.Drawing.Size(18, 20);
-            this.OvLbTotalTonelagemCont.TabIndex = 5;
-            this.OvLbTotalTonelagemCont.Text = "0";
+            this.OvLbTotalToneCont.AutoSize = true;
+            this.OvLbTotalToneCont.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalToneCont.Location = new System.Drawing.Point(211, 33);
+            this.OvLbTotalToneCont.Name = "OvLbTotalToneCont";
+            this.OvLbTotalToneCont.Size = new System.Drawing.Size(18, 20);
+            this.OvLbTotalToneCont.TabIndex = 5;
+            this.OvLbTotalToneCont.Text = "0";
             // 
-            // OvLbTotalTonelagem
+            // OvLbTotalToneMap
             // 
-            this.OvLbTotalTonelagem.AutoSize = true;
-            this.OvLbTotalTonelagem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbTotalTonelagem.Location = new System.Drawing.Point(161, 16);
-            this.OvLbTotalTonelagem.Name = "OvLbTotalTonelagem";
-            this.OvLbTotalTonelagem.Size = new System.Drawing.Size(127, 20);
-            this.OvLbTotalTonelagem.TabIndex = 4;
-            this.OvLbTotalTonelagem.Text = "Total tonelagem:";
+            this.OvLbTotalToneMap.AutoSize = true;
+            this.OvLbTotalToneMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbTotalToneMap.Location = new System.Drawing.Point(19, 32);
+            this.OvLbTotalToneMap.Name = "OvLbTotalToneMap";
+            this.OvLbTotalToneMap.Size = new System.Drawing.Size(196, 20);
+            this.OvLbTotalToneMap.TabIndex = 4;
+            this.OvLbTotalToneMap.Text = "Total tonelagem desejada:";
             // 
             // OvLbTotalItemCont
             // 
             this.OvLbTotalItemCont.AutoSize = true;
             this.OvLbTotalItemCont.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbTotalItemCont.Location = new System.Drawing.Point(98, 16);
+            this.OvLbTotalItemCont.Location = new System.Drawing.Point(98, 8);
             this.OvLbTotalItemCont.Name = "OvLbTotalItemCont";
             this.OvLbTotalItemCont.Size = new System.Drawing.Size(18, 20);
             this.OvLbTotalItemCont.TabIndex = 3;
@@ -869,21 +899,21 @@ namespace Usiminas.PluginExcel.Ux
             // 
             this.OvLbTotalItem.AutoSize = true;
             this.OvLbTotalItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OvLbTotalItem.Location = new System.Drawing.Point(19, 16);
+            this.OvLbTotalItem.Location = new System.Drawing.Point(19, 8);
             this.OvLbTotalItem.Name = "OvLbTotalItem";
-            this.OvLbTotalItem.Size = new System.Drawing.Size(82, 20);
+            this.OvLbTotalItem.Size = new System.Drawing.Size(86, 20);
             this.OvLbTotalItem.TabIndex = 2;
-            this.OvLbTotalItem.Text = "Total item:";
+            this.OvLbTotalItem.Text = "Total itens:";
             // 
-            // button1
+            // BtnEnviarPedido
             // 
-            this.button1.Location = new System.Drawing.Point(830, 25);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.BtnEnviarPedido.Location = new System.Drawing.Point(898, 12);
+            this.BtnEnviarPedido.Name = "BtnEnviarPedido";
+            this.BtnEnviarPedido.Size = new System.Drawing.Size(126, 36);
+            this.BtnEnviarPedido.TabIndex = 1;
+            this.BtnEnviarPedido.Text = "Finalizar pedido";
+            this.BtnEnviarPedido.UseVisualStyleBackColor = true;
+            this.BtnEnviarPedido.Click += new System.EventHandler(this.BtnEnviarPedido_Click);
             // 
             // flowLayoutPanelCarrinho
             // 
@@ -903,6 +933,32 @@ namespace Usiminas.PluginExcel.Ux
             this.OvLbClientePedido.TabIndex = 1;
             this.OvLbClientePedido.Text = "Cliente XXXXX";
             this.OvLbClientePedido.Visible = false;
+            // 
+            // OvAbaCarrinhoTab
+            // 
+            this.OvAbaCarrinhoTab.Controls.Add(this.dataGridView1);
+            this.OvAbaCarrinhoTab.Location = new System.Drawing.Point(4, 27);
+            this.OvAbaCarrinhoTab.Name = "OvAbaCarrinhoTab";
+            this.OvAbaCarrinhoTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OvAbaCarrinhoTab.Size = new System.Drawing.Size(1043, 729);
+            this.OvAbaCarrinhoTab.TabIndex = 4;
+            this.OvAbaCarrinhoTab.Text = "Carrinho Tabela";
+            this.OvAbaCarrinhoTab.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DecMap});
+            this.dataGridView1.Location = new System.Drawing.Point(46, 47);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // DecMap
+            // 
+            this.DecMap.HeaderText = "DecMap";
+            this.DecMap.Name = "DecMap";
             // 
             // F_Pedido
             // 
@@ -930,6 +986,8 @@ namespace Usiminas.PluginExcel.Ux
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).EndInit();
             this.OvAbaCarrinho.ResumeLayout(false);
             this.OvAbaCarrinho.PerformLayout();
+            this.OvAbaCarrinhoTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1004,12 +1062,17 @@ namespace Usiminas.PluginExcel.Ux
         private DataGridViewTextBoxColumn D3;
         private DataGridViewTextBoxColumn period;
         public FlowLayoutPanel flowLayoutPanelCarrinho;
-        private Button button1;
+        private Button BtnEnviarPedido;
         private Label OvLbTotalItemCont;
         private Label OvLbTotalItem;
-        private Label OvLbTotalTonelagemCont;
-        private Label OvLbTotalTonelagem;
-        private Button button2;
+        private Label OvLbTotalToneCont;
+        private Label OvLbTotalToneMap;
         private Label OvLbClientePedido;
+        private Label OvLbTotalToneFinal;
+        private Label OvLbTotalToneContFinal;
+        private Button button2;
+        private TabPage OvAbaCarrinhoTab;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn DecMap;
     }
 }

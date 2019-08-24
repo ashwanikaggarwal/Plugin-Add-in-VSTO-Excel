@@ -9,8 +9,8 @@ namespace Usiminas.PluginExcel.Dto
     public class MinimoMultiploDto
     {
         public string BK_PartnumberCliente { get; set; }
-        public string MED_PesoMin { get; set; }
-        public string MED_PesoMult { get; set; }
+        public decimal MED_PesoMin { get; set; }
+        public decimal MED_PesoMult { get; set; }
 
         public override string ToString()
         {

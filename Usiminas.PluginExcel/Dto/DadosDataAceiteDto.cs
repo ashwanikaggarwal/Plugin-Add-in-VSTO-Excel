@@ -17,7 +17,7 @@ namespace Usiminas.PluginExcel.Dto
         public string Mensage { get; set; }
         public override string ToString()
         {
-            return string.Format("PartNumber: {0} |Data: {0} ", PartNumber, DataCompleta.ToShortDateString());
+            return string.Format("PartNumber: {0} |Data: {1} ", PartNumber, DataCompleta.ToShortDateString());
         }
     }
 }

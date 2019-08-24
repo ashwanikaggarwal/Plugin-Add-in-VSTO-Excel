@@ -9,8 +9,8 @@ namespace Usiminas.PluginExcel.Util
 {
     public static class EndPointsBase
     {
-        static public string UrlBaseAOthServer = ConfigurationManager.AppSettings["OAuthServerUrl"];
-        static public string ServerUrlDev = ConfigurationManager.AppSettings["ServerUrlDev"];
+        static public string UrlBaseAOthServer = ConfigurationManager.AppSettings["OAuthServerUrlHml"];
+        static public string ServerUrl = ConfigurationManager.AppSettings["ServerUrlHML"];
     }
     public static class EndPointsAPI
     {
@@ -42,6 +42,12 @@ namespace Usiminas.PluginExcel.Util
 
         //calendario aceite
         static public string ClientCalendarioAceitePost = ConfigurationManager.AppSettings["EndPointCalendarioAceite"];
+
+        //emissao de pedido
+        static public string ClientEmissaoPedido = ConfigurationManager.AppSettings["EndPointEmititPedido"];
+
+        //emissao de pedido
+        static public string ClientLogPost = ConfigurationManager.AppSettings["EndPointLog"];
 
     }
 }

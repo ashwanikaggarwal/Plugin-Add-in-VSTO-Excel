@@ -9,15 +9,15 @@ namespace Usiminas.PluginExcel.Services
     {
         public static List<DeParaBeneficiadorDto> NovosDeParaBeneficiador(List<DeParaBeneficiadorDto> deParaBeneficiador, List<InfoPlaDto> VerificarDepara, string codCliente, string Usuario)
         {
-            if (deParaBeneficiador.Count == 0)
-                return null;
+            //if (deParaBeneficiador.Count == 0)
+            //    return null;
 
             List<DeParaBeneficiadorDto> deParaBeneficiadorDtos = new List<DeParaBeneficiadorDto>();
             foreach (var infoPlaDto in VerificarDepara)
             {
                 if (deParaBeneficiador.Where(p => p.CodBeneficiadorCliente.Contains(infoPlaDto.Place) && p.CodBeneficiadorUsiminas.Contains(infoPlaDto.PlacerMapped.Split('-')[0])).Any() == false)
                 {
-                    if (deParaBeneficiadorDtos.Where(p => p.CodBeneficiadorCliente.Contains(infoPlaDto.Receiver) && p.CodBeneficiadorUsiminas.Contains(infoPlaDto.ReceiverMapped.Split('-')[0])).Any() == false)
+                    if (deParaBeneficiadorDtos.Where(p => p.CodBeneficiadorCliente.Contains(infoPlaDto.Place) && p.CodBeneficiadorUsiminas.Contains(infoPlaDto.PlacerMapped.Split('-')[0])).Any() == false)
                     {
                         deParaBeneficiadorDtos.Add(new DeParaBeneficiadorDto
                         {

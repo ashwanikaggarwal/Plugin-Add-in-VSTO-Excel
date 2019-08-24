@@ -155,6 +155,7 @@ namespace Usiminas.PluginExcel.Util
             using (HttpClient client = new HttpClient())
             {
                 //var content = new FormUrlEncodedContent(Parametros);
+
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
                 string json = new JavaScriptSerializer().Serialize(Parametro);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -176,7 +177,7 @@ namespace Usiminas.PluginExcel.Util
        
         public Requestbase(Authentication login, string endPoint)
         {
-            UrlBase = EndPointsBase.ServerUrlDev;
+            UrlBase = EndPointsBase.ServerUrl;
             EndPoint = endPoint;
             Authentication = login;
             Url = UrlBase + EndPoint;

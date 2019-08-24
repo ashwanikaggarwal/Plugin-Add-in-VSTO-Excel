@@ -165,6 +165,12 @@ namespace Usiminas.PluginExcel.Util
             return SetListNameClass;
         }
     }
+    public static class textosLoad
+    {
+        public static string Login = "Aguarde o login por favor...";
+        public static string BuscardadosCliente = "Buscando dados...";
+    }
+
     public static class ListFieldsSalesDto
     {
         public static Dictionary<string, string> ListNameClassSalesDto(SalesDto saleDto, string userName, string client)

@@ -28,11 +28,25 @@ namespace Usiminas.PluginExcel.Ux
         /// <param name="ret"></param>
         private void PopulateGridMap(ref List<InfoPlaDto> ret)
         {
+            if (GridSales.InvokeRequired == true)
+            {
+                GridSales.Invoke(new Action(() =>
+                {
+                    GridSales.Rows.Clear();
+                }));
+            }
+            else
+            {
+                GridSales.Rows.Clear();
+            }
             foreach (var item in ret)
             {
+
                 if (GridSales.InvokeRequired == true)
                 {
-                    GridSales.Invoke(new Action(() => { GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod); }));
+                    GridSales.Invoke(new Action(() => {
+                        //GridSales.Controls.Clear();
+                        GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod); }));
                 }
                 else
                 {
@@ -41,7 +55,6 @@ namespace Usiminas.PluginExcel.Ux
             }
         }
         
-
         /// <summary>
         /// create new collunms to bind form map
         /// </summary>
@@ -159,6 +172,7 @@ namespace Usiminas.PluginExcel.Ux
         #region EventsGrid
         private void BtnIrParaCarrinho_Click(object sender, EventArgs e)
         {
+            AbrirLoad("Motando carrinho...");
             if (SelecionarValoresCombobox() == false)
             {
                 MessageBox.Show("Existem pendências no mapeamento!");
@@ -174,9 +188,10 @@ namespace Usiminas.PluginExcel.Ux
 
             if (NovosMapeamentoRecebedor != null && NovosMapeamentoRecebedor.Count != 0)
                 pluginServices.RecebedorDeParaPostAsync(NovosMapeamentoRecebedor);
+
             PopulateItens();
             SelectContext("OvAbaCarrinho");
-
+            FecharLoad();
         }
 
         private void GridSales_CellValueChanged(object sender, DataGridViewCellEventArgs e)

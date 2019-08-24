@@ -8,6 +8,7 @@ using Usiminas.PluginExcel.Dto;
 using Usiminas.PluginExcel.Util;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Usiminas.PluginExcel.Ux
 {
@@ -25,6 +26,7 @@ namespace Usiminas.PluginExcel.Ux
 
         List<DetalheItemDto> DetalheItemDtos;
         List<CalendarioAceiteFilterDto> calendarioAceiteFilterDto;
+        Load load = new Load();
 
         int FieldEdit; // variavel que define qual é o botão
         #endregion
@@ -43,6 +45,7 @@ namespace Usiminas.PluginExcel.Ux
                 auth = await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text);
             }
             //
+            LogServices.LogEmissaoSimples(auth, "logar", "teste");
 
             List<PlaceCorresp> placeCorresp = new List<PlaceCorresp>();
             placeCorresp.Add(new PlaceCorresp { Id = "0000011683", Description = "7924-MASAYOSHI ( AVE PINHEIRO 1081 )" });
@@ -181,12 +184,12 @@ namespace Usiminas.PluginExcel.Ux
         #region //////// Inicialização e transição de form
         public F_Pedido()
         {
-
             InitializeComponent();
             InitialStageSelectfields();
         }
         private void F_Pedido_Load(object sender, EventArgs e)
         {
+            OvAbaCarrinhoTab.Hide();
             SelectContext("OvAbaConfiguracao");
             InitialStageSelectfields();
             ObBtnChosenClient.Visible = false;
@@ -233,110 +236,11 @@ namespace Usiminas.PluginExcel.Ux
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private async void OvBtnEnviar_Click(object sender, EventArgs e)
-        {
-            var resultados = DataAnnotation.ValidateEntity<SalesDto>(salesdto);
-            if (resultados.HasError == true)
-            {
-                MessageBox.Show(resultados.ListaErro);
-                return;
-            }
-
-            InformationsPlan informationsPlan = new InformationsPlan();
-
-            //pega a lista de recebedor e beneficiador cadastrado
-            var PartNumArr = informationsPlan.GetPartNumberPlan(salesdto);
-            PluginService pluginServices = new PluginService(auth);
-            var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
-            var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
-
-            //pega o dstalhamento de acordo com os partnumbers
-            DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
-            //carrega o minimo multiplo
-            var validaPesoMultiPartNumberDto = new ValidaPesoMultiPartNumberDto();
-            validaPesoMultiPartNumberDto.PartNumbers = PartNumArr;
-            validaPesoMultiPartNumberDto.Recebedores = ReceiverCorrespsForPartNumber.Select(p => p.Id).ToList();
-
-            List<MinimoMultiploDto> MinimoMultiplo = await pluginServices.PesoMultiploPartNumberAsync(validaPesoMultiPartNumberDto);
-
-            calendarioAceiteFilterDto = new List<CalendarioAceiteFilterDto>();
-            //carrega os dados de calendario de aceite
-            foreach (var item in PartNumArr)
-            {
-                calendarioAceiteFilterDto.Add(new CalendarioAceiteFilterDto { TipoBusca = "P", CdCliente = salesdto.CD_Cliente,  Mercado = "MI", PartNumber = item});
-            }
-
-
-            List<DadosDataAceiteDto> dadosDataAceiteDto;
-            dadosDataAceiteDto = await pluginServices.CalendarioAceiteAsync(calendarioAceiteFilterDto);
-
-            //carrega os dados que vão ser listados na planilha
-            infoPlaDtos = informationsPlan.GetDataforAdress(salesdto, DtPrazoDesejado.Value, placeCorrespForPartNumber, ReceiverCorrespsForPartNumber);
-
-            //popula os detalhamentos de acordo com os partnumbers
-            insertDetalPedido(ref infoPlaDtos, DetalheItemDtos, dadosDataAceiteDto);
-
-            //delagates criados para deixar o objetos na mesma tread
-            if (GridSales.InvokeRequired == true)
-            {
-                DelPopulateGridMap delPopulateGridMap = new DelPopulateGridMap(PopulateGridMap);
-                delPopulateGridMap.Invoke(ref infoPlaDtos);
-            }
-            else
-            {
-                PopulateGridMap(ref infoPlaDtos);
-            }
-
-            DelAddColumReciver delAddColumReciver = new DelAddColumReciver(AddColumReciver);
-            delAddColumReciver.Invoke(infoPlaDtos.First().ReceiverCorresp);
-
-            DelAddColumPlace delAddColumPlace = new DelAddColumPlace(AddColumPlace);
-            delAddColumPlace.Invoke(infoPlaDtos.First().PlaceCorresp);
-
-            if (salesdto.Id == 0)
-            {
-                if (MessageBox.Show("Deseja salvar o mapeamento da planilha para o proximo pedido?", "Mapeamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                {
-                    PluginService pluginser = new PluginService(auth);
-                    var salvar = await pluginser.SaveInfoPlan(salesdto);
-                }
-            }
-            SelectContext("OvAbaPedido");
-        }
-
-        private void insertDetalPedido(ref List<InfoPlaDto> plaDto, List<DetalheItemDto> detalheItem, List<DadosDataAceiteDto> dadosDataAceiteDto, List<MinimoMultiploDto> minimoMultiplos)
-        {
-         
-            //mensagem padrao de como nao foi localizado
-            plaDto.ForEach(s =>
-            {
-                s.Mensagem = "Part number não foi localizado";
-                s.Validado = false;
-            });
-            //foreach (var item in detalheItem.Where(p => p.Status == "A"))
-            foreach (var item in detalheItem)
-            {
-                //infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = novoValor);
-                if (plaDto.Select(p => p.RefClient == item.Description).Any() == true)
-                {
-                    plaDto.Where(p => p.RefClient == item.Description).ToList().ForEach(s =>
-                    {
-                        s.Mensagem = "";
-                        s.Validado = true;
-                        s.detalheItem = item;
-                    });
-                }
-            }
-        }
-        #endregion
-
-        #region //////// Inicializar pedido
         private async void OvBtnLogin_Click(object sender, EventArgs e)
         {
             try
             {
-
+                AbrirLoad(textosLoad.Login);
                 Login login = new Login();
                 AuthenticationServices authentication = new AuthenticationServices();
                 //homologacao
@@ -350,7 +254,14 @@ namespace Usiminas.PluginExcel.Ux
                     MessageBox.Show(resultados.ListaErro);
                     return;
                 }
+
+                List<IdDescriptionDto> listClient = new List<IdDescriptionDto> { new IdDescriptionDto { Id = "1", Description = "Selecione um cliente" } };
+
+
+                //auth = await Task.Run(async () => await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text));
                 auth = await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text);
+
+                LogServices.LogEmissaoSimples(auth, "login", "Inicio de log");
                 if (auth.Token != null)
                 {
                     UserRepository userRepository = new UserRepository(auth, EndPointsAPI.User);
@@ -359,6 +270,8 @@ namespace Usiminas.PluginExcel.Ux
                     if (user.CdCliente == null && user.CdGrupo == null)
                     {
                         MessageBox.Show("O Usuário não tem nenhum cliente ou grupo associado a ele!");
+                        LogServices.LogEmissaoSimples(auth, "cadastro", "O Usuário não tem nenhum cliente ou grupo associado a ele!");
+
                         return;
                     }
                     //quanto tiver grupo, forçar a seleção
@@ -373,10 +286,17 @@ namespace Usiminas.PluginExcel.Ux
                         {
                             salesdto = sales;
                             deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
+                            LogServices.LogEmissaoClass<List<DeParaRecebedorDto>>(auth, "Dados mapeamento", "Pegando dados List<DeParaRecebedorDto>", deParaRecebedorDto);
+
                             deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync();
+                            LogServices.LogEmissaoClass<List<DeParaBeneficiadorDto>>(auth, "Dados mapeamento", "Pegando dados List<DeParaBeneficiadorDto>", deParaBeneficiadorDto);
+
                         }
                         salesdto.CD_Cliente = user.CdCliente;
+
                         salesdto.UserName = auth.userName;
+
+                        LogServices.LogEmissaoClass<SalesDto>(auth, "mapeamento Planilha", "Dados mapeamento", salesdto);
 
                         InitialStageSelectfields();
                     }
@@ -385,7 +305,7 @@ namespace Usiminas.PluginExcel.Ux
 
                         ClientRepository clientRepository = new ClientRepository(auth, EndPointsAPI.ClientGroup);
                         clientes = await clientRepository.showClientOrGrupo();
-                        List<IdDescriptionDto> listClient = new List<IdDescriptionDto> { new IdDescriptionDto { Id = "1", Description = "Selecione um cliente" } };
+                        LogServices.LogEmissaoClass<List<ClientePluginDto>>(auth, "login", "escolher cliente", clientes);
 
                         listClient.AddRange(clientes.Select(item => new IdDescriptionDto { Id = item.codigoCliente, Description = String.Format("Cliente: {3}|UF:{0} |Cidade: {1} |Bairro:{2} ", item.estado, item.cidade, item.bairro, item.descricaoCliente) }));
 
@@ -413,9 +333,7 @@ namespace Usiminas.PluginExcel.Ux
                             }));
                     }
 
-                    MessageBox.Show("Login Realizado com sucesso");
                     SelectContext("OvAbaDados");
-
                 }
                 else
                 {
@@ -424,7 +342,209 @@ namespace Usiminas.PluginExcel.Ux
             }
             catch (Exception ex)
             {
+                LogServices.LogEmissaoClass<Exception>(auth, "Erro", "login", ex);
                 MessageBox.Show("Falha ao tentar logar: " + ex.Message);
+            }
+            finally
+            {
+                FecharLoad();
+            }
+        }
+        public void AbrirLoad(string texto)
+        {
+            return;
+            if (load.InvokeRequired == true)
+            {
+                load.Invoke(new Action(() =>
+                {
+                    load.textoLoad(texto);
+                    load.Show();
+                }));
+            }
+            else
+            {
+                load.textoLoad(texto);
+                load.Show();
+            }
+        }
+        public void FecharLoad()
+        {
+
+            return;
+            if (load.InvokeRequired == true)
+            {
+                load.Invoke(new Action(() =>
+                {
+                    load.Hide();
+                }));
+            }
+            else
+            {
+                load.Hide();
+            }
+        }
+        private async void OvBtnEnviar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                AbrirLoad(textosLoad.BuscardadosCliente);
+                var resultados = DataAnnotation.ValidateEntity<SalesDto>(salesdto);
+                if (resultados.HasError == true)
+                {
+                    MessageBox.Show(resultados.ListaErro);
+                    return;
+                }
+
+                InformationsPlan informationsPlan = new InformationsPlan();
+
+                //pega a lista de recebedor e beneficiador cadastrado
+                var PartNumArr = informationsPlan.GetPartNumberPlan(salesdto);
+                if (PartNumArr.Count == 0)
+                {
+                    MessageBox.Show("Nenhum partNumber foi localizado! Favor verificar");
+                    LogServices.LogEmissaoSimples(auth, "Mapeamento planilha", "Nenhum partNumber foi localizado");
+                    return;
+                }
+                PluginService pluginServices = new PluginService(auth);
+                //var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
+                var ReceiverCorrespsForPartNumber = await pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
+                var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
+                LogServices.LogEmissaoSimples(auth, "Mapeamento planilha", "Nenhum partNumber foi localizado");
+
+                //pega o dstalhamento de acordo com os partnumbers
+                DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
+                //carrega o minimo multiplo
+                var validaPesoMultiPartNumberDto = new ValidaPesoMultiPartNumberDto();
+                validaPesoMultiPartNumberDto.CdCliente = salesdto.CD_Cliente;
+                validaPesoMultiPartNumberDto.PartNumbers = PartNumArr;
+                validaPesoMultiPartNumberDto.Recebedores = ReceiverCorrespsForPartNumber.Select(p => p.Id).ToList();
+
+                List<MinimoMultiploDto> MinimoMultiplo = await pluginServices.PesoMultiploPartNumberAsync(validaPesoMultiPartNumberDto);
+
+                calendarioAceiteFilterDto = new List<CalendarioAceiteFilterDto>();
+                //carrega os dados de calendario de aceite
+                foreach (var item in PartNumArr)
+                {
+                    calendarioAceiteFilterDto.Add(new CalendarioAceiteFilterDto { TipoBusca = "P", CdCliente = salesdto.CD_Cliente, Mercado = "MI", PartNumber = item });
+                }
+
+
+                List<DadosDataAceiteDto> dadosDataAceiteDto;
+                dadosDataAceiteDto = await pluginServices.CalendarioAceiteAsync(calendarioAceiteFilterDto);
+
+                //carrega os dados que vão ser listados na planilha
+                infoPlaDtos = informationsPlan.GetDataforAdress(salesdto, DtPrazoDesejado.Value, placeCorrespForPartNumber, ReceiverCorrespsForPartNumber);
+
+                //popula os detalhamentos de acordo com os partnumbers
+                insertDetalPedido(ref infoPlaDtos, DetalheItemDtos, dadosDataAceiteDto, MinimoMultiplo);
+                if (!infoPlaDtos.Where(p => p.Validado == true).Any())
+                {
+                    MessageBox.Show("Nenhum partNumber foi localizado! Favor verificar");
+                    if (BtnIrParaCarrinho.InvokeRequired == true)
+                    {
+                        BtnIrParaCarrinho.Invoke(new Action(() => { BtnIrParaCarrinho.Enabled = false; }));
+                    }
+                    else
+                    {
+                        BtnIrParaCarrinho.Enabled = false;
+                    }
+                    //return;
+                }
+                //delagates criados para deixar o objetos na mesma thread
+                if (GridSales.InvokeRequired == true)
+                {
+                    DelPopulateGridMap delPopulateGridMap = new DelPopulateGridMap(PopulateGridMap);
+                    delPopulateGridMap.Invoke(ref infoPlaDtos);
+                }
+                else
+                {
+                    PopulateGridMap(ref infoPlaDtos);
+                }
+
+                DelAddColumReciver delAddColumReciver = new DelAddColumReciver(AddColumReciver);
+                delAddColumReciver.Invoke(infoPlaDtos.First().ReceiverCorresp);
+
+                DelAddColumPlace delAddColumPlace = new DelAddColumPlace(AddColumPlace);
+                delAddColumPlace.Invoke(infoPlaDtos.First().PlaceCorresp);
+
+                if (salesdto.Id == 0)
+                {
+                    if (MessageBox.Show("Deseja salvar o mapeamento da planilha para o proximo pedido?", "Mapeamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    {
+                        PluginService pluginser = new PluginService(auth);
+                        var salvar = await pluginser.SaveInfoPlan(salesdto);
+                    }
+                }
+                SelectContext("OvAbaPedido");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                FecharLoad();
+            }
+        }
+
+        private void insertDetalPedido(ref List<InfoPlaDto> plaDto, List<DetalheItemDto> detalheItem, List<DadosDataAceiteDto> dadosDataAceiteDto, List<MinimoMultiploDto> minimoMultiplos)
+        {
+
+            //mensagem padrao de como nao foi localizado
+            plaDto.ForEach(s =>
+            {
+                s.Mensagem = "Part number não foi localizado; ";
+                s.Validado = false;
+            });
+            //foreach (var item in detalheItem.Where(p => p.Status == "A"))
+            foreach (var item in detalheItem)
+            {
+                if (plaDto.Select(p => p.RefClient == item.Description).Any() == true)
+                {
+                    plaDto.Where(p => p.RefClient == item.Description).ToList().ForEach(s =>
+                    {
+                        s.Mensagem = "";
+                        s.Validado = true;
+                        s.detalheItem = item;
+                    });
+                }
+            }
+            if (plaDto.Where(p => p.Validado == true).Any())
+            {
+                //insere os minimos multiplos
+                plaDto.Where(p => p.Validado == true).ToList().ForEach(s =>
+                {
+                    s.Mensagem = s.Mensagem + "Multiplo não localizado; ";
+                    s.Validado = false;
+                });
+
+                foreach (var item in minimoMultiplos)
+                {
+                    plaDto.Where(p => p.RefClient == item.BK_PartnumberCliente).ToList().ForEach(s =>
+                    {
+                        s.Validado = true;
+                        s.Mensagem = s.Mensagem.Replace("Multiplo não localizado; ", "");
+                        s.minimoMultiplo = item;
+                    });
+                }
+
+                //insere as datas de aceite
+                plaDto.Where(p => p.Validado == true).ToList().ForEach(s =>
+                {
+                    s.Mensagem += "Data de aceite não localizado; ";
+                    s.Validado = false;
+                });
+
+                foreach (var item in dadosDataAceiteDto)
+                {
+                    plaDto.Where(p => p.RefClient == item.PartNumber).ToList().ForEach(s =>
+                    {
+                        s.DataAceite = item;
+                        s.Mensagem = s.Mensagem.Replace("Data de aceite não localizado; ", "");
+                        s.Validado = true;
+                    });
+                }
             }
         }
 
@@ -455,47 +575,58 @@ namespace Usiminas.PluginExcel.Ux
 
             try
             {
+                AbrirLoad(textosLoad.BuscardadosCliente);
+
                 var sales = await pluginServices.GetInformationFieldsPlan(client.codigoCliente);
                 if (sales != null)
                 {
                     salesdto = sales;
                     deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
+                    LogServices.LogEmissaoClass<List<DeParaRecebedorDto>>(auth, "Dados mapeamento", "List<DeParaRecebedorDto>", deParaRecebedorDto);
+
                     deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync();
+                    LogServices.LogEmissaoClass<List<DeParaBeneficiadorDto>>(auth, "Dados mapeamento", "List<DeParaBeneficiadorDto>", deParaBeneficiadorDto);
 
                 }
                 salesdto.CD_Cliente = client.codigoCliente;
                 salesdto.UserName = auth.userName;
                 NameClienteForm(client.descricaoCliente);
+                LogServices.LogEmissaoClass<SalesDto>(auth, "Dados mapeamento", "Dados mapeamento", salesdto);
 
                 InitialStageSelectfields();
-
+                if (ObBtnChosenClient.InvokeRequired == true)
+                {
+                    ObBtnChosenClient.Invoke(new Action(() =>
+                    {
+                        ObBtnChosenClient.Visible = false;
+                    }));
+                    ObCbClienteGrupo.Invoke(new Action(() =>
+                    {
+                        ObCbClienteGrupo.Visible = false;
+                    }));
+                    OvLbClienteGrupo.Invoke(
+                        new Action(() =>
+                        {
+                            OvLbClienteGrupo.Visible = false;
+                        }));
+                }
+                else
+                {
+                    ObBtnChosenClient.Visible = false;
+                    ObCbClienteGrupo.Visible = false;
+                }
+                SelectContext("OvAbaDados");
             }
             catch (Exception ex)
             {
+                LogServices.LogEmissaoClass<Exception>(auth, "erro", "Dados mapeamento", ex);
 
             }
-            if (ObBtnChosenClient.InvokeRequired == true)
+            finally
             {
-                ObBtnChosenClient.Invoke(new Action(() =>
-                {
-                    ObBtnChosenClient.Visible = false;
-                }));
-                ObCbClienteGrupo.Invoke(new Action(() =>
-                {
-                    ObCbClienteGrupo.Visible = false;
-                }));
-                OvLbClienteGrupo.Invoke(
-                    new Action(() =>
-                    {
-                        OvLbClienteGrupo.Visible = false;
-                    }));
+                AbrirLoad(textosLoad.BuscardadosCliente);
             }
-            else
-            {
-                ObBtnChosenClient.Visible = false;
-                ObCbClienteGrupo.Visible = false;
-            }
-            SelectContext("OvAbaDados");
+
         }
         #endregion
 
@@ -703,3 +834,5 @@ namespace Usiminas.PluginExcel.Ux
         }
     }
 }
+
+

@@ -38,7 +38,7 @@
             this.OvLbIcBeneficiador = new System.Windows.Forms.Label();
             this.OvLbIcMesDesejadoPos = new System.Windows.Forms.Label();
             this.OvNuIcMultTonelage = new System.Windows.Forms.NumericUpDown();
-            this.OvNuIc = new System.Windows.Forms.DateTimePicker();
+            this.OvDtAceiteDisp = new System.Windows.Forms.DateTimePicker();
             this.OvLbIcDecendioMap = new System.Windows.Forms.Label();
             this.OvLbIcMesMap = new System.Windows.Forms.Label();
             this.OvLbIcTonelageMap = new System.Windows.Forms.Label();
@@ -94,19 +94,23 @@
             // 
             // OvCbIcRecebedor
             // 
+            this.OvCbIcRecebedor.Enabled = false;
             this.OvCbIcRecebedor.FormattingEnabled = true;
             this.OvCbIcRecebedor.Location = new System.Drawing.Point(62, 56);
             this.OvCbIcRecebedor.Name = "OvCbIcRecebedor";
             this.OvCbIcRecebedor.Size = new System.Drawing.Size(223, 21);
             this.OvCbIcRecebedor.TabIndex = 8;
+            this.OvCbIcRecebedor.SelectedIndexChanged += new System.EventHandler(this.OvCbIcRecebedor_SelectedIndexChanged);
             // 
             // OvCbIcBeneficiador
             // 
+            this.OvCbIcBeneficiador.Enabled = false;
             this.OvCbIcBeneficiador.FormattingEnabled = true;
             this.OvCbIcBeneficiador.Location = new System.Drawing.Point(347, 56);
             this.OvCbIcBeneficiador.Name = "OvCbIcBeneficiador";
             this.OvCbIcBeneficiador.Size = new System.Drawing.Size(266, 21);
             this.OvCbIcBeneficiador.TabIndex = 9;
+            this.OvCbIcBeneficiador.SelectedIndexChanged += new System.EventHandler(this.OvCbIcBeneficiador_SelectedIndexChanged);
             // 
             // OvLbIcRecebedor
             // 
@@ -146,18 +150,25 @@
             0,
             0});
             this.OvNuIcMultTonelage.Location = new System.Drawing.Point(339, 18);
+            this.OvNuIcMultTonelage.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             this.OvNuIcMultTonelage.Name = "OvNuIcMultTonelage";
             this.OvNuIcMultTonelage.Size = new System.Drawing.Size(51, 20);
             this.OvNuIcMultTonelage.TabIndex = 16;
+            this.OvNuIcMultTonelage.ValueChanged += new System.EventHandler(this.OvNuIcMultTonelage_ValueChanged);
             // 
-            // OvNuIc
+            // OvDtAceiteDisp
             // 
-            this.OvNuIc.CustomFormat = "MM-yyyy";
-            this.OvNuIc.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.OvNuIc.Location = new System.Drawing.Point(173, 18);
-            this.OvNuIc.Name = "OvNuIc";
-            this.OvNuIc.Size = new System.Drawing.Size(71, 20);
-            this.OvNuIc.TabIndex = 17;
+            this.OvDtAceiteDisp.CustomFormat = "MM-yyyy";
+            this.OvDtAceiteDisp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.OvDtAceiteDisp.Location = new System.Drawing.Point(173, 18);
+            this.OvDtAceiteDisp.Name = "OvDtAceiteDisp";
+            this.OvDtAceiteDisp.Size = new System.Drawing.Size(71, 20);
+            this.OvDtAceiteDisp.TabIndex = 17;
+            this.OvDtAceiteDisp.ValueChanged += new System.EventHandler(this.OvDtAceiteDisp_ValueChanged);
             // 
             // OvLbIcDecendioMap
             // 
@@ -197,7 +208,7 @@
             this.OvGbIcDisponível.Controls.Add(this.OvLbIcTonelageMult);
             this.OvGbIcDisponível.Controls.Add(this.OvLbIcMesDesejadoPos);
             this.OvGbIcDisponível.Controls.Add(this.OvNuIcMultTonelage);
-            this.OvGbIcDisponível.Controls.Add(this.OvNuIc);
+            this.OvGbIcDisponível.Controls.Add(this.OvDtAceiteDisp);
             this.OvGbIcDisponível.Location = new System.Drawing.Point(238, 3);
             this.OvGbIcDisponível.Name = "OvGbIcDisponível";
             this.OvGbIcDisponível.Size = new System.Drawing.Size(397, 48);
@@ -207,6 +218,7 @@
             // 
             // OvCbIcDecendio
             // 
+            this.OvCbIcDecendio.Enabled = false;
             this.OvCbIcDecendio.FormattingEnabled = true;
             this.OvCbIcDecendio.Location = new System.Drawing.Point(32, 17);
             this.OvCbIcDecendio.Name = "OvCbIcDecendio";
@@ -275,7 +287,7 @@
         private System.Windows.Forms.Label OvLbIcBeneficiador;
         private System.Windows.Forms.Label OvLbIcMesDesejadoPos;
         private System.Windows.Forms.NumericUpDown OvNuIcMultTonelage;
-        private System.Windows.Forms.DateTimePicker OvNuIc;
+        private System.Windows.Forms.DateTimePicker OvDtAceiteDisp;
         private System.Windows.Forms.Label OvLbIcDecendioMap;
         private System.Windows.Forms.Label OvLbIcMesMap;
         private System.Windows.Forms.Label OvLbIcTonelageMap;
