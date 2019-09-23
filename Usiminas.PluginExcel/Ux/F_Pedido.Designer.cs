@@ -77,8 +77,8 @@ namespace Usiminas.PluginExcel.Ux
             this.OvTxSelecaoLocalEntrega = new System.Windows.Forms.TextBox();
             this.OvTxSelecaoRecebedor = new System.Windows.Forms.TextBox();
             this.OvTxSelecaoRefCliente = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.OvBtnProcessSale = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.OvAbaPedido = new System.Windows.Forms.TabPage();
             this.BtnIrParaCarrinho = new System.Windows.Forms.Button();
             this.GridSales = new System.Windows.Forms.DataGridView();
@@ -96,6 +96,27 @@ namespace Usiminas.PluginExcel.Ux
             this.D3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.period = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BtnCancelar = new System.Windows.Forms.Button();
+            this.OvAbaCarrinhoTabela = new System.Windows.Forms.TabPage();
+            this.TbC_TotalTonelagemReal = new System.Windows.Forms.Label();
+            this.TbC_TotalTonelagemRealLb = new System.Windows.Forms.Label();
+            this.TbC_TotalTonelagem = new System.Windows.Forms.Label();
+            this.TbC_TotalTonelagemlb = new System.Windows.Forms.Label();
+            this.TbC_totalItens = new System.Windows.Forms.Label();
+            this.TbC_totalItensLb = new System.Windows.Forms.Label();
+            this.BtnEnviarPedidoGrid = new System.Windows.Forms.Button();
+            this.GridCarrinho = new System.Windows.Forms.DataGridView();
+            this.Iditem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TbC_PartNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TbC_Detalhamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dese_Decendio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dese_Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dese_Tonelagem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Disp_Decendio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Disp_DataAceite = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Disp_Tonela = new DataGridViewNumericUpDownElements.DataGridViewNumericUpDownColumn();
+            this.Disp_Recebedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Disp_Beneficiador = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdPai = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OvAbaCarrinho = new System.Windows.Forms.TabPage();
             this.OvLbTotalToneContFinal = new System.Windows.Forms.Label();
             this.OvLbTotalToneFinal = new System.Windows.Forms.Label();
@@ -110,6 +131,8 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaCarrinhoTab = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.DecMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OvLbVersao = new System.Windows.Forms.Label();
+            this.OvLbDetalhe = new System.Windows.Forms.Label();
             this.TabControl.SuspendLayout();
             this.OvAbaConfiguracao.SuspendLayout();
             this.OvAbaDados.SuspendLayout();
@@ -117,6 +140,8 @@ namespace Usiminas.PluginExcel.Ux
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.OvAbaPedido.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).BeginInit();
+            this.OvAbaCarrinhoTabela.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCarrinho)).BeginInit();
             this.OvAbaCarrinho.SuspendLayout();
             this.OvAbaCarrinhoTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -135,13 +160,14 @@ namespace Usiminas.PluginExcel.Ux
             this.TabControl.Controls.Add(this.OvAbaConfiguracao);
             this.TabControl.Controls.Add(this.OvAbaDados);
             this.TabControl.Controls.Add(this.OvAbaPedido);
-            this.TabControl.Controls.Add(this.OvAbaCarrinho);
+            this.TabControl.Controls.Add(this.OvAbaCarrinhoTabela);
             this.TabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TabControl.Location = new System.Drawing.Point(14, 42);
+            this.TabControl.Multiline = true;
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.ShowToolTips = true;
-            this.TabControl.Size = new System.Drawing.Size(1051, 760);
+            this.TabControl.Size = new System.Drawing.Size(1098, 506);
             this.TabControl.TabIndex = 0;
             this.TabControl.Tag = "";
             // 
@@ -159,7 +185,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaConfiguracao.Location = new System.Drawing.Point(4, 27);
             this.OvAbaConfiguracao.Name = "OvAbaConfiguracao";
             this.OvAbaConfiguracao.Padding = new System.Windows.Forms.Padding(3);
-            this.OvAbaConfiguracao.Size = new System.Drawing.Size(1043, 729);
+            this.OvAbaConfiguracao.Size = new System.Drawing.Size(1090, 475);
             this.OvAbaConfiguracao.TabIndex = 0;
             this.OvAbaConfiguracao.Text = "Configuracao";
             this.OvAbaConfiguracao.UseVisualStyleBackColor = true;
@@ -225,6 +251,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvTxSenha.Size = new System.Drawing.Size(100, 21);
             this.OvTxSenha.TabIndex = 15;
             this.OvTxSenha.UseSystemPasswordChar = true;
+            this.OvTxSenha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_OnKeyPress);
             // 
             // OvLbLogin
             // 
@@ -253,14 +280,15 @@ namespace Usiminas.PluginExcel.Ux
             // 
             // OvAbaDados
             // 
+            this.OvAbaDados.Controls.Add(this.OvLbDetalhe);
             this.OvAbaDados.Controls.Add(this.OvFrCampos);
-            this.OvAbaDados.Controls.Add(this.pictureBox1);
             this.OvAbaDados.Controls.Add(this.OvBtnProcessSale);
+            this.OvAbaDados.Controls.Add(this.pictureBox1);
             this.OvAbaDados.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvAbaDados.Location = new System.Drawing.Point(4, 27);
             this.OvAbaDados.Name = "OvAbaDados";
             this.OvAbaDados.Padding = new System.Windows.Forms.Padding(3);
-            this.OvAbaDados.Size = new System.Drawing.Size(1043, 729);
+            this.OvAbaDados.Size = new System.Drawing.Size(1090, 475);
             this.OvAbaDados.TabIndex = 1;
             this.OvAbaDados.Text = "Dados";
             this.OvAbaDados.UseVisualStyleBackColor = true;
@@ -301,7 +329,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvFrCampos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvFrCampos.Location = new System.Drawing.Point(15, 21);
             this.OvFrCampos.Name = "OvFrCampos";
-            this.OvFrCampos.Size = new System.Drawing.Size(522, 503);
+            this.OvFrCampos.Size = new System.Drawing.Size(523, 447);
             this.OvFrCampos.TabIndex = 18;
             this.OvFrCampos.TabStop = false;
             this.OvFrCampos.Text = "Campos";
@@ -503,9 +531,9 @@ namespace Usiminas.PluginExcel.Ux
             this.OvRdPerioDesejado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvRdPerioDesejado.Location = new System.Drawing.Point(25, 368);
             this.OvRdPerioDesejado.Name = "OvRdPerioDesejado";
-            this.OvRdPerioDesejado.Size = new System.Drawing.Size(140, 24);
+            this.OvRdPerioDesejado.Size = new System.Drawing.Size(129, 24);
             this.OvRdPerioDesejado.TabIndex = 33;
-            this.OvRdPerioDesejado.Text = "Prazo Desejado";
+            this.OvRdPerioDesejado.Text = "Mês Desejado";
             this.OvRdPerioDesejado.UseVisualStyleBackColor = true;
             this.OvRdPerioDesejado.Visible = false;
             this.OvRdPerioDesejado.CheckedChanged += new System.EventHandler(this.OvRdPerioDesejado_CheckedChanged);
@@ -516,9 +544,9 @@ namespace Usiminas.PluginExcel.Ux
             this.OvRdLocalEntrega.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OvRdLocalEntrega.Location = new System.Drawing.Point(25, 134);
             this.OvRdLocalEntrega.Name = "OvRdLocalEntrega";
-            this.OvRdLocalEntrega.Size = new System.Drawing.Size(116, 24);
+            this.OvRdLocalEntrega.Size = new System.Drawing.Size(126, 24);
             this.OvRdLocalEntrega.TabIndex = 32;
-            this.OvRdLocalEntrega.Text = "Beneficiador";
+            this.OvRdLocalEntrega.Text = "Beneficiador *";
             this.OvRdLocalEntrega.UseVisualStyleBackColor = true;
             this.OvRdLocalEntrega.CheckedChanged += new System.EventHandler(this.OvRdLocalEntrega_CheckedChanged);
             // 
@@ -648,24 +676,24 @@ namespace Usiminas.PluginExcel.Ux
             this.OvTxSelecaoRefCliente.Size = new System.Drawing.Size(100, 21);
             this.OvTxSelecaoRefCliente.TabIndex = 19;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Usiminas.PluginExcel.Properties.Resources.usiminas_original;
-            this.pictureBox1.Location = new System.Drawing.Point(554, 6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(291, 220);
-            this.pictureBox1.TabIndex = 15;
-            this.pictureBox1.TabStop = false;
-            // 
             // OvBtnProcessSale
             // 
-            this.OvBtnProcessSale.Location = new System.Drawing.Point(649, 622);
+            this.OvBtnProcessSale.Location = new System.Drawing.Point(713, 88);
             this.OvBtnProcessSale.Name = "OvBtnProcessSale";
             this.OvBtnProcessSale.Size = new System.Drawing.Size(101, 31);
             this.OvBtnProcessSale.TabIndex = 1;
             this.OvBtnProcessSale.Text = "Montar pedido";
             this.OvBtnProcessSale.UseVisualStyleBackColor = true;
             this.OvBtnProcessSale.Click += new System.EventHandler(this.OvBtnEnviar_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Usiminas.PluginExcel.Properties.Resources.usiminas_original;
+            this.pictureBox1.Location = new System.Drawing.Point(618, 47);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(291, 220);
+            this.pictureBox1.TabIndex = 15;
+            this.pictureBox1.TabStop = false;
             // 
             // OvAbaPedido
             // 
@@ -675,7 +703,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaPedido.Location = new System.Drawing.Point(4, 27);
             this.OvAbaPedido.Name = "OvAbaPedido";
             this.OvAbaPedido.Padding = new System.Windows.Forms.Padding(3);
-            this.OvAbaPedido.Size = new System.Drawing.Size(1043, 729);
+            this.OvAbaPedido.Size = new System.Drawing.Size(1090, 475);
             this.OvAbaPedido.TabIndex = 2;
             this.OvAbaPedido.Text = "Validação de Mapeamento";
             this.OvAbaPedido.UseVisualStyleBackColor = true;
@@ -695,6 +723,9 @@ namespace Usiminas.PluginExcel.Ux
             this.GridSales.AllowUserToAddRows = false;
             this.GridSales.AllowUserToDeleteRows = false;
             this.GridSales.AllowUserToResizeRows = false;
+            this.GridSales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GridSales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GridSales.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PartNumber,
@@ -713,7 +744,7 @@ namespace Usiminas.PluginExcel.Ux
             this.GridSales.Location = new System.Drawing.Point(19, 52);
             this.GridSales.Name = "GridSales";
             this.GridSales.RowHeadersVisible = false;
-            this.GridSales.Size = new System.Drawing.Size(1008, 614);
+            this.GridSales.Size = new System.Drawing.Size(995, 397);
             this.GridSales.TabIndex = 4;
             this.GridSales.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridSales_CellMouseDoubleClick);
             this.GridSales.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridSales_CellValueChanged);
@@ -808,12 +839,212 @@ namespace Usiminas.PluginExcel.Ux
             // 
             // BtnCancelar
             // 
-            this.BtnCancelar.Location = new System.Drawing.Point(917, 682);
+            this.BtnCancelar.Location = new System.Drawing.Point(982, 402);
             this.BtnCancelar.Name = "BtnCancelar";
             this.BtnCancelar.Size = new System.Drawing.Size(90, 31);
             this.BtnCancelar.TabIndex = 3;
             this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = true;
+            this.BtnCancelar.Visible = false;
+            // 
+            // OvAbaCarrinhoTabela
+            // 
+            this.OvAbaCarrinhoTabela.AutoScroll = true;
+            this.OvAbaCarrinhoTabela.Controls.Add(this.TbC_TotalTonelagemReal);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.TbC_TotalTonelagemRealLb);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.TbC_TotalTonelagem);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.TbC_TotalTonelagemlb);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.TbC_totalItens);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.TbC_totalItensLb);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.BtnEnviarPedidoGrid);
+            this.OvAbaCarrinhoTabela.Controls.Add(this.GridCarrinho);
+            this.OvAbaCarrinhoTabela.Location = new System.Drawing.Point(4, 27);
+            this.OvAbaCarrinhoTabela.Name = "OvAbaCarrinhoTabela";
+            this.OvAbaCarrinhoTabela.Padding = new System.Windows.Forms.Padding(3);
+            this.OvAbaCarrinhoTabela.Size = new System.Drawing.Size(1090, 475);
+            this.OvAbaCarrinhoTabela.TabIndex = 4;
+            this.OvAbaCarrinhoTabela.Text = "Carrinho tabela";
+            this.OvAbaCarrinhoTabela.UseVisualStyleBackColor = true;
+            // 
+            // TbC_TotalTonelagemReal
+            // 
+            this.TbC_TotalTonelagemReal.AutoSize = true;
+            this.TbC_TotalTonelagemReal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TbC_TotalTonelagemReal.Location = new System.Drawing.Point(520, 29);
+            this.TbC_TotalTonelagemReal.Name = "TbC_TotalTonelagemReal";
+            this.TbC_TotalTonelagemReal.Size = new System.Drawing.Size(18, 20);
+            this.TbC_TotalTonelagemReal.TabIndex = 14;
+            this.TbC_TotalTonelagemReal.Text = "0";
+            // 
+            // TbC_TotalTonelagemRealLb
+            // 
+            this.TbC_TotalTonelagemRealLb.AutoSize = true;
+            this.TbC_TotalTonelagemRealLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TbC_TotalTonelagemRealLb.Location = new System.Drawing.Point(326, 28);
+            this.TbC_TotalTonelagemRealLb.Name = "TbC_TotalTonelagemRealLb";
+            this.TbC_TotalTonelagemRealLb.Size = new System.Drawing.Size(200, 20);
+            this.TbC_TotalTonelagemRealLb.TabIndex = 13;
+            this.TbC_TotalTonelagemRealLb.Text = "Total tonelagem disponível:";
+            // 
+            // TbC_TotalTonelagem
+            // 
+            this.TbC_TotalTonelagem.AutoSize = true;
+            this.TbC_TotalTonelagem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TbC_TotalTonelagem.Location = new System.Drawing.Point(196, 29);
+            this.TbC_TotalTonelagem.Name = "TbC_TotalTonelagem";
+            this.TbC_TotalTonelagem.Size = new System.Drawing.Size(18, 20);
+            this.TbC_TotalTonelagem.TabIndex = 12;
+            this.TbC_TotalTonelagem.Text = "0";
+            // 
+            // TbC_TotalTonelagemlb
+            // 
+            this.TbC_TotalTonelagemlb.AutoSize = true;
+            this.TbC_TotalTonelagemlb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TbC_TotalTonelagemlb.Location = new System.Drawing.Point(6, 28);
+            this.TbC_TotalTonelagemlb.Name = "TbC_TotalTonelagemlb";
+            this.TbC_TotalTonelagemlb.Size = new System.Drawing.Size(196, 20);
+            this.TbC_TotalTonelagemlb.TabIndex = 11;
+            this.TbC_TotalTonelagemlb.Text = "Total tonelagem desejada:";
+            // 
+            // TbC_totalItens
+            // 
+            this.TbC_totalItens.AutoSize = true;
+            this.TbC_totalItens.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TbC_totalItens.Location = new System.Drawing.Point(85, 4);
+            this.TbC_totalItens.Name = "TbC_totalItens";
+            this.TbC_totalItens.Size = new System.Drawing.Size(18, 20);
+            this.TbC_totalItens.TabIndex = 10;
+            this.TbC_totalItens.Text = "0";
+            // 
+            // TbC_totalItensLb
+            // 
+            this.TbC_totalItensLb.AutoSize = true;
+            this.TbC_totalItensLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TbC_totalItensLb.Location = new System.Drawing.Point(6, 4);
+            this.TbC_totalItensLb.Name = "TbC_totalItensLb";
+            this.TbC_totalItensLb.Size = new System.Drawing.Size(86, 20);
+            this.TbC_totalItensLb.TabIndex = 9;
+            this.TbC_totalItensLb.Text = "Total itens:";
+            // 
+            // BtnEnviarPedidoGrid
+            // 
+            this.BtnEnviarPedidoGrid.Location = new System.Drawing.Point(937, 12);
+            this.BtnEnviarPedidoGrid.Name = "BtnEnviarPedidoGrid";
+            this.BtnEnviarPedidoGrid.Size = new System.Drawing.Size(126, 36);
+            this.BtnEnviarPedidoGrid.TabIndex = 2;
+            this.BtnEnviarPedidoGrid.Text = "Finalizar pedido";
+            this.BtnEnviarPedidoGrid.UseVisualStyleBackColor = true;
+            this.BtnEnviarPedidoGrid.Click += new System.EventHandler(this.BtnEnviarPedidoGrid_Click);
+            // 
+            // GridCarrinho
+            // 
+            this.GridCarrinho.AllowUserToAddRows = false;
+            this.GridCarrinho.AllowUserToDeleteRows = false;
+            this.GridCarrinho.AllowUserToOrderColumns = true;
+            this.GridCarrinho.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GridCarrinho.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GridCarrinho.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Iditem,
+            this.TbC_PartNumber,
+            this.TbC_Detalhamento,
+            this.Dese_Decendio,
+            this.Dese_Periodo,
+            this.Dese_Tonelagem,
+            this.Disp_Decendio,
+            this.Disp_DataAceite,
+            this.Disp_Tonela,
+            this.Disp_Recebedor,
+            this.Disp_Beneficiador,
+            this.IdPai});
+            this.GridCarrinho.Location = new System.Drawing.Point(19, 54);
+            this.GridCarrinho.Name = "GridCarrinho";
+            this.GridCarrinho.RowHeadersVisible = false;
+            this.GridCarrinho.Size = new System.Drawing.Size(1044, 402);
+            this.GridCarrinho.TabIndex = 0;
+            this.GridCarrinho.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridCarrinho_CellDoubleClick);
+            this.GridCarrinho.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridCarrinho_CellMouseUp);
+            this.GridCarrinho.Scroll += new System.Windows.Forms.ScrollEventHandler(this.GridCarrinho_Scroll);
+            // 
+            // Iditem
+            // 
+            this.Iditem.Frozen = true;
+            this.Iditem.HeaderText = "Id";
+            this.Iditem.Name = "Iditem";
+            this.Iditem.ReadOnly = true;
+            this.Iditem.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Iditem.Width = 50;
+            // 
+            // TbC_PartNumber
+            // 
+            this.TbC_PartNumber.Frozen = true;
+            this.TbC_PartNumber.HeaderText = "PartNumber";
+            this.TbC_PartNumber.Name = "TbC_PartNumber";
+            this.TbC_PartNumber.ReadOnly = true;
+            // 
+            // TbC_Detalhamento
+            // 
+            this.TbC_Detalhamento.HeaderText = "Detalhamento";
+            this.TbC_Detalhamento.Name = "TbC_Detalhamento";
+            this.TbC_Detalhamento.ReadOnly = true;
+            // 
+            // Dese_Decendio
+            // 
+            this.Dese_Decendio.HeaderText = "Decêndio Desejado";
+            this.Dese_Decendio.Name = "Dese_Decendio";
+            this.Dese_Decendio.ReadOnly = true;
+            // 
+            // Dese_Periodo
+            // 
+            this.Dese_Periodo.HeaderText = "Periodo Desejado";
+            this.Dese_Periodo.Name = "Dese_Periodo";
+            this.Dese_Periodo.ReadOnly = true;
+            // 
+            // Dese_Tonelagem
+            // 
+            this.Dese_Tonelagem.HeaderText = "Tonelagem Desejada";
+            this.Dese_Tonelagem.Name = "Dese_Tonelagem";
+            this.Dese_Tonelagem.ReadOnly = true;
+            // 
+            // Disp_Decendio
+            // 
+            this.Disp_Decendio.HeaderText = "Decêndio Disponível";
+            this.Disp_Decendio.Name = "Disp_Decendio";
+            this.Disp_Decendio.ReadOnly = true;
+            // 
+            // Disp_DataAceite
+            // 
+            this.Disp_DataAceite.HeaderText = "Data Aceite";
+            this.Disp_DataAceite.Name = "Disp_DataAceite";
+            // 
+            // Disp_Tonela
+            // 
+            this.Disp_Tonela.HeaderText = "Tonelagem Disponível";
+            this.Disp_Tonela.Name = "Disp_Tonela";
+            // 
+            // Disp_Recebedor
+            // 
+            this.Disp_Recebedor.HeaderText = "Recebedor";
+            this.Disp_Recebedor.Name = "Disp_Recebedor";
+            this.Disp_Recebedor.ReadOnly = true;
+            this.Disp_Recebedor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Disp_Recebedor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Disp_Beneficiador
+            // 
+            this.Disp_Beneficiador.HeaderText = "Beneficiador";
+            this.Disp_Beneficiador.Name = "Disp_Beneficiador";
+            this.Disp_Beneficiador.ReadOnly = true;
+            this.Disp_Beneficiador.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Disp_Beneficiador.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // IdPai
+            // 
+            this.IdPai.HeaderText = "IdPai";
+            this.IdPai.Name = "IdPai";
+            this.IdPai.ReadOnly = true;
+            this.IdPai.Visible = false;
             // 
             // OvAbaCarrinho
             // 
@@ -830,7 +1061,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaCarrinho.Location = new System.Drawing.Point(4, 27);
             this.OvAbaCarrinho.Name = "OvAbaCarrinho";
             this.OvAbaCarrinho.Padding = new System.Windows.Forms.Padding(3);
-            this.OvAbaCarrinho.Size = new System.Drawing.Size(1043, 729);
+            this.OvAbaCarrinho.Size = new System.Drawing.Size(1090, 475);
             this.OvAbaCarrinho.TabIndex = 3;
             this.OvAbaCarrinho.Text = "Carrinho";
             // 
@@ -863,7 +1094,6 @@ namespace Usiminas.PluginExcel.Ux
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // OvLbTotalToneCont
             // 
@@ -917,10 +1147,13 @@ namespace Usiminas.PluginExcel.Ux
             // 
             // flowLayoutPanelCarrinho
             // 
+            this.flowLayoutPanelCarrinho.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelCarrinho.AutoScroll = true;
             this.flowLayoutPanelCarrinho.Location = new System.Drawing.Point(6, 67);
             this.flowLayoutPanelCarrinho.Name = "flowLayoutPanelCarrinho";
-            this.flowLayoutPanelCarrinho.Size = new System.Drawing.Size(1018, 659);
+            this.flowLayoutPanelCarrinho.Size = new System.Drawing.Size(995, 397);
             this.flowLayoutPanelCarrinho.TabIndex = 0;
             // 
             // OvLbClientePedido
@@ -960,30 +1193,58 @@ namespace Usiminas.PluginExcel.Ux
             this.DecMap.HeaderText = "DecMap";
             this.DecMap.Name = "DecMap";
             // 
+            // OvLbVersao
+            // 
+            this.OvLbVersao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OvLbVersao.AutoSize = true;
+            this.OvLbVersao.Font = new System.Drawing.Font("MS Reference Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbVersao.ForeColor = System.Drawing.Color.Maroon;
+            this.OvLbVersao.Location = new System.Drawing.Point(18, 551);
+            this.OvLbVersao.Name = "OvLbVersao";
+            this.OvLbVersao.Size = new System.Drawing.Size(63, 16);
+            this.OvLbVersao.TabIndex = 2;
+            this.OvLbVersao.Text = "Versao ";
+            // 
+            // OvLbDetalhe
+            // 
+            this.OvLbDetalhe.AutoSize = true;
+            this.OvLbDetalhe.Location = new System.Drawing.Point(556, 444);
+            this.OvLbDetalhe.Name = "OvLbDetalhe";
+            this.OvLbDetalhe.Size = new System.Drawing.Size(88, 13);
+            this.OvLbDetalhe.TabIndex = 19;
+            this.OvLbDetalhe.Text = "* Não Obrigatório";
+            // 
             // F_Pedido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1112, 814);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(1139, 573);
+            this.Controls.Add(this.OvLbVersao);
             this.Controls.Add(this.OvLbClientePedido);
             this.Controls.Add(this.TabControl);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Katakana;
             this.Name = "F_Pedido";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tools B2B Usiminas";
             this.Load += new System.EventHandler(this.F_Pedido_Load);
             this.TabControl.ResumeLayout(false);
             this.OvAbaConfiguracao.ResumeLayout(false);
             this.OvAbaConfiguracao.PerformLayout();
             this.OvAbaDados.ResumeLayout(false);
+            this.OvAbaDados.PerformLayout();
             this.OvFrCampos.ResumeLayout(false);
             this.OvFrCampos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.OvAbaPedido.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).EndInit();
+            this.OvAbaCarrinhoTabela.ResumeLayout(false);
+            this.OvAbaCarrinhoTabela.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GridCarrinho)).EndInit();
             this.OvAbaCarrinho.ResumeLayout(false);
             this.OvAbaCarrinho.PerformLayout();
             this.OvAbaCarrinhoTab.ResumeLayout(false);
@@ -1074,5 +1335,28 @@ namespace Usiminas.PluginExcel.Ux
         private TabPage OvAbaCarrinhoTab;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn DecMap;
+        private TabPage OvAbaCarrinhoTabela;
+        private DataGridView GridCarrinho;
+        private Label TbC_TotalTonelagemReal;
+        private Label TbC_TotalTonelagemRealLb;
+        private Label TbC_TotalTonelagem;
+        private Label TbC_TotalTonelagemlb;
+        private Label TbC_totalItens;
+        private Label TbC_totalItensLb;
+        private Button BtnEnviarPedidoGrid;
+        private DataGridViewTextBoxColumn Iditem;
+        private DataGridViewTextBoxColumn TbC_PartNumber;
+        private DataGridViewTextBoxColumn TbC_Detalhamento;
+        private DataGridViewTextBoxColumn Dese_Decendio;
+        private DataGridViewTextBoxColumn Dese_Periodo;
+        private DataGridViewTextBoxColumn Dese_Tonelagem;
+        private DataGridViewTextBoxColumn Disp_Decendio;
+        private DataGridViewTextBoxColumn Disp_DataAceite;
+        private DataGridViewNumericUpDownElements.DataGridViewNumericUpDownColumn Disp_Tonela;
+        private DataGridViewTextBoxColumn Disp_Recebedor;
+        private DataGridViewTextBoxColumn Disp_Beneficiador;
+        private DataGridViewTextBoxColumn IdPai;
+        private Label OvLbVersao;
+        private Label OvLbDetalhe;
     }
 }

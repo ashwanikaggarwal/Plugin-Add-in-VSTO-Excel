@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Usiminas.PluginExcel", "Usiminas.PluginExcel\Usiminas.PluginExcel.csproj", "{7A4C5BA0-2920-4A86-9738-B3906ECF66FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridViewNumericUpDownElements", "DataGridViewNumericUpDownElements\DataGridViewNumericUpDownElements.csproj", "{82B50731-BE90-433F-BB6E-9B509C5F3B7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +17,27 @@ Global
 		{7A4C5BA0-2920-4A86-9738-B3906ECF66FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A4C5BA0-2920-4A86-9738-B3906ECF66FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A4C5BA0-2920-4A86-9738-B3906ECF66FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82B50731-BE90-433F-BB6E-9B509C5F3B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B50731-BE90-433F-BB6E-9B509C5F3B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82B50731-BE90-433F-BB6E-9B509C5F3B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82B50731-BE90-433F-BB6E-9B509C5F3B7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84473588-7D0B-4BB8-8D34-1EC3AA75DE80}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs.usiminas.su.net:8080/tfs/usiminas
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Usiminas.PluginExcel\\Usiminas.PluginExcel.csproj
+		SccProjectName1 = Usiminas.PluginExcel
+		SccLocalPath1 = Usiminas.PluginExcel
+		SccProjectUniqueName2 = DataGridViewNumericUpDownElements\\DataGridViewNumericUpDownElements.csproj
+		SccProjectName2 = DataGridViewNumericUpDownElements
+		SccLocalPath2 = DataGridViewNumericUpDownElements
 	EndGlobalSection
 EndGlobal

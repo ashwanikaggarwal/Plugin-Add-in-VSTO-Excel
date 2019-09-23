@@ -21,6 +21,7 @@ namespace Usiminas.PluginExcel.Ux
         List<DeParaBeneficiadorDto> deParaBeneficiadorDto = new List<DeParaBeneficiadorDto>();
         List<DeParaRecebedorDto> deParaRecebedorDto = new List<DeParaRecebedorDto>();
         SalesDto salesdto = new SalesDto();
+        SalesDto salesdtoOrigem = new SalesDto();
         List<ClientePluginDto> clientes;
         List<InfoPlaDto> infoPlaDtos;
 
@@ -30,158 +31,8 @@ namespace Usiminas.PluginExcel.Ux
 
         int FieldEdit; // variavel que define qual é o botão
         #endregion
-        private async void mocardadosFormulario()
-        {
 
-            InformationsPlan informationsPlan = new InformationsPlan();
-
-            if (auth.accessToken == null)
-            {
-                Login login = new Login();
-                AuthenticationServices authentication = new AuthenticationServices();
-                OvTxLogin.Text = "igorteste";
-                OvTxSenha.Text = "Simo12es?";
-
-                auth = await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text);
-            }
-            //
-            LogServices.LogEmissaoSimples(auth, "logar", "teste");
-
-            List<PlaceCorresp> placeCorresp = new List<PlaceCorresp>();
-            placeCorresp.Add(new PlaceCorresp { Id = "0000011683", Description = "7924-MASAYOSHI ( AVE PINHEIRO 1081 )" });
-            placeCorresp.Add(new PlaceCorresp { Id = "0000007924", Description = "11683-FITAMETAL ( R JOAO ROBERTO 170A, 7Y )" });
-            placeCorresp.Add(new PlaceCorresp { Id = "0000012749", Description = "12749-CENTRASA ( RUA DEZ 66, 3W )" });
-
-            List<ReceiverCorresp> receiverCorresps = new List<ReceiverCorresp>();
-            receiverCorresps.Add(new ReceiverCorresp { Id = "0000007711", Description = "7711-AETHRA ( AVE CENTAURO 234, 5J )" });
-            receiverCorresps.Add(new ReceiverCorresp { Id = "0000012536", Description = "12536-AETHRA ( RUA CAROLINA 51 )" });
-
-            #region moc Dto Inforplan
-            deParaBeneficiadorDto = new List<DeParaBeneficiadorDto>();
-            deParaRecebedorDto = new List<DeParaRecebedorDto>();
-            ///SalesDto salesdtoMoc = new SalesDto();
-            List<InfoPlaDto> infoPlaDtosMoc = new List<InfoPlaDto>();
-            var escolha = 1;
-
-            infoPlaDtosMoc.Add(new InfoPlaDto
-            {
-                Id = 1,
-                Active = true,
-                RefClient = "01.110.1407C",
-                Receiver = "CENTAURO",
-                ReceiverCorresp = receiverCorresps,
-                Place = "A.ALIANÇA",
-                PlaceCorresp = placeCorresp,
-                DesiredPeriod = "08/2019",
-                D1 = "0",
-                D2 = "25",
-                D3 = "0"
-                ,
-                PlacerMapped = placeCorresp.Last().Description,
-                ReceiverMapped = receiverCorresps.First().Description
-            });
-            infoPlaDtosMoc.Add(new InfoPlaDto
-            {
-                Id = 2,
-                Active = true,
-                RefClient = "01.210.1820C",
-                Receiver = "CENTAURO",
-                ReceiverCorresp = receiverCorresps,
-                Place = "A.ALIANÇA",
-                PlaceCorresp = placeCorresp,
-                DesiredPeriod = "08/2019",
-                D1 = "0",
-                D2 = "25",
-                D3 = "0"
-                ,
-                PlacerMapped = placeCorresp.Last().Description,
-                ReceiverMapped = receiverCorresps.First().Description
-            });
-            infoPlaDtosMoc.Add(new InfoPlaDto
-            {
-                Id = 3,
-                Active = true,
-                RefClient = "01.113.1381C",
-                Receiver = "CENTAURO",
-                ReceiverCorresp = receiverCorresps,
-                Place = "A.ALIANÇA",
-                PlaceCorresp = placeCorresp,
-                DesiredPeriod = "08/2019",
-                D1 = "25",
-                D2 = "0",
-                D3 = "0"
-                ,
-                PlacerMapped = placeCorresp.First().Description,
-                ReceiverMapped = receiverCorresps.Last().Description
-            });
-            infoPlaDtosMoc.Add(new InfoPlaDto
-            {
-                Id = 4,
-                Active = true,
-                RefClient = "01.230.4012C",
-                Receiver = "CENTAURO",
-                ReceiverCorresp = receiverCorresps,
-                Place = "FITAMETAL",
-                PlaceCorresp = placeCorresp,
-                DesiredPeriod = "08/2019",
-                D1 = "0",
-                D2 = "28",
-                D3 = "28"
-                ,
-                PlacerMapped = placeCorresp.First().Description,
-                ReceiverMapped = receiverCorresps.Last().Description
-            });
-            infoPlaDtosMoc.Add(new InfoPlaDto
-            {
-                Id = 5,
-                Active = true,
-                RefClient = "01.230.4018C",
-                Receiver = "CENTAURO",
-                ReceiverCorresp = receiverCorresps,
-                Place = "FITAMETAL",
-                PlaceCorresp = placeCorresp,
-                DesiredPeriod = "08/2019",
-                D1 = "56",
-                D2 = "56",
-                D3 = "28"
-                ,
-                PlacerMapped = placeCorresp.First().Description,
-                ReceiverMapped = receiverCorresps.First().Description
-            });
-
-            #endregion
-
-            infoPlaDtos = infoPlaDtosMoc;
-            //infoPlaDtos = null;
-            PopulateGridMap(ref infoPlaDtos);
-            DelAddColumReciver delAddColumReciver = new DelAddColumReciver(AddColumReciver);
-            delAddColumReciver.Invoke(infoPlaDtos.First().ReceiverCorresp);
-
-            DelAddColumPlace delAddColumPlace = new DelAddColumPlace(AddColumPlace);
-            delAddColumPlace.Invoke(infoPlaDtos.First().PlaceCorresp);
-            //var ret = DeParaServices.NovosDeParaBeneficiador(deParaBeneficiadorDto, infoPlaDtos, "0000007711", "UZ22657");
-            var arrayref = infoPlaDtosMoc.Select(p => p.RefClient).ToList();
-            PluginService pluginServices = new PluginService(auth);
-
-            //pega a lista de recebedor e beneficiador cadastrado
-            SalesDto dto = new SalesDto { CD_Cliente = "0000000155", RefClient = "B7", D1 = "ag7", D2 = "ah7", D3 = "ai7", Receiver = "aq7" };
-            var PartNumArr = informationsPlan.GetPartNumberPlan(dto);
-            var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
-            var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
-            var validaPesoMultiPartNumberDto = new ValidaPesoMultiPartNumberDto();
-            validaPesoMultiPartNumberDto.CdCliente = "0000007711";
-            validaPesoMultiPartNumberDto.PartNumbers = PartNumArr;
-            validaPesoMultiPartNumberDto.Recebedores = ReceiverCorrespsForPartNumber.Select(p => p.Id).ToList();
-
-            var itemDtos = pluginServices.PesoMultiploPartNumberAsync(validaPesoMultiPartNumberDto);
-            //DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
-
-            DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(infoPlaDtosMoc.Select(p => p.RefClient).ToArray(), "0000000155");
-
-            SelectContext("OvAbaPedido");
-        }
-
-        #region //////// Inicialização e transição de form
+        #region Inicialização e transição de form
         public F_Pedido()
         {
             InitializeComponent();
@@ -195,63 +46,45 @@ namespace Usiminas.PluginExcel.Ux
             ObBtnChosenClient.Visible = false;
             ObCbClienteGrupo.Visible = false;
             OvLbClienteGrupo.Visible = false;
-            //mocardadosFormulario();
-            //PopulateItens();
+            OvLbVersao.Text = "Versão: " + Functions.Versao().ToString().Replace(",", ".");
         }
-        private void FPTimer_Tick(object sender, EventArgs e)
+
+        protected void Form1_OnKeyPress(object sender, KeyPressEventArgs e)
         {
-            try
+            //KeyChar é igual a 13, então usuário apertou ENTER
+            if (e.KeyChar == 13)
             {
-                Target = Globals.ThisAddIn.Worksheet_SelectionChange();
-                switch (FieldEdit)
-                {
-                    case 1:
-                        this.OvTxSelecaoRefCliente.Text = Target.Address;
-                        break;
-                    case 2:
-                        this.OvTxSelecaoRecebedor.Text = Target.Address;
-                        break;
-                    case 3:
-                        this.OvTxSelecaoLocalEntrega.Text = Target.Address;
-                        break;
-                    case 4:
-                        this.OvTxSelecaoPeriodo.Text = Target.Address;
-                        break;
-                    case 5:
-                        this.OvTxSelecaoTonelagemD1.Text = Target.Address;
-                        break;
-                    case 6:
-                        this.OvTxSelecaoTonelagemD2.Text = Target.Address;
-                        break;
-                    case 7:
-                        this.OvTxSelecaoTonelagemD3.Text = Target.Address;
-                        break;
-                    default:
-                        FPTimer.Stop();
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                OvBtnLogin_Click(sender, null);
             }
         }
+
         private async void OvBtnLogin_Click(object sender, EventArgs e)
         {
             try
             {
-                AbrirLoad(textosLoad.Login);
+
+                AbrirLoad(TextosLoad.Login);
+                ///reseta as configurações
+                
+                SelectContext("OvAbaConfiguracao");
+                InitialStageSelectfields();
+                ObBtnChosenClient.Visible = false;
+                ObCbClienteGrupo.Visible = false;
+                OvLbClienteGrupo.Visible = false;
+                ///
                 Login login = new Login();
+
                 AuthenticationServices authentication = new AuthenticationServices();
                 //homologacao
-                OvTxLogin.Text = "igorteste";
-                OvTxSenha.Text = "Simo12es?";
+
                 login.CreateLogin(OvTxLogin.Text, OvTxSenha.Text);
 
                 var resultados = DataAnnotation.ValidateEntity<Login>(login);
+
                 if (resultados.HasError == true)
                 {
                     MessageBox.Show(resultados.ListaErro);
+
                     return;
                 }
 
@@ -262,14 +95,26 @@ namespace Usiminas.PluginExcel.Ux
                 auth = await authentication.ActionLogin(OvTxLogin.Text, OvTxSenha.Text);
 
                 LogServices.LogEmissaoSimples(auth, "login", "Inicio de log");
+
                 if (auth.Token != null)
                 {
-                    UserRepository userRepository = new UserRepository(auth, EndPointsAPI.User);
+
+                    PluginService pluginServices = new PluginService(auth);
+
+                    var versao = await pluginServices.GetVersaoAsync();
+
+                    if (versao.minimaVersao > Functions.Versao())
+                        throw new Exception(string.Format("Sua versão({0}) está desatualizada, favor atualizar!", Functions.Versao().ToString().Replace(",", ".")));
+
+                    UserRepository userRepository = new UserRepository(auth, EndPointsAPI.User); 
+
                     //var user = await userServices.UserInformation(auth);
                     var user = await userRepository.Get<User>();
+
                     if (user.CdCliente == null && user.CdGrupo == null)
                     {
                         MessageBox.Show("O Usuário não tem nenhum cliente ou grupo associado a ele!");
+
                         LogServices.LogEmissaoSimples(auth, "cadastro", "O Usuário não tem nenhum cliente ou grupo associado a ele!");
 
                         return;
@@ -279,12 +124,15 @@ namespace Usiminas.PluginExcel.Ux
                     {
 
                         NameClienteForm(user.Cliente.DsCliente);
+
                         auth.SetCliente(user.CdCliente);
-                        PluginService pluginServices = new PluginService(auth);
-                        var sales = await pluginServices.GetInformationFieldsPlan(user.CdCliente);
-                        if (sales != null)
+
+                        salesdtoOrigem = await pluginServices.GetInformationFieldsPlan(user.CdCliente);
+
+                        if (salesdtoOrigem != null)
                         {
-                            salesdto = sales;
+                            salesdto = salesdtoOrigem;
+
                             deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
                             LogServices.LogEmissaoClass<List<DeParaRecebedorDto>>(auth, "Dados mapeamento", "Pegando dados List<DeParaRecebedorDto>", deParaRecebedorDto);
 
@@ -304,7 +152,9 @@ namespace Usiminas.PluginExcel.Ux
                     {
 
                         ClientRepository clientRepository = new ClientRepository(auth, EndPointsAPI.ClientGroup);
+
                         clientes = await clientRepository.showClientOrGrupo();
+
                         LogServices.LogEmissaoClass<List<ClientePluginDto>>(auth, "login", "escolher cliente", clientes);
 
                         listClient.AddRange(clientes.Select(item => new IdDescriptionDto { Id = item.codigoCliente, Description = String.Format("Cliente: {3}|UF:{0} |Cidade: {1} |Bairro:{2} ", item.estado, item.cidade, item.bairro, item.descricaoCliente) }));
@@ -343,6 +193,7 @@ namespace Usiminas.PluginExcel.Ux
             catch (Exception ex)
             {
                 LogServices.LogEmissaoClass<Exception>(auth, "Erro", "login", ex);
+
                 MessageBox.Show("Falha ao tentar logar: " + ex.Message);
             }
             finally
@@ -350,56 +201,111 @@ namespace Usiminas.PluginExcel.Ux
                 FecharLoad();
             }
         }
-        public void AbrirLoad(string texto)
-        {
-            return;
-            if (load.InvokeRequired == true)
-            {
-                load.Invoke(new Action(() =>
-                {
-                    load.textoLoad(texto);
-                    load.Show();
-                }));
-            }
-            else
-            {
-                load.textoLoad(texto);
-                load.Show();
-            }
-        }
-        public void FecharLoad()
-        {
 
-            return;
-            if (load.InvokeRequired == true)
+        private async void ObBtnChosenClient_Click(object sender, EventArgs e)
+        {
+            //backgroundWorker1.RunWorkerAsync();
+
+            if (ObCbClienteGrupo.SelectedValue.ToString() == "1")
+                return;
+
+            var client = clientes.Where(p => p.codigoCliente == ObCbClienteGrupo.SelectedValue.ToString()).FirstOrDefault();
+            //coloca o cliente como padrao dentro do authentication para ser passar como parametro padrao
+
+            auth.SetCliente(client.codigoCliente);
+
+            PluginService pluginServices = new PluginService(auth);
+
+            try
             {
-                load.Invoke(new Action(() =>
+                AbrirLoad(TextosLoad.BuscardadosCliente);
+
+                salesdtoOrigem = await pluginServices.GetInformationFieldsPlan(client.codigoCliente);
+
+                if (salesdtoOrigem != null)
                 {
-                    load.Hide();
-                }));
+                    salesdto = salesdtoOrigem;
+
+                    deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
+
+                    LogServices.LogEmissaoClass<List<DeParaRecebedorDto>>(auth, "Dados mapeamento", "List<DeParaRecebedorDto>", deParaRecebedorDto);
+
+                    deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync();
+
+                    LogServices.LogEmissaoClass<List<DeParaBeneficiadorDto>>(auth, "Dados mapeamento", "List<DeParaBeneficiadorDto>", deParaBeneficiadorDto);
+
+                }
+                salesdto.CD_Cliente = client.codigoCliente;
+
+                salesdto.UserName = auth.userName;
+
+                NameClienteForm(client.descricaoCliente);
+
+                LogServices.LogEmissaoClass<SalesDto>(auth, "Dados mapeamento", "Dados mapeamento", salesdto);
+
+                InitialStageSelectfields();
+
+                if (ObBtnChosenClient.InvokeRequired == true)
+                {
+                    ObBtnChosenClient.Invoke(new Action(() =>
+                    {
+                        ObBtnChosenClient.Visible = false;
+                    }));
+                    ObCbClienteGrupo.Invoke(new Action(() =>
+                    {
+                        ObCbClienteGrupo.Visible = false;
+                    }));
+                    OvLbClienteGrupo.Invoke(
+                        new Action(() =>
+                        {
+                            OvLbClienteGrupo.Visible = false;
+                        }));
+                }
+                else
+                {
+                    ObBtnChosenClient.Visible = false;
+                    ObCbClienteGrupo.Visible = false;
+                }
+                SelectContext("OvAbaDados");
             }
-            else
+            catch (Exception ex)
             {
-                load.Hide();
+                LogServices.LogEmissaoClass<Exception>(auth, "erro", "ChosenClient", ex);
             }
+            finally
+            {
+                AbrirLoad(TextosLoad.BuscardadosCliente);
+            }
+
         }
+
         private async void OvBtnEnviar_Click(object sender, EventArgs e)
         {
             try
             {
+                BtnIrParaCarrinho.Enabled = true;
 
-                AbrirLoad(textosLoad.BuscardadosCliente);
+                AbrirLoad(TextosLoad.BuscardadosCliente);
+
                 var resultados = DataAnnotation.ValidateEntity<SalesDto>(salesdto);
+
                 if (resultados.HasError == true)
                 {
                     MessageBox.Show(resultados.ListaErro);
                     return;
                 }
+                //if (salesdto.IntegridadeDados() == false)
+                //{
+                //    MessageBox.Show("Todos os dados tem que estar na mesma linha do excel!");
+                //    return;
+                //}
+
 
                 InformationsPlan informationsPlan = new InformationsPlan();
 
                 //pega a lista de recebedor e beneficiador cadastrado
                 var PartNumArr = informationsPlan.GetPartNumberPlan(salesdto);
+
                 if (PartNumArr.Count == 0)
                 {
                     MessageBox.Show("Nenhum partNumber foi localizado! Favor verificar");
@@ -409,15 +315,21 @@ namespace Usiminas.PluginExcel.Ux
                 PluginService pluginServices = new PluginService(auth);
                 //var ReceiverCorrespsForPartNumber = pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente).GetAwaiter().GetResult();
                 var ReceiverCorrespsForPartNumber = await pluginServices.ReceiverCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
+
                 var placeCorrespForPartNumber = await pluginServices.PlaceCorrespsPostAsync(PartNumArr.ToArray(), salesdto.CD_Cliente);
+
                 LogServices.LogEmissaoSimples(auth, "Mapeamento planilha", "Nenhum partNumber foi localizado");
 
                 //pega o dstalhamento de acordo com os partnumbers
                 DetalheItemDtos = await pluginServices.DetalhamentoDePartNumber(PartNumArr.ToArray(), salesdto.CD_Cliente);
+
                 //carrega o minimo multiplo
                 var validaPesoMultiPartNumberDto = new ValidaPesoMultiPartNumberDto();
+
                 validaPesoMultiPartNumberDto.CdCliente = salesdto.CD_Cliente;
+
                 validaPesoMultiPartNumberDto.PartNumbers = PartNumArr;
+
                 validaPesoMultiPartNumberDto.Recebedores = ReceiverCorrespsForPartNumber.Select(p => p.Id).ToList();
 
                 List<MinimoMultiploDto> MinimoMultiplo = await pluginServices.PesoMultiploPartNumberAsync(validaPesoMultiPartNumberDto);
@@ -431,6 +343,7 @@ namespace Usiminas.PluginExcel.Ux
 
 
                 List<DadosDataAceiteDto> dadosDataAceiteDto;
+
                 dadosDataAceiteDto = await pluginServices.CalendarioAceiteAsync(calendarioAceiteFilterDto);
 
                 //carrega os dados que vão ser listados na planilha
@@ -438,6 +351,7 @@ namespace Usiminas.PluginExcel.Ux
 
                 //popula os detalhamentos de acordo com os partnumbers
                 insertDetalPedido(ref infoPlaDtos, DetalheItemDtos, dadosDataAceiteDto, MinimoMultiplo);
+
                 if (!infoPlaDtos.Where(p => p.Validado == true).Any())
                 {
                     MessageBox.Show("Nenhum partNumber foi localizado! Favor verificar");
@@ -463,19 +377,22 @@ namespace Usiminas.PluginExcel.Ux
                 }
 
                 DelAddColumReciver delAddColumReciver = new DelAddColumReciver(AddColumReciver);
+
                 delAddColumReciver.Invoke(infoPlaDtos.First().ReceiverCorresp);
 
                 DelAddColumPlace delAddColumPlace = new DelAddColumPlace(AddColumPlace);
+
                 delAddColumPlace.Invoke(infoPlaDtos.First().PlaceCorresp);
 
-                if (salesdto.Id == 0)
+                //if (salesdto.Id == 0)
+                //{
+                if (MessageBox.Show("Deseja salvar o mapeamento da planilha para o proximo pedido?", "Mapeamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
-                    if (MessageBox.Show("Deseja salvar o mapeamento da planilha para o proximo pedido?", "Mapeamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                    {
-                        PluginService pluginser = new PluginService(auth);
-                        var salvar = await pluginser.SaveInfoPlan(salesdto);
-                    }
+                    LogServices.LogEmissaoClass<SalesDto>(auth, "Salvar novo Mapeamento", "salesdto", salesdto);
+                    PluginService pluginser = new PluginService(auth);
+                    var salvar = await pluginser.SaveInfoPlan(salesdto);
                 }
+                //}
                 SelectContext("OvAbaPedido");
             }
             catch (Exception ex)
@@ -560,74 +477,420 @@ namespace Usiminas.PluginExcel.Ux
 
         }
 
-        private async void ObBtnChosenClient_Click(object sender, EventArgs e)
+ 
+        #endregion
+
+        #region Mapeamento de planilha
+
+        #region //////// buttons interations
+
+
+        private void FPTimer_Tick(object sender, EventArgs e)
         {
-            //backgroundWorker1.RunWorkerAsync();
-
-            if (ObCbClienteGrupo.SelectedValue.ToString() == "1")
-                return;
-
-            var client = clientes.Where(p => p.codigoCliente == ObCbClienteGrupo.SelectedValue.ToString()).FirstOrDefault();
-            //coloca o cliente como padrao dentro do authentication para ser passar como parametro padrao
-
-            auth.SetCliente(client.codigoCliente);
-            PluginService pluginServices = new PluginService(auth);
-
             try
             {
-                AbrirLoad(textosLoad.BuscardadosCliente);
-
-                var sales = await pluginServices.GetInformationFieldsPlan(client.codigoCliente);
-                if (sales != null)
+                Target = Globals.ThisAddIn.Worksheet_SelectionChange();
+                switch (FieldEdit)
                 {
-                    salesdto = sales;
-                    deParaRecebedorDto = await pluginServices.RecebedorDeParaGetAsync();
-                    LogServices.LogEmissaoClass<List<DeParaRecebedorDto>>(auth, "Dados mapeamento", "List<DeParaRecebedorDto>", deParaRecebedorDto);
-
-                    deParaBeneficiadorDto = await pluginServices.BeneficiadorDeParaGetAsync();
-                    LogServices.LogEmissaoClass<List<DeParaBeneficiadorDto>>(auth, "Dados mapeamento", "List<DeParaBeneficiadorDto>", deParaBeneficiadorDto);
-
+                    case 1:
+                        this.OvTxSelecaoRefCliente.Text = Target.Address;
+                        break;
+                    case 2:
+                        this.OvTxSelecaoRecebedor.Text = Target.Address;
+                        break;
+                    case 3:
+                        this.OvTxSelecaoLocalEntrega.Text = Target.Address;
+                        break;
+                    case 4:
+                        this.OvTxSelecaoPeriodo.Text = Target.Address;
+                        break;
+                    case 5:
+                        this.OvTxSelecaoTonelagemD1.Text = Target.Address;
+                        break;
+                    case 6:
+                        this.OvTxSelecaoTonelagemD2.Text = Target.Address;
+                        break;
+                    case 7:
+                        this.OvTxSelecaoTonelagemD3.Text = Target.Address;
+                        break;
+                    default:
+                        FPTimer.Stop();
+                        break;
                 }
-                salesdto.CD_Cliente = client.codigoCliente;
-                salesdto.UserName = auth.userName;
-                NameClienteForm(client.descricaoCliente);
-                LogServices.LogEmissaoClass<SalesDto>(auth, "Dados mapeamento", "Dados mapeamento", salesdto);
-
-                InitialStageSelectfields();
-                if (ObBtnChosenClient.InvokeRequired == true)
-                {
-                    ObBtnChosenClient.Invoke(new Action(() =>
-                    {
-                        ObBtnChosenClient.Visible = false;
-                    }));
-                    ObCbClienteGrupo.Invoke(new Action(() =>
-                    {
-                        ObCbClienteGrupo.Visible = false;
-                    }));
-                    OvLbClienteGrupo.Invoke(
-                        new Action(() =>
-                        {
-                            OvLbClienteGrupo.Visible = false;
-                        }));
-                }
-                else
-                {
-                    ObBtnChosenClient.Visible = false;
-                    ObCbClienteGrupo.Visible = false;
-                }
-                SelectContext("OvAbaDados");
             }
             catch (Exception ex)
             {
-                LogServices.LogEmissaoClass<Exception>(auth, "erro", "Dados mapeamento", ex);
-
+                MessageBox.Show(ex.Message);
             }
-            finally
+        }
+
+        /// <summary>
+        /// validate if user are autorized
+        /// </summary>
+        public bool ValidLogin()
+        {
+            if (auth.Token == null)
             {
-                AbrirLoad(textosLoad.BuscardadosCliente);
+                if (this.TabControl.Controls.Contains(OvAbaDados) == true)
+                {
+                    this.TabControl.Controls.Remove(this.OvAbaDados);
+                    this.TabControl.Controls.Remove(this.OvAbaConfiguracao);
+                }
+                OvAbaConfiguracao.Focus();
+                SelectContext(this.OvAbaConfiguracao.ToString());
+                return false;
+            }
+            else
+            {
+                if (this.TabControl.Controls.Contains(OvAbaDados) == false)
+                {
+                    this.TabControl.Controls.Add(this.OvAbaDados);
+                }
+                TabControl.SelectedTab = OvAbaDados;
+                return true;
+            }
+        }
+
+        public void SelectContext(string context)
+        {
+
+            foreach (TabPage item in this.TabControl.TabPages)
+            {
+                if (item.Name.Equals(context))
+                {
+                    if (TabControl.InvokeRequired)
+                    {
+                        TabControl.Invoke(new Action(() =>
+                        {
+                            TabControl.SelectedTab = item;
+                        }
+                        ));
+                    }
+                    else
+                    {
+                        TabControl.SelectedTab = item;
+                    }
+                }
             }
 
         }
+
+        /// <summary>
+        /// actions Handlers for textbox
+        /// </summary>
+        public void ReadOnlySelectField()
+        {
+            if (this.OvTxSelecaoRefCliente.InvokeRequired == true)
+            {
+                this.OvTxSelecaoRefCliente.Invoke(new Action(() => { this.OvTxSelecaoRefCliente.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoRefCliente.ReadOnly = true; }
+
+            if (this.OvTxSelecaoRecebedor.InvokeRequired == true)
+            {
+                this.OvTxSelecaoRecebedor.Invoke(new Action(() => { this.OvTxSelecaoRecebedor.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoRecebedor.ReadOnly = true; }
+
+            if (this.OvTxSelecaoLocalEntrega.InvokeRequired == true)
+            {
+                this.OvTxSelecaoLocalEntrega.Invoke(new Action(() => { this.OvTxSelecaoLocalEntrega.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoLocalEntrega.ReadOnly = true; }
+
+            if (this.OvTxSelecaoPeriodo.InvokeRequired == true)
+            {
+                this.OvTxSelecaoPeriodo.Invoke(new Action(() => { this.OvTxSelecaoPeriodo.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoPeriodo.ReadOnly = true; }
+
+            if (this.OvTxSelecaoTonelagemD1.InvokeRequired == true)
+            {
+                this.OvTxSelecaoTonelagemD1.Invoke(new Action(() => { this.OvTxSelecaoTonelagemD1.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoTonelagemD1.ReadOnly = true; }
+
+            if (this.OvTxSelecaoTonelagemD2.InvokeRequired == true)
+            {
+                this.OvTxSelecaoTonelagemD2.Invoke(new Action(() => { this.OvTxSelecaoTonelagemD2.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoTonelagemD2.ReadOnly = true; }
+
+            if (this.OvTxSelecaoTonelagemD3.InvokeRequired == true)
+            {
+                this.OvTxSelecaoTonelagemD3.Invoke(new Action(() => { this.OvTxSelecaoTonelagemD3.ReadOnly = true; }));
+            }
+            else { this.OvTxSelecaoTonelagemD3.ReadOnly = true; }
+
+            switch (FieldEdit)
+            {
+                case 1:
+                    this.OvTxSelecaoRefCliente.ReadOnly = false; //1
+                    break;
+                case 2:
+                    this.OvTxSelecaoRecebedor.ReadOnly = false;
+                    break;
+                case 3:
+                    this.OvTxSelecaoLocalEntrega.ReadOnly = false;
+                    break;
+                case 4:
+                    this.OvTxSelecaoPeriodo.ReadOnly = false;
+                    break;
+                case 5:
+                    this.OvTxSelecaoTonelagemD1.ReadOnly = false;
+                    break;
+                case 6:
+                    this.OvTxSelecaoTonelagemD2.ReadOnly = false;
+                    break;
+                case 7:
+                    this.OvTxSelecaoTonelagemD3.ReadOnly = false;
+                    break;
+                default:
+                    break;
+            }
+            FPTimer.Start();
+        }
+
+        /// <summary>
+        /// actions Handlers for sort button 
+        /// </summary>
+        public void VisibleBtnClass()
+        {
+            if (this.OvBtnClassRefCliente.InvokeRequired == true)
+            {
+                this.OvBtnClassRefCliente.Invoke(new Action(() => { this.OvBtnClassRefCliente.Visible = false; }));
+            }
+            else { this.OvBtnClassRefCliente.Visible = false; }
+
+            if (this.OvBtnClassRecebedor.InvokeRequired == true)
+            {
+                this.OvBtnClassRecebedor.Invoke(new Action(() => { this.OvBtnClassRecebedor.Visible = false; }));
+            }
+            else { this.OvBtnClassRecebedor.Visible = false; }
+
+            if (this.OvBtnClassLocalEntrega.InvokeRequired == true)
+            {
+                this.OvBtnClassLocalEntrega.Invoke(new Action(() => { this.OvBtnClassLocalEntrega.Visible = false; }));
+            }
+            else { this.OvBtnClassLocalEntrega.Visible = false; }
+
+            if (this.OvBtnClassPeriodo.InvokeRequired == true)
+            {
+                this.OvBtnClassPeriodo.Invoke(new Action(() => { this.OvBtnClassPeriodo.Visible = false; }));
+            }
+            else { this.OvBtnClassPeriodo.Visible = false; }
+
+            if (this.OvBtnClassTonelagemD1.InvokeRequired == true)
+            {
+                this.OvBtnClassTonelagemD1.Invoke(new Action(() => { this.OvBtnClassTonelagemD1.Visible = false; }));
+            }
+            else { this.OvBtnClassTonelagemD1.Visible = false; }
+
+            if (this.OvBtnClassTonelagemD2.InvokeRequired == true)
+            {
+                this.OvBtnClassTonelagemD2.Invoke(new Action(() => { this.OvBtnClassTonelagemD2.Visible = false; }));
+            }
+            else { this.OvBtnClassTonelagemD2.Visible = false; }
+
+            if (this.OvBtnClassTonelagemD3.InvokeRequired == true)
+            {
+                this.OvBtnClassTonelagemD3.Invoke(new Action(() => { this.OvBtnClassTonelagemD3.Visible = false; }));
+            }
+            else { this.OvBtnClassTonelagemD3.Visible = false; }
+
+
+            switch (FieldEdit)
+            {
+                case 1:
+
+                    this.OvBtnClassRefCliente.Visible = true;
+                    break;
+                case 2:
+                    this.OvBtnClassRecebedor.Visible = true;
+                    break;
+                case 3:
+                    this.OvBtnClassLocalEntrega.Visible = true;
+                    break;
+                case 4:
+                    this.OvBtnClassPeriodo.Visible = true;
+                    break;
+                case 5:
+                    this.OvBtnClassTonelagemD1.Visible = true;
+                    break;
+                case 6:
+                    this.OvBtnClassTonelagemD2.Visible = true;
+                    break;
+                case 7:
+                    this.OvBtnClassTonelagemD3.Visible = true;
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// actions Handlers for button Cancel 
+        /// </summary>
+        public void VisibleBtnCancel()
+        {
+            if (this.OvBtnClassRefClienteCancel.InvokeRequired == true)
+            {
+                this.OvBtnClassRefClienteCancel.Invoke(new Action(() => { this.OvBtnClassRefClienteCancel.Visible = false; }));
+            }
+            else { this.OvBtnClassRefClienteCancel.Visible = false; }
+
+            if (this.OvBtnClassRecebedorCancel.InvokeRequired == true)
+            {
+                this.OvBtnClassRecebedorCancel.Invoke(new Action(() => { this.OvBtnClassRecebedorCancel.Visible = false; }));
+            }
+            else { this.OvBtnClassRecebedorCancel.Visible = false; }
+
+            if (this.OvBtnClassLocalEntregaCancel.InvokeRequired == true)
+            {
+                this.OvBtnClassLocalEntregaCancel.Invoke(new Action(() => { this.OvBtnClassLocalEntregaCancel.Visible = false; }));
+            }
+            else { this.OvBtnClassLocalEntregaCancel.Visible = false; }
+            if (this.OvBtnClassPeriodoCancel.InvokeRequired == true)
+            {
+                this.OvBtnClassPeriodoCancel.Invoke(new Action(() => { this.OvBtnClassPeriodoCancel.Visible = false; }));
+            }
+            else { this.OvBtnClassPeriodoCancel.Visible = false; }
+            if (this.OvBtnClassTonelagemD1Cancel.InvokeRequired == true)
+            {
+                this.OvBtnClassTonelagemD1Cancel.Invoke(new Action(() => { this.OvBtnClassTonelagemD1Cancel.Visible = false; }));
+            }
+            else { this.OvBtnClassTonelagemD1Cancel.Visible = false; }
+            if (this.OvBtnClassTonelagemD2Cancel.InvokeRequired == true)
+            {
+                this.OvBtnClassTonelagemD2Cancel.Invoke(new Action(() => { this.OvBtnClassTonelagemD2Cancel.Visible = false; }));
+            }
+            else { this.OvBtnClassTonelagemD2Cancel.Visible = false; }
+            if (this.OvBtnClassTonelagemD3Cancel.InvokeRequired == true)
+            {
+                this.OvBtnClassTonelagemD3Cancel.Invoke(new Action(() => { this.OvBtnClassTonelagemD3Cancel.Visible = false; }));
+            }
+            else { this.OvBtnClassTonelagemD3Cancel.Visible = false; }
+
+            switch (FieldEdit)
+            {
+                case 1:
+                    this.OvBtnClassRefClienteCancel.Visible = true;
+                    break;
+                case 2:
+                    this.OvBtnClassRecebedorCancel.Visible = true;
+                    break;
+                case 3:
+                    this.OvBtnClassLocalEntregaCancel.Visible = true;
+                    break;
+                case 4:
+                    this.OvBtnClassPeriodoCancel.Visible = true;
+                    break;
+                case 5:
+                    this.OvBtnClassTonelagemD1Cancel.Visible = true;
+                    break;
+                case 6:
+                    this.OvBtnClassTonelagemD2Cancel.Visible = true;
+                    break;
+                case 7:
+                    this.OvBtnClassTonelagemD3Cancel.Visible = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Bind specific text to Field SalesDto
+        /// </summary>
+        public void SaleDtoEdit(bool clear = false)
+        {
+            switch (FieldEdit)
+            {
+                case 1:
+                    salesdto.RefClient = clear == false ? this.OvTxSelecaoRefCliente.Text : "";
+                    break;
+                case 2:
+                    salesdto.Receiver = clear == false ? this.OvTxSelecaoRecebedor.Text : "";
+                    break;
+                case 3:
+                    salesdto.Place = clear == false ? this.OvTxSelecaoLocalEntrega.Text : "";
+                    break;
+                case 4:
+                    salesdto.DesiredPeriod = clear == false ? this.OvTxSelecaoPeriodo.Text : "";
+                    break;
+                case 5:
+                    salesdto.D1 = clear == false ? this.OvTxSelecaoTonelagemD1.Text : "";
+                    break;
+                case 6:
+                    salesdto.D2 = clear == false ? this.OvTxSelecaoTonelagemD2.Text : "";
+                    break;
+                case 7:
+                    salesdto.D3 = clear == false ? this.OvTxSelecaoTonelagemD3.Text : "";
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Data Bind adress from salesDto to text fields 
+        /// </summary>
+        public void FormSalesDtoBind()
+        {
+
+            if (OvTxSelecaoRefCliente.InvokeRequired == true)
+            {
+                OvTxSelecaoRefCliente.Invoke(new Action(() => { this.OvTxSelecaoRefCliente.Text = salesdto.RefClient; }));
+            }
+            else { this.OvTxSelecaoRefCliente.Text = salesdto.RefClient; }
+
+            if (OvTxSelecaoRecebedor.InvokeRequired == true)
+            {
+                OvTxSelecaoRecebedor.Invoke(new Action(() => { this.OvTxSelecaoRecebedor.Text = salesdto.Receiver; }));
+            }
+            else { this.OvTxSelecaoRecebedor.Text = salesdto.Receiver; }
+
+            if (OvTxSelecaoLocalEntrega.InvokeRequired == true)
+            {
+                OvTxSelecaoLocalEntrega.Invoke(new Action(() => { this.OvTxSelecaoLocalEntrega.Text = salesdto.Place; }));
+            }
+            else { this.OvTxSelecaoLocalEntrega.Text = salesdto.Place; }
+            if (OvTxSelecaoPeriodo.InvokeRequired == true)
+            {
+                OvTxSelecaoPeriodo.Invoke(new Action(() => { this.OvTxSelecaoPeriodo.Text = salesdto.DesiredPeriod; }));
+            }
+            else { this.OvTxSelecaoPeriodo.Text = salesdto.DesiredPeriod; }
+
+            if (OvTxSelecaoTonelagemD1.InvokeRequired == true)
+            {
+                OvTxSelecaoTonelagemD1.Invoke(new Action(() => { this.OvTxSelecaoTonelagemD1.Text = salesdto.D1; }));
+            }
+            else { this.OvTxSelecaoTonelagemD1.Text = salesdto.D1; }
+
+            if (OvTxSelecaoTonelagemD2.InvokeRequired == true)
+            {
+                OvTxSelecaoTonelagemD2.Invoke(new Action(() => { this.OvTxSelecaoTonelagemD2.Text = salesdto.D2; }));
+            }
+            else { this.OvTxSelecaoTonelagemD2.Text = salesdto.D2; }
+
+            if (OvTxSelecaoTonelagemD3.InvokeRequired == true)
+            {
+                OvTxSelecaoTonelagemD3.Invoke(new Action(() => { this.OvTxSelecaoTonelagemD3.Text = salesdto.D3; }));
+            }
+            else { this.OvTxSelecaoTonelagemD3.Text = salesdto.D3; }
+
+        }
+
+        public void InitialStageSelectfields()
+        {
+            FieldEdit = 0;
+            ReadOnlySelectField();
+            VisibleBtnClass();
+            VisibleBtnCancel();
+            FPTimer.Stop();
+            FormSalesDtoBind();
+            OvRdnull.Checked = true;
+        }
+
         #endregion
 
         #region //////// botoes de classificação 
@@ -635,56 +898,39 @@ namespace Usiminas.PluginExcel.Ux
         private void OvBtnClassRefCliente_Click(object sender, EventArgs e)
         {
             FieldEdit = 1;
-            //salesdto.DesiredPeriod = "$M$21";
-            //salesdto.Place = "$C$21";
-            //salesdto.Receiver = "$B$21";
-            //salesdto.RefClient = "$A$21";
-            //salesdto.D1 = "$j$21";
-            //salesdto.D2 = "$K$21";
-            //salesdto.D3 = "$l$21";
             SaleDtoEdit();
             InitialStageSelectfields();
-
         }
-
         private void OvBtnClassRecebedor_Click(object sender, EventArgs e)
         {
             FieldEdit = 2;
             SaleDtoEdit();
             InitialStageSelectfields();
-
         }
-
         private void OvBtnClassLocalEntrega_Click(object sender, EventArgs e)
         {
             FieldEdit = 3;
             SaleDtoEdit();
             InitialStageSelectfields();
-
         }
-
         private void OvBtnClassPeriodo_Click(object sender, EventArgs e)
         {
             FieldEdit = 4;
             SaleDtoEdit();
             InitialStageSelectfields();
-
         }
-
         private void OvBtnClassTonelagemD1_Click(object sender, EventArgs e)
         {
             FieldEdit = 5;
             SaleDtoEdit();
             InitialStageSelectfields();
         }
-
         private void OvBtnClassTonelagemD2_Click(object sender, EventArgs e)
         {
             FieldEdit = 6;
             SaleDtoEdit();
             InitialStageSelectfields();
         }
-
         private void OvBtnClassTonelagemD3_Click(object sender, EventArgs e)
         {
             FieldEdit = 7;
@@ -697,35 +943,49 @@ namespace Usiminas.PluginExcel.Ux
         #region //////// botoes de cancelar classificação
         private void OvBtnClassRefClienteCancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 1;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
 
         private void OvBtnClassRecebedorCancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 2;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
 
         private void OvBtnClassLocalEntregaCancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 3;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
 
         private void OvBtnClassPeriodoCancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 4;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
 
         private void OvBtnClassTonelagemCancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 5;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
         private void OvBtnClassTonelagemD2Cancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 6;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
 
         private void OvBtnClassTonelagemD3Cancel_Click(object sender, EventArgs e)
         {
+            FieldEdit = 7;
+            SaleDtoEdit(true);
             InitialStageSelectfields();
         }
         #endregion 
@@ -828,10 +1088,364 @@ namespace Usiminas.PluginExcel.Ux
 
         #endregion
 
-        private void button2_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Leitura de planilha
+
+        #region ////////Delegates
+        private delegate void DelPopulateGridMap(ref List<InfoPlaDto> ret);
+        private delegate void DelAddColumReciver(List<ReceiverCorresp> receiverCorresp);
+        private delegate void DelAddColumPlace(List<PlaceCorresp> PlaceCorresp);
+        private delegate void DelPopulateReturnTempInvoce();
+        #endregion
+
+        #region //////// HandlerGrid
+        /// <summary>
+        /// bind the grid for maping fields from Excel
+        /// </summary>
+        /// <param name="ret"></param>
+        private void PopulateGridMap(ref List<InfoPlaDto> ret)
         {
-            mocardadosFormulario();
+            if (GridSales.InvokeRequired == true)
+            {
+                GridSales.Invoke(new Action(() =>
+                {
+                    GridSales.Rows.Clear();
+                }));
+            }
+            else
+            {
+                GridSales.Rows.Clear();
+            }
+            foreach (var item in ret)
+            {
+
+                if (GridSales.InvokeRequired == true)
+                {
+                    GridSales.Invoke(new Action(() =>
+                    {
+                        //GridSales.Controls.Clear();
+                        GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod);
+                    }));
+                }
+                else
+                {
+                    GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod);
+                }
+            }
+
+
         }
+
+        /// <summary>
+        /// create new collunms to bind form map
+        /// </summary>
+        private void AddColumReciver(List<ReceiverCorresp> receiverCorresp)
+        {
+            foreach (DataGridViewRow item in GridSales.Rows)
+            {
+                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.RecebedorLista.Key]);
+                ContactCombo.DataSource = receiverCorresp.Select(p => p.Description).ToArray();
+
+                string preencher = Functions.GetValueintoListRecebedor(deParaRecebedorDto, receiverCorresp, item.Cells[TabMapColGrid.Recebedor.Key].Value.ToString());
+
+                if (preencher != null)
+                {
+                    item.Cells[TabMapColGrid.RecebedorLista.Key].Value = preencher;
+                    item.Cells[TabMapColGrid.RecebedorMapeado.Key].Value = preencher;
+                    //altera o val or da lista existente
+                    infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                    //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                }
+            }
+
+        }
+
+        /// <summary> 
+        /// create new collunms to bind form map
+        /// </summary>
+        private void AddColumPlace(List<PlaceCorresp> PlaceCorresp)
+        {
+            foreach (DataGridViewRow item in GridSales.Rows)
+            {
+
+                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.BeneficiadorLista.Key]);
+                ContactCombo.DataSource = PlaceCorresp.Select(p => p.Description).ToArray();
+
+                //verifica se tem historico de mapeamento
+                if (item.Cells[TabMapColGrid.Beneficiador.Key].Value != null)
+                {
+                    string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, PlaceCorresp, item.Cells[TabMapColGrid.Beneficiador.Key].Value.ToString());
+                    if (preencher != null)
+                    {
+                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = false;
+                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = false;
+                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value = preencher;
+                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = preencher;
+                        //altera o valor da lista existente
+                        infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                        //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                    }
+                }
+                else
+                {
+                    item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = true;
+                    item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = true;
+                }
+
+            }
+        }
+
+        private string ValidGridToMap(int RowIndex)
+        {
+            string retstring = null;
+            if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value == "" || GridSales.Rows[RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value == null)
+                retstring = string.Format("O campo {0} é obrigado a ter um recebedor mapeado, favor selecionar uma opção!", TabMapColGrid.Recebedor.Value);
+
+            if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value != null)
+            {
+                if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value.ToString() != "")
+                {
+                    if (GridSales.Rows[RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value == "" || GridSales.Rows[RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value == null)
+                    {
+                        retstring += String.Format("O mapeamento do campo {0} é obrigado a ter um {1} mapeado, favor selecionar uma opção!", TabMapColGrid.BeneficiadorLista.Value, TabMapColGrid.Beneficiador.Value);
+                    }
+                }
+            }
+
+            return retstring;
+        }
+
+        private bool SelecionarValoresCombobox()
+        {
+            bool ValidGrd = true;
+            for (int linha = 0; linha < GridSales.Rows.Count; linha++)
+            {
+                GridSales.Rows[linha].Cells[TabMapColGrid.Messagem.Key].Value = null;
+                var validacao = ValidGridToMap(linha);
+                if (validacao != null)
+                {
+                    GridSales.Rows[linha].Cells[TabMapColGrid.Messagem.Key].Value = validacao;
+                    ValidGrd = false;
+                }
+
+            }
+            return ValidGrd;
+        }
+        private void PreencherValoresColuna(string ColunaLista, string ColunaMapeada, string PreencherTexto, string FiltroCampo = null, string FiltroValor = null)
+        {
+
+            for (int linha = 0; linha < GridSales.Rows.Count; linha++)
+            {
+
+                if (FiltroCampo == null)
+                {
+
+                    GridSales.Rows[linha].Cells[ColunaLista].Value = PreencherTexto;
+                    GridSales.Rows[linha].Cells[ColunaMapeada].Value = PreencherTexto;
+                    if (ColunaLista == "RecebedorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = PreencherTexto);
+                    }
+                    if (ColunaLista == "BeneficiadorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = PreencherTexto);
+                    }
+                }
+                else if (GridSales.Rows[linha].Cells[FiltroCampo].Value.ToString() == FiltroValor)
+                {
+                    GridSales.Rows[linha].Cells[ColunaLista].Value = PreencherTexto;
+                    GridSales.Rows[linha].Cells[ColunaMapeada].Value = PreencherTexto;
+                    if (ColunaLista == "RecebedorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = PreencherTexto);
+                    }
+                    if (ColunaLista == "BeneficiadorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = PreencherTexto);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region//////// EventsGrid
+        private void BtnIrParaCarrinho_Click(object sender, EventArgs e)
+        {
+            AbrirLoad("Montando carrinho...");
+            if (SelecionarValoresCombobox() == false)
+            {
+                MessageBox.Show("Existem pendências no mapeamento!");
+                FecharLoad();
+
+                return;
+            }
+
+            //caso exista novos mapeamentos, são salvos no banco
+            var NovosMapeamentoBeneficiador = DeParaServices.NovosDeParaBeneficiador(deParaBeneficiadorDto, infoPlaDtos, auth.CurrentClient, auth.userName);
+            var NovosMapeamentoRecebedor = DeParaServices.NovosDeParaRecebedor(deParaRecebedorDto, infoPlaDtos, auth.CurrentClient, auth.userName);
+            PluginService pluginServices = new PluginService(auth);
+
+            if (NovosMapeamentoBeneficiador != null && NovosMapeamentoBeneficiador.Count != 0)
+                pluginServices.BeneficiadorDeParaPostAsync(NovosMapeamentoBeneficiador);
+
+            if (NovosMapeamentoRecebedor != null && NovosMapeamentoRecebedor.Count != 0)
+                pluginServices.RecebedorDeParaPostAsync(NovosMapeamentoRecebedor);
+
+            PopulateItens();
+            //SelectContext("OvAbaCarrinho");
+            TabPopulateItens();
+            SelectContext("OvAbaCarrinhoTabela");
+
+            FecharLoad();
+        }
+
+        private void GridSales_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.BeneficiadorLista.Key))
+            {
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value != null)
+                {
+                    string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                    GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = novoValor;
+                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = novoValor);
+                    //SelecionarValoresCombobox();
+                }
+            }
+
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.RecebedorLista.Key))
+            {
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Recebedor.Key].Value != null)
+                {
+                    string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                    GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorMapeado.Key].Value = novoValor;
+                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = novoValor);
+                    //SelecionarValoresCombobox();
+                }
+            }
+            //GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Messagem.Key].Value = ValidGridToMap(e).ToString();
+        }
+
+        private void GridSales_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.BeneficiadorLista.Key))
+            {
+
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value != null)
+                {
+                    F_AutoComplet autoComplet = new F_AutoComplet();
+                    var acao = autoComplet.ShowDialog();
+                    string novoValor;
+                    switch (autoComplet.valor)
+                    {
+                        case 1:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.BeneficiadorLista.Key, TabMapColGrid.BeneficiadorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString());
+                            break;
+                        case 2:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.BeneficiadorLista.Key, TabMapColGrid.BeneficiadorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString(), TabMapColGrid.Beneficiador.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Beneficiador.Value].Value.ToString());
+                            break;
+                    }
+
+                }
+            }
+
+            if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.RecebedorLista.Key))
+            {
+
+                if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value != null)
+                {
+                    F_AutoComplet autoComplet = new F_AutoComplet();
+                    var acao = autoComplet.ShowDialog();
+                    string novoValor;
+                    switch (autoComplet.valor)
+                    {
+                        case 1:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.RecebedorLista.Key, TabMapColGrid.RecebedorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString());
+                            break;
+                        case 2:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.RecebedorLista.Key, TabMapColGrid.RecebedorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString(), TabMapColGrid.Recebedor.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Recebedor.Value].Value.ToString());
+                            break;
+
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Funcionalidades
+        public void AbrirLoad(string texto)
+        {
+            try
+            {
+                if (load.InvokeRequired == true)
+                {
+                    load.Invoke(new Action(() =>
+                    {
+                        load.textoLoad(texto);
+                        load.Show();
+                    }));
+                }
+                else
+                {
+                    load.textoLoad(texto);
+                    load.Show();
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+        public void FecharLoad()
+        {
+
+            //return;
+            if (load.InvokeRequired == true)
+            {
+                load.Invoke(new Action(() =>
+                {
+                    load.Hide();
+                }));
+            }
+            else
+            {
+                load.Hide();
+            }
+        }
+
+        public void NameClienteForm(string Nome)
+        {
+            if (OvLbClientePedido.InvokeRequired == true)
+            {
+                OvLbClientePedido.Invoke(new Action(() =>
+                {
+                    OvLbClientePedido.Text = "Olá " + Nome + "!";
+                    OvLbClientePedido.Visible = true;
+                }));
+            }
+            else
+            {
+                OvLbClientePedido.Text = "Olá " + Nome + "!";
+                OvLbClientePedido.Visible = true;
+            }
+        }
+
+
+        #endregion
+
     }
 }
 

@@ -65,6 +65,7 @@ namespace Usiminas.PluginExcel.Util
                 throw new Exception(ex.Message);
             }
         }
+
         /// <summary>
         /// requisição get com parametros
         /// </summary>
@@ -112,6 +113,7 @@ namespace Usiminas.PluginExcel.Util
                 throw;
             }
         }
+
         /// <summary>
         /// Requisição post com parametros
         /// </summary>
@@ -147,6 +149,7 @@ namespace Usiminas.PluginExcel.Util
                 return retorn;
             };
         }
+
         public virtual async Task<string> PostJson<T>(T Parametro)
         {
             if (EndPoint == null)
@@ -159,6 +162,7 @@ namespace Usiminas.PluginExcel.Util
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
                 string json = new JavaScriptSerializer().Serialize(Parametro);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
+                client.Timeout = TimeSpan.FromMinutes(10);
                 HttpResponseMessage response = await client.PostAsync(UrlBase + EndPoint, content);
 
                 string contentString = await response.Content.ReadAsStringAsync();

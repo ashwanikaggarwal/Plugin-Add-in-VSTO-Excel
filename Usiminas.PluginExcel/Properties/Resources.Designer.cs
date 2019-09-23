@@ -63,6 +63,16 @@ namespace Usiminas.PluginExcel.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap content_Loading_Loop_1 {
+            get {
+                object obj = ResourceManager.GetObject("content_Loading-Loop-1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap usiminas_logo {
             get {
                 object obj = ResourceManager.GetObject("usiminas-logo", resourceCulture);

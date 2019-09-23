@@ -34,7 +34,30 @@ namespace Usiminas.PluginExcel.Dto
         [Required(ErrorMessage = "O terceiro decêndio é Obrigatório")]
         public string D3 { get; set; }
         public bool Active { get; set; }
-       
+        public bool IntegridadeDados()
+        {
+            var linha = RefClient.Substring(3, 1);
+            if (linha != Receiver.Substring(3, 1))
+                return false;
+
+            if (Place != null || Place != "")
+            {
+                if (linha != Receiver.Substring(3, 1))
+                    return false;
+            }
+
+            if (linha != D1.Substring(3, 1))
+                return false;
+
+            if (linha != D2.Substring(3, 1))
+                return false;
+
+            if (linha != D3.Substring(3, 1))
+                return false;
+
+            return true;
+        }
+
     }
 
 }

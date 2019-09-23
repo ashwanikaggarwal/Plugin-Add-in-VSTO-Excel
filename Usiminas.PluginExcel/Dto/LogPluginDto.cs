@@ -21,7 +21,7 @@ namespace Usiminas.PluginExcel.Dto
 
         public void ClassToJasonCampo<T>(T classe)
         {
-            this.jsonCampo = new JavaScriptSerializer().Serialize(classe);
+            this.json = new JavaScriptSerializer().Serialize(classe);
         }
     }
 }

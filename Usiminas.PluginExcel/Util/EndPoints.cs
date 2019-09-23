@@ -7,16 +7,24 @@ using System.Threading.Tasks;
 
 namespace Usiminas.PluginExcel.Util
 {
+    /// <summary>
+    /// Direciona a base da URL e o servidor de autenticação
+    /// </summary>
     public static class EndPointsBase
     {
+        //tomar cuidado para que o servidor de AOth sempre esteja apontado para o servidor certo.
         static public string UrlBaseAOthServer = ConfigurationManager.AppSettings["OAuthServerUrlHml"];
         static public string ServerUrl = ConfigurationManager.AppSettings["ServerUrlHML"];
     }
+    /// <summary>
+    /// Direciona os endpoints
+    /// </summary>
     public static class EndPointsAPI
     {
         static public string User = ConfigurationManager.AppSettings["EndPointUser"];
         static public string Login = ConfigurationManager.AppSettings["ComplementUrlLogin"];
         static public string ClientGroup = ConfigurationManager.AppSettings["EndPointGrupoClient"];
+        static public string ControleVersao = ConfigurationManager.AppSettings["EndPointVersion"];
 
         //tabela
         static public string ClientFieldsGet = ConfigurationManager.AppSettings["EndPointPluginGet"];
@@ -46,7 +54,7 @@ namespace Usiminas.PluginExcel.Util
         //emissao de pedido
         static public string ClientEmissaoPedido = ConfigurationManager.AppSettings["EndPointEmititPedido"];
 
-        //emissao de pedido
+        //log
         static public string ClientLogPost = ConfigurationManager.AppSettings["EndPointLog"];
 
     }

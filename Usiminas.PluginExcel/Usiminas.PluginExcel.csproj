@@ -36,11 +36,15 @@
     <VSTO_TrustAssembliesLocation>true</VSTO_TrustAssembliesLocation>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.12</ApplicationVersion>
+    <ApplicationVersion>1.0.0.30</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -224,6 +228,7 @@
     <Compile Include="Dto\MinimoMultiploDto.cs" />
     <Compile Include="Dto\SalesDto.cs" />
     <Compile Include="Dto\ValidaPesoMultiPartNumberDto.cs" />
+    <Compile Include="Dto\VersaoPluginDto.cs" />
     <Compile Include="Entities\Authetication.cs" />
     <Compile Include="Entities\ClientLogin.cs" />
     <Compile Include="Dto\DeParaBeneficiadorDto.cs" />
@@ -250,32 +255,41 @@
     <Compile Include="Util\ListFields.cs" />
     <Compile Include="Util\RequestHttpBase.cs" />
     <Compile Include="Util\TabMapGrid.cs" />
+    <Compile Include="Ux\Carrinho Antigo\Carrinho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ux\Carrinho Antigo\ItemCarrinho.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ux\Carrinho Antigo\ItemCarrinho.Designer.cs">
+      <DependentUpon>ItemCarrinho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ux\Carrinho Antigo\ItemCarrinhoDetalhe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ux\Carrinho Antigo\ItemCarrinhoDetalhe.Designer.cs">
+      <DependentUpon>ItemCarrinhoDetalhe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ux\CarrinhoTabela.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ux\F_AutoComplet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ux\F_AutoComplet.Designer.cs">
+      <DependentUpon>F_AutoComplet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ux\F_RetornoPedido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ux\F_RetornoPedido.Designer.cs">
+      <DependentUpon>F_RetornoPedido.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ux\Load.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Ux\Load.Designer.cs">
       <DependentUpon>Load.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Ux\MapeamentoPlanilha.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ux\SelecaoCampos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ux\Carrinho.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ux\ItemCarrinho.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Ux\ItemCarrinho.Designer.cs">
-      <DependentUpon>ItemCarrinho.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Ux\ItemCarrinhoDetalhe.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Ux\ItemCarrinhoDetalhe.Designer.cs">
-      <DependentUpon>ItemCarrinhoDetalhe.cs</DependentUpon>
     </Compile>
     <Compile Include="Ux\Ribbon.cs">
       <XmlRibbon>true</XmlRibbon>
@@ -307,15 +321,21 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Ux\Carrinho Antigo\ItemCarrinho.resx">
+      <DependentUpon>ItemCarrinho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ux\Carrinho Antigo\ItemCarrinhoDetalhe.resx">
+      <DependentUpon>ItemCarrinhoDetalhe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ux\F_AutoComplet.resx">
+      <DependentUpon>F_AutoComplet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ux\F_Pedido.resx">
       <DependentUpon>F_Pedido.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ux\ItemCarrinho.resx">
-      <DependentUpon>ItemCarrinho.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ux\ItemCarrinhoDetalhe.resx">
-      <DependentUpon>ItemCarrinhoDetalhe.cs</DependentUpon>
+    <EmbeddedResource Include="Ux\F_RetornoPedido.resx">
+      <DependentUpon>F_RetornoPedido.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ux\Load.resx">
       <DependentUpon>Load.cs</DependentUpon>
@@ -360,7 +380,13 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Repository\MocMontarCarrinho.txt" />
+    <None Include="Resources\content_Loading-Loop-1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataGridViewNumericUpDownElements\DataGridViewNumericUpDownElements.csproj">
+      <Project>{82b50731-be90-433f-bb6e-9b509c5f3b7c}</Project>
+      <Name>DataGridViewNumericUpDownElements</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

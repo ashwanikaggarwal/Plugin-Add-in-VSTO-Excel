@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -45,6 +46,13 @@ namespace Usiminas.PluginExcel.Util
             var entries = dict.Select(d => string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value)));
             return "{" + string.Join(",", entries) + "}";
         }
-        
+        public static decimal Versao()
+        {
+            decimal versaoAtual = decimal.Parse(ConfigurationManager.AppSettings["Version"]);
+
+            return versaoAtual/10;
+        }
+
+
     }
 }

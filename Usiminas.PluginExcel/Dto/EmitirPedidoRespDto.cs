@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Usiminas.PluginExcel.Dto
 {
     public class EmitirPedidoRespDto
     {
-        public string E_VBELN { get; set; }
-        public string E_MSG_TYPE { get; set; }
-        public string E_MESSAGE { get; set; }
+        public string OVCriada { get; set; }
+        public string OVModelo { get; set; }
+        public string ItemModelo { get; set; }
+        public string PartNumberModelo { get; set; }
+        public string Status { get; set; }
+        public string Mensagem { get; set; }
     }
 }

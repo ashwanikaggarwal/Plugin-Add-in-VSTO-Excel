@@ -1,0 +1,6 @@
+D:\TFS\ExtranetPluginExcel\Office365\Dev\DataGridViewNumericUpDownElements\bin\Debug\DataGridViewNumericUpDownElements.dll
+D:\TFS\ExtranetPluginExcel\Office365\Dev\DataGridViewNumericUpDownElements\bin\Debug\DataGridViewNumericUpDownElements.pdb
+D:\TFS\ExtranetPluginExcel\Office365\Dev\DataGridViewNumericUpDownElements\obj\Debug\DataGridViewNumericUpDownElements.csprojAssemblyReference.cache
+D:\TFS\ExtranetPluginExcel\Office365\Dev\DataGridViewNumericUpDownElements\obj\Debug\DataGridViewNumericUpDownElements.csproj.CoreCompileInputs.cache
+D:\TFS\ExtranetPluginExcel\Office365\Dev\DataGridViewNumericUpDownElements\obj\Debug\DataGridViewNumericUpDownElements.dll
+D:\TFS\ExtranetPluginExcel\Office365\Dev\DataGridViewNumericUpDownElements\obj\Debug\DataGridViewNumericUpDownElements.pdb

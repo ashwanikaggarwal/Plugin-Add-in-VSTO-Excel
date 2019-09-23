@@ -44,17 +44,21 @@ namespace Usiminas.PluginExcel.Ux
 
                 if (GridSales.InvokeRequired == true)
                 {
-                    GridSales.Invoke(new Action(() => {
+                    GridSales.Invoke(new Action(() =>
+                    {
                         //GridSales.Controls.Clear();
-                        GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod); }));
+                        GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod);
+                    }));
                 }
                 else
                 {
                     GridSales.Rows.Add(item.RefClient, item.Id, item.Receiver, null, null, item.Place, null, null, item.Mensagem, item.D1, item.D2, item.D3, item.DesiredPeriod);
                 }
             }
+
+
         }
-        
+
         /// <summary>
         /// create new collunms to bind form map
         /// </summary>
@@ -150,19 +154,38 @@ namespace Usiminas.PluginExcel.Ux
             }
             return ValidGrd;
         }
-        private void PreencherValoresColuna(string ColunaLista, string ColunaMapeada, string PreencherTexto)
+        private void PreencherValoresColuna(string ColunaLista, string ColunaMapeada, string PreencherTexto, string FiltroCampo = null, string FiltroValor = null)
         {
+
             for (int linha = 0; linha < GridSales.Rows.Count; linha++)
             {
-                GridSales.Rows[linha].Cells[ColunaLista].Value = PreencherTexto;
-                GridSales.Rows[linha].Cells[ColunaMapeada].Value = PreencherTexto;
-                if (ColunaLista == "RecebedorLista")
+
+                if (FiltroCampo == null)
                 {
-                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = PreencherTexto);
+
+                    GridSales.Rows[linha].Cells[ColunaLista].Value = PreencherTexto;
+                    GridSales.Rows[linha].Cells[ColunaMapeada].Value = PreencherTexto;
+                    if (ColunaLista == "RecebedorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = PreencherTexto);
+                    }
+                    if (ColunaLista == "BeneficiadorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = PreencherTexto);
+                    }
                 }
-                if (ColunaLista == "BeneficiadorLista")
+                else if (GridSales.Rows[linha].Cells[FiltroCampo].Value.ToString() == FiltroValor)
                 {
-                    infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = PreencherTexto);
+                    GridSales.Rows[linha].Cells[ColunaLista].Value = PreencherTexto;
+                    GridSales.Rows[linha].Cells[ColunaMapeada].Value = PreencherTexto;
+                    if (ColunaLista == "RecebedorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.ReceiverMapped = PreencherTexto);
+                    }
+                    if (ColunaLista == "BeneficiadorLista")
+                    {
+                        infoPlaDtos.Where(p => p.Id.ToString() == GridSales.Rows[linha].Cells[TabMapColGrid.Id.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = PreencherTexto);
+                    }
                 }
             }
         }
@@ -172,10 +195,13 @@ namespace Usiminas.PluginExcel.Ux
         #region EventsGrid
         private void BtnIrParaCarrinho_Click(object sender, EventArgs e)
         {
-            AbrirLoad("Motando carrinho...");
+            AbrirLoad("Montando carrinho...");
             if (SelecionarValoresCombobox() == false)
             {
                 MessageBox.Show("Existem pendências no mapeamento!");
+                FecharLoad();
+
+                return;
             }
 
             //caso exista novos mapeamentos, são salvos no banco
@@ -190,7 +216,10 @@ namespace Usiminas.PluginExcel.Ux
                 pluginServices.RecebedorDeParaPostAsync(NovosMapeamentoRecebedor);
 
             PopulateItens();
-            SelectContext("OvAbaCarrinho");
+            //SelectContext("OvAbaCarrinho");
+            TabPopulateItens();
+            SelectContext("OvAbaCarrinhoTabela");
+
             FecharLoad();
         }
 
@@ -223,35 +252,52 @@ namespace Usiminas.PluginExcel.Ux
             //GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Messagem.Key].Value = ValidGridToMap(e).ToString();
         }
 
-
         private void GridSales_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1)
                 return;
             if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.BeneficiadorLista.Key))
             {
+
                 if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value != null)
                 {
-                    if (MessageBox.Show(string.Format("Deseja aplicar o valor {0} para todos campos?", GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Beneficiador.Key].Value),
-                        string.Format("Aplicar valores na coluna {0}", TabMapColGrid.Beneficiador.Key.ToString()), MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    F_AutoComplet autoComplet = new F_AutoComplet();
+                    var acao = autoComplet.ShowDialog();
+                    string novoValor;
+                    switch (autoComplet.valor)
                     {
-                        string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
-                        PreencherValoresColuna(TabMapColGrid.BeneficiadorLista.Key, TabMapColGrid.BeneficiadorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString());
+                        case 1:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.BeneficiadorLista.Key, TabMapColGrid.BeneficiadorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString());
+                            break;
+                        case 2:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.BeneficiadorLista.Key, TabMapColGrid.BeneficiadorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString(), TabMapColGrid.Beneficiador.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Beneficiador.Value].Value.ToString());
+                            break;
                     }
 
-                    //SelecionarValoresCombobox();
                 }
             }
 
             if (GridSales.Columns[e.ColumnIndex].Name.Equals(TabMapColGrid.RecebedorLista.Key))
             {
+
                 if (GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value != null)
                 {
-                    if (MessageBox.Show(string.Format("Deseja aplicar o valor '{0}' para todos campos?", GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value),
-                        string.Format("Aplicar valores na coluna {0}", TabMapColGrid.RecebedorLista.Value.ToString()), MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    F_AutoComplet autoComplet = new F_AutoComplet();
+                    var acao = autoComplet.ShowDialog();
+                    string novoValor;
+                    switch (autoComplet.valor)
                     {
-                        string novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
-                        PreencherValoresColuna(TabMapColGrid.RecebedorLista.Key, TabMapColGrid.RecebedorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString());
+                        case 1:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.RecebedorLista.Key, TabMapColGrid.RecebedorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString());
+                            break;
+                        case 2:
+                            novoValor = GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString();
+                            PreencherValoresColuna(TabMapColGrid.RecebedorLista.Key, TabMapColGrid.RecebedorMapeado.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString(), TabMapColGrid.Recebedor.Key, GridSales.Rows[e.RowIndex].Cells[TabMapColGrid.Recebedor.Value].Value.ToString());
+                            break;
+
                     }
                 }
             }
