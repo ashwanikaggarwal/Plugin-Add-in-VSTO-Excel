@@ -147,8 +147,6 @@ namespace Usiminas.PluginExcel.Services
         {
             try
             {
-
-
                 List<Tuple<string, int, int>> list = new List<Tuple<string, int, int>>();
 
                 Excel.Range cell = worksheet.Range[salesDto.RefClient];
@@ -181,8 +179,7 @@ namespace Usiminas.PluginExcel.Services
                 return list;
             }
             catch (Exception ex)
-            {
-
+            { 
                 throw new Exception("Erro ao mapear Planilha: " + ex.Message);
             }
         }

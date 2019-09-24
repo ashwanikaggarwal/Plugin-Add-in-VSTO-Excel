@@ -189,7 +189,7 @@ namespace Usiminas.PluginExcel.Ux
             }
             finally
             {
-                FecharLoad();
+                FecharLoad("OvAbaConfiguracao");
             }
         }
 

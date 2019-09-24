@@ -31,16 +31,17 @@ namespace Usiminas.PluginExcel.Services
 
                 return campos.Where(p => p.Active == true).FirstOrDefault();
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                if (ex.Message.ToLower().Contains("não existem dados"))
+                if (ex.CustomMessagem().ToLower().Contains("não existem dados"))
                 {
                     return null;
                 }
-                throw new Exception(ex.Message);
+                throw new CustomExceptions(ex.CustomMessagem(), ex);
             }
 
         }
+
         public async Task<bool> SaveInfoPlan(SalesDto salesDto)
         {
             try
@@ -49,9 +50,9 @@ namespace Usiminas.PluginExcel.Services
                 var campos = await pluginRepository.Post<SalesDto>(ListFieldsSalesDto.ListNameClassSalesDto(salesDto, salesDto.UserName, salesDto.CD_Cliente));
                 return true;
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                throw new Exception(ex.Message);
+                throw new CustomExceptions(ex.CustomMessagem(), ex);
             }
         }
         /// <summary>

@@ -44,7 +44,7 @@
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.30</ApplicationVersion>
+    <ApplicationVersion>1.0.0.34</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -237,6 +237,7 @@
     <Compile Include="Dto\GroupClientsDto.cs" />
     <Compile Include="Entities\EnumValidMapPlan.cs" />
     <Compile Include="Entities\Grupo.cs" />
+    <Compile Include="Entities\ListAbas.cs" />
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Entities\PartNumberCorresp.cs" />
     <Compile Include="Entities\PlaceCorresp.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Services\LogServices.cs" />
     <Compile Include="Services\PluginService.cs" />
+    <Compile Include="Util\CustomExceptions.cs" />
     <Compile Include="Util\EndPoints.cs" />
     <Compile Include="Util\Functions.cs" />
     <Compile Include="Util\ListFields.cs" />

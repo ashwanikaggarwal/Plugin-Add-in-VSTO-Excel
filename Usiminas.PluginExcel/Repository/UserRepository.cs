@@ -34,16 +34,16 @@ namespace Usiminas.PluginExcel.Repository
                     string contentString = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode == false)
-                        throw new Exception(response.RequestMessage.ToString());
+                        throw new CustomExceptions(response.RequestMessage.ToString());
 
                     retorn = JsonConvert.DeserializeObject<T>(contentString);
                     
                     return retorn;
                 };
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                throw new Exception(ex.Message);
+                throw new CustomExceptions(ex.CustomMessagem());
             }
         }
     }

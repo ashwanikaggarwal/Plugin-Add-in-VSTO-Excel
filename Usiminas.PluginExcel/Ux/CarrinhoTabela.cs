@@ -371,25 +371,34 @@ namespace Usiminas.PluginExcel.Ux
 
                 LogServices.LogEmissaoClass<List<EmitirPedidoRespDto>>(auth, "Pedido Enviado", "List<EmitirPedidoItemDto>", ret);
 
-                FecharLoad();
+                FecharLoad("OvAbaCarrinhoTabela");
 
                 var F_Retorno = new F_RetornoPedido();
 
                 F_Retorno.BuldingTempInvoce(ret);
 
-                F_Retorno.Show();
 
-                this.Hide();
+                if (F_Retorno.InvokeRequired == true)
+                {
+                    F_Retorno.Invoke(new Action(() => this.Show()));
+
+                }
+                else
+                {
+                    F_Retorno.Show();
+                }
+
+
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
                 LogServices.LogEmissaoClass<Exception>(auth, "erro", "retorno emissao de pedido", ex);
 
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.CustomMessagem());
             }
             finally
             {
-                FecharLoad();
+                FecharLoad("OvAbaCarrinhoTabela");
             }
         }
         #endregion 

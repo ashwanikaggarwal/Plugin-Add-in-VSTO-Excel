@@ -56,8 +56,12 @@
             // 
             // RibbonBtnFormulario
             // 
-            this.RibbonBtnFormulario.Label = "Formulário";
+            this.RibbonBtnFormulario.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.RibbonBtnFormulario.Image = global::Usiminas.PluginExcel.Properties.Resources.usiminas_logo;
+            this.RibbonBtnFormulario.ImageName = "logoUsiminas";
+            this.RibbonBtnFormulario.Label = "Emitir Pedido";
             this.RibbonBtnFormulario.Name = "RibbonBtnFormulario";
+            this.RibbonBtnFormulario.ShowImage = true;
             this.RibbonBtnFormulario.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RibbonB2BCallForm);
             // 
             // RibbonB2B

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Usiminas.PluginExcel.Dto
@@ -36,23 +37,23 @@ namespace Usiminas.PluginExcel.Dto
         public bool Active { get; set; }
         public bool IntegridadeDados()
         {
-            var linha = RefClient.Substring(3, 1);
-            if (linha != Receiver.Substring(3, 1))
+            var linha = Regex.Replace(RefClient, @"[^\d]", "");  
+            if (linha != Regex.Replace(Receiver, @"[^\d]", ""))
                 return false;
 
-            if (Place != null || Place != "")
+            if (Place != null && Place != "")
             {
-                if (linha != Receiver.Substring(3, 1))
+                if (linha != Regex.Replace(Place, @"[^\d]", ""))
                     return false;
             }
 
-            if (linha != D1.Substring(3, 1))
+            if (linha != Regex.Replace(D1, @"[^\d]", ""))
                 return false;
 
-            if (linha != D2.Substring(3, 1))
+            if (linha != Regex.Replace(D2, @"[^\d]", ""))
                 return false;
 
-            if (linha != D3.Substring(3, 1))
+            if (linha != Regex.Replace(D3, @"[^\d]", ""))
                 return false;
 
             return true;

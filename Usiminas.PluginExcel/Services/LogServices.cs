@@ -26,10 +26,9 @@ namespace Usiminas.PluginExcel.Services
                 PluginRepository pluginRepository = new PluginRepository(authentication, EndPointsAPI.ClientLogPost);
                 var list = await pluginRepository.PostJson(Log);
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-
-
+                throw new CustomExceptions(ex.Message, ex);
             }
         }
         public static async void LogEmissaoSimples(Authentication authentication, string campo, string msg)
@@ -48,9 +47,9 @@ namespace Usiminas.PluginExcel.Services
                 PluginRepository pluginRepository = new PluginRepository(authentication, EndPointsAPI.ClientLogPost);
                 var list = await pluginRepository.PostJson(Log);
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                //throw new Exception(ex.Message, ex);
+                throw new CustomExceptions(ex.Message, ex);
             }
         }
     }

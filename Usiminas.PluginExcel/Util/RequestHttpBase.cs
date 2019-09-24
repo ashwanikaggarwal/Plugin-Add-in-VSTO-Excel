@@ -23,8 +23,8 @@ namespace Usiminas.PluginExcel.Util
 
         private string UrlBase { get; set; }
         private string EndPoint { get; set; }
-        private  Authentication Authentication { get; set; }
-        public  string currentToken()
+        private Authentication Authentication { get; set; }
+        public string currentToken()
         {
             return Authentication.accessToken;
         }
@@ -60,9 +60,9 @@ namespace Usiminas.PluginExcel.Util
                     return retorn;
                 };
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                throw new Exception(ex.Message);
+                throw new CustomExceptions(ex.Message, ex);
             }
         }
 
@@ -96,21 +96,20 @@ namespace Usiminas.PluginExcel.Util
                     if (response.IsSuccessStatusCode == true)
                     {
 
-                       var retorn = JsonConvert.DeserializeObject<T>(contentString);
+                        var retorn = JsonConvert.DeserializeObject<T>(contentString);
                         EndPoint = null;
                         return retorn;
 
                     }
                     else
                     {
-                        throw new Exception(contentString);
+                        throw new CustomExceptions(contentString);
                     }
                 };
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-
-                throw;
+                throw new CustomExceptions(ex.Message, ex);
             }
         }
 
@@ -126,59 +125,73 @@ namespace Usiminas.PluginExcel.Util
                 throw new Exception("Favor Definir um EndPoint");
             if (Parametros == null)
                 throw new Exception("Favor Definir Os parametros");
-
-            var retorn = Activator.CreateInstance<T>();
-            using (HttpClient client = new HttpClient())
+            try
             {
-                var content = new FormUrlEncodedContent(Parametros);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
-
-                HttpResponseMessage response = await client.PostAsync(UrlBase + EndPoint, content);
-
-                string contentString = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode == true)
+                var retorn = Activator.CreateInstance<T>();
+                using (HttpClient client = new HttpClient())
                 {
+                    var content = new FormUrlEncodedContent(Parametros);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
 
-                    retorn = JsonConvert.DeserializeObject<T>(contentString);
-                    EndPoint = null;
-                }
-                else
-                {
-                    throw new Exception(contentString);
-                }
-                return retorn;
-            };
+                    HttpResponseMessage response = await client.PostAsync(UrlBase + EndPoint, content);
+
+                    string contentString = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode == true)
+                    {
+
+                        retorn = JsonConvert.DeserializeObject<T>(contentString);
+                        EndPoint = null;
+                    }
+                    else
+                    {
+                        throw new CustomExceptions(contentString);
+                    }
+                    return retorn;
+                };
+            }
+            catch (CustomExceptions ex)
+            {
+                throw new CustomExceptions(ex.Message, ex);
+            }
         }
 
         public virtual async Task<string> PostJson<T>(T Parametro)
         {
             if (EndPoint == null)
-                throw new Exception("Favor Definir um EndPoint");
-
-            using (HttpClient client = new HttpClient())
+                throw new CustomExceptions("Favor Definir um EndPoint");
+            try
             {
-                //var content = new FormUrlEncodedContent(Parametros);
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
-                string json = new JavaScriptSerializer().Serialize(Parametro);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                client.Timeout = TimeSpan.FromMinutes(10);
-                HttpResponseMessage response = await client.PostAsync(UrlBase + EndPoint, content);
 
-                string contentString = await response.Content.ReadAsStringAsync();
-                if (response.IsSuccessStatusCode == true)
+                using (HttpClient client = new HttpClient())
                 {
-                    EndPoint = null;
-                    return contentString;
-                }
-                else
-                {
-                    throw new Exception(contentString);
-                }
-                throw new HttpRequestException(contentString);
-            };
+                    //var content = new FormUrlEncodedContent(Parametros);
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", String.Format("{0}", Authentication.accessToken));
+                    string json = new JavaScriptSerializer().Serialize(Parametro);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    client.Timeout = TimeSpan.FromMinutes(10);
+                    HttpResponseMessage response = await client.PostAsync(UrlBase + EndPoint, content);
+
+                    string contentString = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode == true)
+                    {
+                        EndPoint = null;
+                        return contentString;
+                    }
+                    else
+                    {
+                        throw new CustomExceptions(contentString);
+                    }
+                    throw new CustomExceptions(contentString);
+                };
+            }
+            catch (CustomExceptions ex)
+            {
+                throw new CustomExceptions(ex.Message, ex);
+            }
         }
-       
+
         public Requestbase(Authentication login, string endPoint)
         {
             UrlBase = EndPointsBase.ServerUrl;

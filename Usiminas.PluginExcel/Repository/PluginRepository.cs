@@ -20,7 +20,7 @@ namespace Usiminas.PluginExcel.Repository
         public override async Task<T> Get<T>(Dictionary<string, string> Parametros) 
         {
             if (Url == null)
-                throw new Exception("Favor Definir um EndPoint");
+                throw new CustomExceptions("Favor Definir um EndPoint");
 
             try
             {
@@ -40,13 +40,13 @@ namespace Usiminas.PluginExcel.Repository
                     }
                     else
                     {
-                        throw new Exception(contentString);
+                        throw new CustomExceptions(contentString);
                     }
                 };
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                throw new Exception(ex.Message);
+                throw new CustomExceptions(ex.CustomMessagem());
             }
         }
     }

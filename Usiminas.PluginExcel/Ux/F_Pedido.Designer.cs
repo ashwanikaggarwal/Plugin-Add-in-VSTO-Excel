@@ -46,6 +46,7 @@ namespace Usiminas.PluginExcel.Ux
             this.OvTxLogin = new System.Windows.Forms.TextBox();
             this.OvAbaDados = new System.Windows.Forms.TabPage();
             this.OvFrCampos = new System.Windows.Forms.GroupBox();
+            this.OvLbAviso = new System.Windows.Forms.Label();
             this.OvLbPeriodoDesejado = new System.Windows.Forms.Label();
             this.DtPrazoDesejado = new System.Windows.Forms.DateTimePicker();
             this.OvBtnClassTonelagemD3Cancel = new System.Windows.Forms.Button();
@@ -95,7 +96,6 @@ namespace Usiminas.PluginExcel.Ux
             this.D2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.D3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.period = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BtnCancelar = new System.Windows.Forms.Button();
             this.OvAbaCarrinhoTabela = new System.Windows.Forms.TabPage();
             this.TbC_TotalTonelagemReal = new System.Windows.Forms.Label();
             this.TbC_TotalTonelagemRealLb = new System.Windows.Forms.Label();
@@ -117,6 +117,8 @@ namespace Usiminas.PluginExcel.Ux
             this.Disp_Recebedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Disp_Beneficiador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IdPai = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OvAbaLoad = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.OvAbaCarrinho = new System.Windows.Forms.TabPage();
             this.OvLbTotalToneContFinal = new System.Windows.Forms.Label();
             this.OvLbTotalToneFinal = new System.Windows.Forms.Label();
@@ -132,7 +134,6 @@ namespace Usiminas.PluginExcel.Ux
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.DecMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OvLbVersao = new System.Windows.Forms.Label();
-            this.OvLbDetalhe = new System.Windows.Forms.Label();
             this.TabControl.SuspendLayout();
             this.OvAbaConfiguracao.SuspendLayout();
             this.OvAbaDados.SuspendLayout();
@@ -142,6 +143,8 @@ namespace Usiminas.PluginExcel.Ux
             ((System.ComponentModel.ISupportInitialize)(this.GridSales)).BeginInit();
             this.OvAbaCarrinhoTabela.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridCarrinho)).BeginInit();
+            this.OvAbaLoad.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.OvAbaCarrinho.SuspendLayout();
             this.OvAbaCarrinhoTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -161,6 +164,7 @@ namespace Usiminas.PluginExcel.Ux
             this.TabControl.Controls.Add(this.OvAbaDados);
             this.TabControl.Controls.Add(this.OvAbaPedido);
             this.TabControl.Controls.Add(this.OvAbaCarrinhoTabela);
+            this.TabControl.Controls.Add(this.OvAbaLoad);
             this.TabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TabControl.Location = new System.Drawing.Point(14, 42);
             this.TabControl.Multiline = true;
@@ -280,7 +284,6 @@ namespace Usiminas.PluginExcel.Ux
             // 
             // OvAbaDados
             // 
-            this.OvAbaDados.Controls.Add(this.OvLbDetalhe);
             this.OvAbaDados.Controls.Add(this.OvFrCampos);
             this.OvAbaDados.Controls.Add(this.OvBtnProcessSale);
             this.OvAbaDados.Controls.Add(this.pictureBox1);
@@ -295,6 +298,7 @@ namespace Usiminas.PluginExcel.Ux
             // 
             // OvFrCampos
             // 
+            this.OvFrCampos.Controls.Add(this.OvLbAviso);
             this.OvFrCampos.Controls.Add(this.OvLbPeriodoDesejado);
             this.OvFrCampos.Controls.Add(this.DtPrazoDesejado);
             this.OvFrCampos.Controls.Add(this.OvBtnClassTonelagemD3Cancel);
@@ -333,6 +337,16 @@ namespace Usiminas.PluginExcel.Ux
             this.OvFrCampos.TabIndex = 18;
             this.OvFrCampos.TabStop = false;
             this.OvFrCampos.Text = "Campos";
+            // 
+            // OvLbAviso
+            // 
+            this.OvLbAviso.AutoSize = true;
+            this.OvLbAviso.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OvLbAviso.Location = new System.Drawing.Point(405, 411);
+            this.OvLbAviso.Name = "OvLbAviso";
+            this.OvLbAviso.Size = new System.Drawing.Size(88, 13);
+            this.OvLbAviso.TabIndex = 19;
+            this.OvLbAviso.Text = "* Não Obrigatório";
             // 
             // OvLbPeriodoDesejado
             // 
@@ -699,7 +713,6 @@ namespace Usiminas.PluginExcel.Ux
             // 
             this.OvAbaPedido.Controls.Add(this.BtnIrParaCarrinho);
             this.OvAbaPedido.Controls.Add(this.GridSales);
-            this.OvAbaPedido.Controls.Add(this.BtnCancelar);
             this.OvAbaPedido.Location = new System.Drawing.Point(4, 27);
             this.OvAbaPedido.Name = "OvAbaPedido";
             this.OvAbaPedido.Padding = new System.Windows.Forms.Padding(3);
@@ -836,16 +849,6 @@ namespace Usiminas.PluginExcel.Ux
             this.period.HeaderText = "Periodo";
             this.period.Name = "period";
             this.period.ReadOnly = true;
-            // 
-            // BtnCancelar
-            // 
-            this.BtnCancelar.Location = new System.Drawing.Point(982, 402);
-            this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.Size = new System.Drawing.Size(90, 31);
-            this.BtnCancelar.TabIndex = 3;
-            this.BtnCancelar.Text = "Cancelar";
-            this.BtnCancelar.UseVisualStyleBackColor = true;
-            this.BtnCancelar.Visible = false;
             // 
             // OvAbaCarrinhoTabela
             // 
@@ -1046,6 +1049,32 @@ namespace Usiminas.PluginExcel.Ux
             this.IdPai.ReadOnly = true;
             this.IdPai.Visible = false;
             // 
+            // OvAbaLoad
+            // 
+            this.OvAbaLoad.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.OvAbaLoad.Controls.Add(this.pictureBox2);
+            this.OvAbaLoad.Location = new System.Drawing.Point(4, 27);
+            this.OvAbaLoad.Name = "OvAbaLoad";
+            this.OvAbaLoad.Padding = new System.Windows.Forms.Padding(3);
+            this.OvAbaLoad.Size = new System.Drawing.Size(1090, 475);
+            this.OvAbaLoad.TabIndex = 5;
+            this.OvAbaLoad.Text = "Aguarde...";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.ErrorImage = global::Usiminas.PluginExcel.Properties.Resources.content_Loading_Loop_1;
+            this.pictureBox2.Image = global::Usiminas.PluginExcel.Properties.Resources.content_Loading_Loop_1;
+            this.pictureBox2.InitialImage = global::Usiminas.PluginExcel.Properties.Resources.content_Loading_Loop_1;
+            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(1087, 472);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            // 
             // OvAbaCarrinho
             // 
             this.OvAbaCarrinho.BackColor = System.Drawing.Color.Transparent;
@@ -1206,15 +1235,6 @@ namespace Usiminas.PluginExcel.Ux
             this.OvLbVersao.TabIndex = 2;
             this.OvLbVersao.Text = "Versao ";
             // 
-            // OvLbDetalhe
-            // 
-            this.OvLbDetalhe.AutoSize = true;
-            this.OvLbDetalhe.Location = new System.Drawing.Point(556, 444);
-            this.OvLbDetalhe.Name = "OvLbDetalhe";
-            this.OvLbDetalhe.Size = new System.Drawing.Size(88, 13);
-            this.OvLbDetalhe.TabIndex = 19;
-            this.OvLbDetalhe.Text = "* Não Obrigatório";
-            // 
             // F_Pedido
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1236,7 +1256,6 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaConfiguracao.ResumeLayout(false);
             this.OvAbaConfiguracao.PerformLayout();
             this.OvAbaDados.ResumeLayout(false);
-            this.OvAbaDados.PerformLayout();
             this.OvFrCampos.ResumeLayout(false);
             this.OvFrCampos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1245,6 +1264,8 @@ namespace Usiminas.PluginExcel.Ux
             this.OvAbaCarrinhoTabela.ResumeLayout(false);
             this.OvAbaCarrinhoTabela.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridCarrinho)).EndInit();
+            this.OvAbaLoad.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.OvAbaCarrinho.ResumeLayout(false);
             this.OvAbaCarrinho.PerformLayout();
             this.OvAbaCarrinhoTab.ResumeLayout(false);
@@ -1255,6 +1276,7 @@ namespace Usiminas.PluginExcel.Ux
         }
 
         #endregion
+
 
         private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.TabPage OvAbaDados;
@@ -1292,7 +1314,6 @@ namespace Usiminas.PluginExcel.Ux
         private System.Windows.Forms.Button OvBtnClassRecebedorCancel;
         private System.Windows.Forms.Button OvBtnClassRefClienteCancel;
         private System.Windows.Forms.TabPage OvAbaPedido;
-        private System.Windows.Forms.Button BtnCancelar;
         private System.Windows.Forms.DataGridView GridSales;
         private System.Windows.Forms.Button OvBtnClassTonelagemD3Cancel;
         private System.Windows.Forms.RadioButton OvRdTonelagemD3;
@@ -1357,6 +1378,8 @@ namespace Usiminas.PluginExcel.Ux
         private DataGridViewTextBoxColumn Disp_Beneficiador;
         private DataGridViewTextBoxColumn IdPai;
         private Label OvLbVersao;
-        private Label OvLbDetalhe;
+        private Label OvLbAviso;
+        private TabPage OvAbaLoad;
+        private PictureBox pictureBox2;
     }
 }

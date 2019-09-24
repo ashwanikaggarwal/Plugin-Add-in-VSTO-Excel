@@ -32,21 +32,33 @@ namespace Usiminas.PluginExcel.Ux
         int FieldEdit; // variavel que define qual é o botão
         #endregion
 
+        // variavel que controla as abas
+        List<ListAbas> ListAbas = new List<ListAbas>();
+
         #region Inicialização e transição de form
         public F_Pedido()
         {
             InitializeComponent();
+            ListAbas.Add( new ListAbas() { Tab = this.OvAbaConfiguracao });
+            ListAbas.Add( new ListAbas() { Tab = this.OvAbaDados });
+            ListAbas.Add( new ListAbas() { Tab = this.OvAbaPedido });
+            ListAbas.Add( new ListAbas() { Tab = this.OvAbaCarrinhoTabela });
+            ListAbas.Add(new ListAbas() { Tab = this.OvAbaLoad, Visible = false });
+
             InitialStageSelectfields();
         }
         private void F_Pedido_Load(object sender, EventArgs e)
         {
             OvAbaCarrinhoTab.Hide();
+
             SelectContext("OvAbaConfiguracao");
+            //
             InitialStageSelectfields();
             ObBtnChosenClient.Visible = false;
             ObCbClienteGrupo.Visible = false;
             OvLbClienteGrupo.Visible = false;
             OvLbVersao.Text = "Versão: " + Functions.Versao().ToString().Replace(",", ".");
+            FecharLoad("OvAbaConfiguracao");
         }
 
         protected void Form1_OnKeyPress(object sender, KeyPressEventArgs e)
@@ -65,13 +77,13 @@ namespace Usiminas.PluginExcel.Ux
 
                 AbrirLoad(TextosLoad.Login);
                 ///reseta as configurações
-                
-                SelectContext("OvAbaConfiguracao");
                 InitialStageSelectfields();
                 ObBtnChosenClient.Visible = false;
                 ObCbClienteGrupo.Visible = false;
                 OvLbClienteGrupo.Visible = false;
-                ///
+                OvTxLogin.Text = "igorteste";
+                OvTxSenha.Text = "Simo12es?";
+
                 Login login = new Login();
 
                 AuthenticationServices authentication = new AuthenticationServices();
@@ -104,9 +116,9 @@ namespace Usiminas.PluginExcel.Ux
                     var versao = await pluginServices.GetVersaoAsync();
 
                     if (versao.minimaVersao > Functions.Versao())
-                        throw new Exception(string.Format("Sua versão({0}) está desatualizada, favor atualizar!", Functions.Versao().ToString().Replace(",", ".")));
+                        throw new CustomExceptions(string.Format("Sua versão({0}) está desatualizada, favor atualizar!", Functions.Versao().ToString().Replace(",", ".")));
 
-                    UserRepository userRepository = new UserRepository(auth, EndPointsAPI.User); 
+                    UserRepository userRepository = new UserRepository(auth, EndPointsAPI.User);
 
                     //var user = await userServices.UserInformation(auth);
                     var user = await userRepository.Get<User>();
@@ -183,22 +195,22 @@ namespace Usiminas.PluginExcel.Ux
                             }));
                     }
 
-                    SelectContext("OvAbaDados");
+                   // SelectContext("OvAbaDados");
                 }
                 else
                 {
                     MessageBox.Show("Falha ao tentar logar");
                 }
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                LogServices.LogEmissaoClass<Exception>(auth, "Erro", "login", ex);
+                LogServices.LogEmissaoClass<CustomExceptions>(auth, "Erro", "login", ex);
 
-                MessageBox.Show("Falha ao tentar logar: " + ex.Message);
+                MessageBox.Show("Falha ao tentar logar: " + ex.CustomMessagem());
             }
             finally
             {
-                FecharLoad();
+                FecharLoad("OvAbaDados");
             }
         }
 
@@ -268,9 +280,9 @@ namespace Usiminas.PluginExcel.Ux
                 }
                 SelectContext("OvAbaDados");
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                LogServices.LogEmissaoClass<Exception>(auth, "erro", "ChosenClient", ex);
+                LogServices.LogEmissaoClass<CustomExceptions>(auth, "erro", "ChosenClient", ex);
             }
             finally
             {
@@ -278,7 +290,10 @@ namespace Usiminas.PluginExcel.Ux
             }
 
         }
-
+        /// ////////////////////////////
+        
+            /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OvBtnEnviar_Click(object sender, EventArgs e)
         {
             try
@@ -294,11 +309,11 @@ namespace Usiminas.PluginExcel.Ux
                     MessageBox.Show(resultados.ListaErro);
                     return;
                 }
-                //if (salesdto.IntegridadeDados() == false)
-                //{
-                //    MessageBox.Show("Todos os dados tem que estar na mesma linha do excel!");
-                //    return;
-                //}
+                if (salesdto.IntegridadeDados() == false)
+                {
+                    MessageBox.Show("Todos os dados tem que estar na mesma linha do excel!");
+                    return;
+                }
 
 
                 InformationsPlan informationsPlan = new InformationsPlan();
@@ -365,6 +380,7 @@ namespace Usiminas.PluginExcel.Ux
                     }
                     //return;
                 }
+
                 //delagates criados para deixar o objetos na mesma thread
                 if (GridSales.InvokeRequired == true)
                 {
@@ -384,24 +400,20 @@ namespace Usiminas.PluginExcel.Ux
 
                 delAddColumPlace.Invoke(infoPlaDtos.First().PlaceCorresp);
 
-                //if (salesdto.Id == 0)
-                //{
                 if (MessageBox.Show("Deseja salvar o mapeamento da planilha para o proximo pedido?", "Mapeamento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     LogServices.LogEmissaoClass<SalesDto>(auth, "Salvar novo Mapeamento", "salesdto", salesdto);
                     PluginService pluginser = new PluginService(auth);
                     var salvar = await pluginser.SaveInfoPlan(salesdto);
                 }
-                //}
-                SelectContext("OvAbaPedido");
+
+                FecharLoad("OvAbaPedido");
+
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                FecharLoad();
+                MessageBox.Show(ex.CustomMessagem());
+                FecharLoad("OvAbaDados");
             }
         }
 
@@ -477,7 +489,7 @@ namespace Usiminas.PluginExcel.Ux
 
         }
 
- 
+
         #endregion
 
         #region Mapeamento de planilha
@@ -518,62 +530,13 @@ namespace Usiminas.PluginExcel.Ux
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (CustomExceptions ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.CustomMessagem());
             }
         }
 
-        /// <summary>
-        /// validate if user are autorized
-        /// </summary>
-        public bool ValidLogin()
-        {
-            if (auth.Token == null)
-            {
-                if (this.TabControl.Controls.Contains(OvAbaDados) == true)
-                {
-                    this.TabControl.Controls.Remove(this.OvAbaDados);
-                    this.TabControl.Controls.Remove(this.OvAbaConfiguracao);
-                }
-                OvAbaConfiguracao.Focus();
-                SelectContext(this.OvAbaConfiguracao.ToString());
-                return false;
-            }
-            else
-            {
-                if (this.TabControl.Controls.Contains(OvAbaDados) == false)
-                {
-                    this.TabControl.Controls.Add(this.OvAbaDados);
-                }
-                TabControl.SelectedTab = OvAbaDados;
-                return true;
-            }
-        }
-
-        public void SelectContext(string context)
-        {
-
-            foreach (TabPage item in this.TabControl.TabPages)
-            {
-                if (item.Name.Equals(context))
-                {
-                    if (TabControl.InvokeRequired)
-                    {
-                        TabControl.Invoke(new Action(() =>
-                        {
-                            TabControl.SelectedTab = item;
-                        }
-                        ));
-                    }
-                    else
-                    {
-                        TabControl.SelectedTab = item;
-                    }
-                }
-            }
-
-        }
+      
 
         /// <summary>
         /// actions Handlers for textbox
@@ -1097,9 +1060,12 @@ namespace Usiminas.PluginExcel.Ux
         private delegate void DelAddColumReciver(List<ReceiverCorresp> receiverCorresp);
         private delegate void DelAddColumPlace(List<PlaceCorresp> PlaceCorresp);
         private delegate void DelPopulateReturnTempInvoce();
+
+
         #endregion
 
         #region //////// HandlerGrid
+
         /// <summary>
         /// bind the grid for maping fields from Excel
         /// </summary>
@@ -1142,22 +1108,48 @@ namespace Usiminas.PluginExcel.Ux
         /// </summary>
         private void AddColumReciver(List<ReceiverCorresp> receiverCorresp)
         {
-            foreach (DataGridViewRow item in GridSales.Rows)
+            if (GridSales.InvokeRequired == true)
             {
-                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.RecebedorLista.Key]);
-                ContactCombo.DataSource = receiverCorresp.Select(p => p.Description).ToArray();
-
-                string preencher = Functions.GetValueintoListRecebedor(deParaRecebedorDto, receiverCorresp, item.Cells[TabMapColGrid.Recebedor.Key].Value.ToString());
-
-                if (preencher != null)
+                GridSales.Invoke(new Action(() =>
                 {
-                    item.Cells[TabMapColGrid.RecebedorLista.Key].Value = preencher;
-                    item.Cells[TabMapColGrid.RecebedorMapeado.Key].Value = preencher;
-                    //altera o val or da lista existente
-                    infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
-                    //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                    foreach (DataGridViewRow item in GridSales.Rows)
+                    {
+                        DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.RecebedorLista.Key]);
+                        ContactCombo.DataSource = receiverCorresp.Select(p => p.Description).ToArray();
+
+                        string preencher = Functions.GetValueintoListRecebedor(deParaRecebedorDto, receiverCorresp, item.Cells[TabMapColGrid.Recebedor.Key].Value.ToString());
+
+                        if (preencher != null)
+                        {
+                            item.Cells[TabMapColGrid.RecebedorLista.Key].Value = preencher;
+                            item.Cells[TabMapColGrid.RecebedorMapeado.Key].Value = preencher;
+                            //altera o val or da lista existente
+                            infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                            //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                        }
+                    }
+                }));
+            }
+            else
+            {
+                foreach (DataGridViewRow item in GridSales.Rows)
+                {
+                    DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.RecebedorLista.Key]);
+                    ContactCombo.DataSource = receiverCorresp.Select(p => p.Description).ToArray();
+
+                    string preencher = Functions.GetValueintoListRecebedor(deParaRecebedorDto, receiverCorresp, item.Cells[TabMapColGrid.Recebedor.Key].Value.ToString());
+
+                    if (preencher != null)
+                    {
+                        item.Cells[TabMapColGrid.RecebedorLista.Key].Value = preencher;
+                        item.Cells[TabMapColGrid.RecebedorMapeado.Key].Value = preencher;
+                        //altera o val or da lista existente
+                        infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.RecebedorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                        //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                    }
                 }
             }
+
 
         }
 
@@ -1166,33 +1158,66 @@ namespace Usiminas.PluginExcel.Ux
         /// </summary>
         private void AddColumPlace(List<PlaceCorresp> PlaceCorresp)
         {
-            foreach (DataGridViewRow item in GridSales.Rows)
+            if (GridSales.InvokeRequired == true)
             {
-
-                DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.BeneficiadorLista.Key]);
-                ContactCombo.DataSource = PlaceCorresp.Select(p => p.Description).ToArray();
-
-                //verifica se tem historico de mapeamento
-                if (item.Cells[TabMapColGrid.Beneficiador.Key].Value != null)
+                GridSales.Invoke(new Action(() =>
                 {
-                    string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, PlaceCorresp, item.Cells[TabMapColGrid.Beneficiador.Key].Value.ToString());
-                    if (preencher != null)
+                    foreach (DataGridViewRow item in GridSales.Rows)
                     {
-                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = false;
-                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = false;
-                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value = preencher;
-                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = preencher;
-                        //altera o valor da lista existente
-                        infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
-                        //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                        DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.BeneficiadorLista.Key]);
+                        ContactCombo.DataSource = PlaceCorresp.Select(p => p.Description).ToArray();
+
+                        //verifica se tem historico de mapeamento
+                        if (item.Cells[TabMapColGrid.Beneficiador.Key].Value != null)
+                        {
+                            string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, PlaceCorresp, item.Cells[TabMapColGrid.Beneficiador.Key].Value.ToString());
+                            if (preencher != null)
+                            {
+                                item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = false;
+                                item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = false;
+                                item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value = preencher;
+                                item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = preencher;
+                                //altera o valor da lista existente
+                                infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                                //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                            }
+                        }
+                        else
+                        {
+                            item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = true;
+                            item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = true;
+                        }
+                    }
+                }));
+            }
+            else
+            {
+                foreach (DataGridViewRow item in GridSales.Rows)
+                {
+                    DataGridViewComboBoxCell ContactCombo = (DataGridViewComboBoxCell)(item.Cells[TabMapColGrid.BeneficiadorLista.Key]);
+                    ContactCombo.DataSource = PlaceCorresp.Select(p => p.Description).ToArray();
+
+                    //verifica se tem historico de mapeamento
+                    if (item.Cells[TabMapColGrid.Beneficiador.Key].Value != null)
+                    {
+                        string preencher = Functions.GetValueintoListBeneficiador(deParaBeneficiadorDto, PlaceCorresp, item.Cells[TabMapColGrid.Beneficiador.Key].Value.ToString());
+                        if (preencher != null)
+                        {
+                            item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = false;
+                            item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = false;
+                            item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value = preencher;
+                            item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].Value = preencher;
+                            //altera o valor da lista existente
+                            infoPlaDtos.Where(p => p.Id.ToString() == item.Cells[TabMapColGrid.BeneficiadorLista.Key].Value.ToString()).ToList().ForEach(s => s.PlacerMapped = preencher);
+                            //dataGridView1.Rows[rowIndexYouWant].Cells["ComboColumn"].Value = "1";
+                        }
+                    }
+                    else
+                    {
+                        item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = true;
+                        item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = true;
                     }
                 }
-                else
-                {
-                    item.Cells[TabMapColGrid.BeneficiadorLista.Key].ReadOnly = true;
-                    item.Cells[TabMapColGrid.BeneficiadorMapeado.Key].ReadOnly = true;
-                }
-
             }
         }
 
@@ -1277,14 +1302,17 @@ namespace Usiminas.PluginExcel.Ux
             if (SelecionarValoresCombobox() == false)
             {
                 MessageBox.Show("Existem pendências no mapeamento!");
-                FecharLoad();
+
+                FecharLoad("OvAbaCarrinhoTabela");
 
                 return;
             }
 
             //caso exista novos mapeamentos, são salvos no banco
             var NovosMapeamentoBeneficiador = DeParaServices.NovosDeParaBeneficiador(deParaBeneficiadorDto, infoPlaDtos, auth.CurrentClient, auth.userName);
+
             var NovosMapeamentoRecebedor = DeParaServices.NovosDeParaRecebedor(deParaRecebedorDto, infoPlaDtos, auth.CurrentClient, auth.userName);
+
             PluginService pluginServices = new PluginService(auth);
 
             if (NovosMapeamentoBeneficiador != null && NovosMapeamentoBeneficiador.Count != 0)
@@ -1296,9 +1324,10 @@ namespace Usiminas.PluginExcel.Ux
             PopulateItens();
             //SelectContext("OvAbaCarrinho");
             TabPopulateItens();
-            SelectContext("OvAbaCarrinhoTabela");
 
-            FecharLoad();
+            //SelectContext("OvAbaCarrinhoTabela");
+
+            FecharLoad("OvAbaCarrinhoTabela");
         }
 
         private void GridSales_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -1385,47 +1414,56 @@ namespace Usiminas.PluginExcel.Ux
         #endregion
 
         #region Funcionalidades
-        public void AbrirLoad(string texto)
+
+        /// <summary>
+        /// validate if user are autorized
+        /// </summary>
+        public bool ValidLogin()
         {
-            try
+            if (auth.Token == null)
             {
-                if (load.InvokeRequired == true)
+                if (this.TabControl.Controls.Contains(OvAbaDados) == true)
                 {
-                    load.Invoke(new Action(() =>
-                    {
-                        load.textoLoad(texto);
-                        load.Show();
-                    }));
+                    this.TabControl.Controls.Remove(this.OvAbaDados);
+                    this.TabControl.Controls.Remove(this.OvAbaConfiguracao);
                 }
-                else
-                {
-                    load.textoLoad(texto);
-                    load.Show();
-                }
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
-        public void FecharLoad()
-        {
-
-            //return;
-            if (load.InvokeRequired == true)
-            {
-                load.Invoke(new Action(() =>
-                {
-                    load.Hide();
-                }));
+                OvAbaConfiguracao.Focus();
+                SelectContext(this.OvAbaConfiguracao.ToString());
+                return false;
             }
             else
             {
-                load.Hide();
+                if (this.TabControl.Controls.Contains(OvAbaDados) == false)
+                {
+                    this.TabControl.Controls.Add(this.OvAbaDados);
+                }
+                TabControl.SelectedTab = OvAbaDados;
+                return true;
             }
         }
+     
+        public void SelectContext(string context)
+        {
 
+            foreach (TabPage item in this.TabControl.TabPages)
+            {
+                if (item.Name.Equals(context))
+                {
+                    if (TabControl.InvokeRequired)
+                    {
+                        TabControl.Invoke(new Action(() =>
+                        {
+                            TabControl.SelectedTab = item;
+                        }
+                        ));
+                    }
+                    else
+                    {
+                        TabControl.SelectedTab = item;
+                    }
+                }
+            }
+        }
         public void NameClienteForm(string Nome)
         {
             if (OvLbClientePedido.InvokeRequired == true)
@@ -1443,9 +1481,87 @@ namespace Usiminas.PluginExcel.Ux
             }
         }
 
+        public void AbrirLoad(string textoLoad)
+        {
+            
+            foreach (ListAbas Aba in ListAbas)
+            {
+                if (Aba.Tab.Name.ToString() != "OvAbaLoad")
+                {
+
+                    if (TabControl.InvokeRequired)
+                    {
+                        TabControl.Invoke(new Action(() =>
+                        {
+                            Aba.Tab.Hide();
+                        }));
+                    }
+                    else
+                    {
+                        Aba.Tab.Hide();
+                    }
+                }
+                else
+                {
+                    if (TabControl.InvokeRequired)
+                    {
+                        TabControl.Invoke(new Action(() =>
+                        {
+                            this.TabControl.Controls.Add(Aba.Tab);
+                            Aba.Tab.Show();
+                            Aba.Tab.Text = textoLoad;
+                        }));
+                    }
+                    else
+                    {
+                        this.TabControl.Controls.Add(Aba.Tab);
+                        Aba.Tab.Text = textoLoad;
+                        Aba.Tab.Show();
+                    }
+                }
+            }
+            SelectContext("OvAbaLoad");
+        }
+        public void FecharLoad(string SelecionarAba)
+        {
+            foreach (ListAbas Aba in ListAbas)
+            {
+                if (Aba.Tab.Name.ToString() != "OvAbaLoad")
+                {
+
+                    if (TabControl.InvokeRequired)
+                    {
+                        TabControl.Invoke(new Action(() =>
+                        {
+                            Aba.Tab.Show();
+                        }));
+                    }
+                    else
+                    {
+                        Aba.Tab.Show();
+                    }
+                }
+                else
+                {
+                    if (TabControl.InvokeRequired)
+                    {
+                        TabControl.Invoke(new Action(() =>
+                        {
+                            Aba.Tab.Hide();
+                            this.TabControl.Controls.Remove(Aba.Tab);
+                        }));
+                    }
+                    else
+                    {
+                        Aba.Tab.Hide();
+                        this.TabControl.Controls.Remove(Aba.Tab);
+                    }
+                }
+            }
+            SelectContext(SelecionarAba);
+        }
 
         #endregion
-
     }
 }
 
